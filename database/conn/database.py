@@ -2,57 +2,58 @@
 import os
 import sys
 import json
-import MySQLdb
-sys.path.append(os.path.dirname(__file__))
+import pymysql
+from sqlalchemy import create_engine
+import pandas as pd
 
-print(os.path.dirname(__file__))
-print(sys.path)
-
-config_file = 'database.json'
+config_file = 'dbconfig.json'
 
 
 class DataBase:
     def __init__(self):
+        self.base_path = os.path.dirname(__file__)
         self.config = {}
-        self.conn = None
+        self.engine = None
+        self.flag = False   # 执行结果成功与否的标志
+        self.res = None     # 执行结果
 
-    def load_config(self):
-        print(os.getcwd())
-        with open(config_file, 'r') as fp:
-            self.config = json.load(fp)
-
-    def connect(self):
         if not self.config:
-            self.load_config()
-        self.conn = MySQLdb.connect(
-            host=self.config['host'],
-            port=self.config['port'],
-            user=self.config['user'],
-            passwd=self.config['password'],
-            db=self.config['db'],
-            charset=self.config['charset'])
+            with open(os.path.join(self.base_path, config_file), 'r') as fp:
+                self.config = json.load(fp)
+
+        if not self.engine:
+            self.engine = create_engine(
+                f'mysql+pymysql://{self.config["user"]}:{self.config["password"]}@{self.config["host"]}:'
+                f'{self.config["port"]}/{self.config["db"]}')
 
     def execute(self, sql):
-        if not self.conn:
-            self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        self.conn.commit()
-        self.close()
-        return [list(r) for r in result]
+        with self.engine.connect() as conn:
+            conn.execute(sql)
 
-    def close(self):
-        self.conn.close()
+    def read(self, sql):
+        try:
+            df = pd.read_sql(sql, self.engine)
+            self.res = df
+            self.flag = True
+        except Exception as e:
+            self.res = str(e)
+            self.flag = False
 
-    def db2sql(self):
-        pass
+        return self.flag, self.res
 
-    def db2df(self):
-        pass
+    def write(self, df, table, index=False, if_exists='append'):
+        try:
+            df.to_sql(table, con=self.engine, index=index, if_exists=if_exists)
+            self.flag = True
+        except Exception as e:
+            self.res = str(e)
+            self.flag = False
+
+        return self.flag, self.res
 
 
 if __name__ == '__main__':
     db = DataBase()
-    print(db.execute('show tables'))
+    # db.execute('show tables')
+    print(db.read('show tables')[1])
 

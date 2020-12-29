@@ -2,8 +2,8 @@
 import os
 from flask import Flask
 from elasticsearch import Elasticsearch
-from webapp.risk_user.views import mod as riskUserModule
-from webapp.index.views import mod as indexModule
+from web.webapp.risk_user.views import mod as riskUserModule
+from web.webapp.index.views import mod as indexModule
 
 def create_app():
     app = Flask(__name__, template_folder='templates')

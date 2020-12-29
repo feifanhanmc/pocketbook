@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 import MySQLdb
-from config import mysql_config
+from web.webapp.config import mysql_config
+# from config import mysql_config
 
 mysql_config_defalut = {
     'host': 'localhost',
@@ -72,13 +73,13 @@ class mysql_db():
                 self.conn.commit()
                 flag = True
                 debug_info += '存储成功，共存储 %s 条数据' % str(len(data))
-            except Exception,e :
+            except Exception as e :
                 debug_info += '存储失败，错误原因 : %s' % e
                 self.conn.rollback()
                 break 
         # 
         if debug_mode:
-            print debug_info
+            print(debug_info)
         if auto_close:
             self.close()
         return flag

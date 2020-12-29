@@ -1,8 +1,8 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from flask import Blueprint, url_for, render_template, request,\
                   abort, flash, session, redirect
 import json
-from utils import utils_create_table, utils_show_urls, utils_show_risk_user
+from web.webapp.risk_user.utils import utils_create_table, utils_show_urls, utils_show_risk_user
 
 
 mod = Blueprint('risk_user', __name__, url_prefix='/risk_user')
