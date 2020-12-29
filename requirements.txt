@@ -1,0 +1,5 @@
+#usage: pip install -r requirements.txt
+MySQL-python
+elasticsearch
+flask
+
