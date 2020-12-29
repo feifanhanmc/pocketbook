@@ -5,6 +5,8 @@
       <w>dtype</w>
       <w>fillna</w>
       <w>pymysql</w>
+      <w>transtype</w>
+      <w>transtypes</w>
       <w>xlsx</w>
     </words>
   </dictionary>

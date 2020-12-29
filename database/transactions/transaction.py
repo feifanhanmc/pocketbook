@@ -1,9 +1,36 @@
 # -*- coding: utf-8 -*-
+from tools.toolkit import gen_short_uuid, get_md5, load_next_id
 from database.base.database_helper import DataBase
-from tools.toolkit import gen_short_uuid
 import pandas as pd
-import sys
-import time
+
+
+class Transaction:
+    def __init__(self, acc_asset, table='transactions',
+                 columns=['id', 'acc_asset', 'nam_asset', 'amt_trans', 'dte_trans', 'tme_trans', 'acc_asset_related',
+                          'cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'txt_remark']):
+        self.table = table
+        self.acc_asset = acc_asset
+        self.nam_asset = ''
+        self.amt_trans = 0.0
+        self.dte_trans = ''
+        self.tme_trans = ''
+        self.acc_asset_related = ''
+        self.cod_trans_type = ''
+        self.txt_trans_type = ''
+        self.txt_trans_type_sub = ''
+        self.txt_remark = ''
+
+    @staticmethod
+    def revert_dict(dic):
+        res = {}
+        for key, value in dic.items():
+            res[value] = key
+        return res
+    
+    def create_from_transactions(self, file_transactions):
+        load
+        next_id = load_next_id()
+
 
 
 filename = '网易有钱记账数据.xlsx'
@@ -18,11 +45,7 @@ columns_convert_dict = {
 }
 
 
-def revert_dict(dic):
-    res = {}
-    for key, value in dic.items():
-        res[value] = key
-    return res
+
 
 
 def date_format(date):
@@ -61,17 +84,6 @@ def auto_fill(df, auto_fill_columns):
         if column not in columns_convert_dict.keys():
             pass
 
-
-def create_users():
-    pass
-
-
-def create_acounts():
-    pass
-
-
-def create_transtypes():
-    pass
 
 
 def transactions_file2db(fn, table='transactions', auto_fill_columns=['acc_asset'], acc_user=None):

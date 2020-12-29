@@ -62,17 +62,6 @@ def auto_fill(df, auto_fill_columns):
             pass
 
 
-def create_users():
-    pass
-
-
-def create_acounts():
-    pass
-
-
-def create_transtypes():
-    pass
-
 
 def transactions_file2db(fn, table='transactions', auto_fill_columns=['acc_asset'], acc_user=None):
     db = DataBase()

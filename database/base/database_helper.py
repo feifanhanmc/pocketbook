@@ -6,7 +6,7 @@ import pymysql
 from sqlalchemy import create_engine
 import pandas as pd
 
-config_file = 'dbconfig.json'
+file_config = 'dbconfig.json'
 
 
 class DataBase:
@@ -18,7 +18,7 @@ class DataBase:
         self.res = None     # 执行结果
 
         if not self.config:
-            with open(os.path.join(self.base_path, config_file), 'r') as fp:
+            with open(os.path.join(self.base_path, file_config), 'r') as fp:
                 self.config = json.load(fp)
 
         if not self.engine:
@@ -38,7 +38,6 @@ class DataBase:
         except Exception as e:
             self.res = str(e)
             self.flag = False
-
         return self.flag, self.res
 
     def write(self, df, table, index=False, if_exists='append'):
@@ -48,7 +47,6 @@ class DataBase:
         except Exception as e:
             self.res = str(e)
             self.flag = False
-
         return self.flag, self.res
 
 
