@@ -3,11 +3,15 @@
     <words>
       <w>dbconfig</w>
       <w>dtype</w>
+      <w>filecolumns</w>
       <w>fillna</w>
+      <w>initdb</w>
       <w>pymysql</w>
       <w>transtype</w>
       <w>transtypes</w>
+      <w>vdefault</w>
       <w>xlsx</w>
+      <w>yyyymmdd</w>
     </words>
   </dictionary>
 </component>

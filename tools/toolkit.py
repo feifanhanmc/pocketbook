@@ -25,8 +25,22 @@ def get_md5(content):
     return md5
 
 
-def load_next_id(table):
-    db = DataBase()
+def get_num_records(table, db=None, acc_user=None):
+    if not db:
+        db = DataBase()
+    sql_condition = ""
+    if acc_user:
+        sql_condition = " where acc_user='%s'" % acc_user
+    num_records = 0
+    flag, result = (db.read("select count(*) as cnt from %s %s" % (table, sql_condition)))
+    if flag and not result.empty:
+        num_records = int(result['cnt'][0])
+    return num_records
+
+
+def load_next_id(table, db=None):
+    if not db:
+        db = DataBase()
     next_id = 1
     flag, result = (db.read('select id from %s order by id desc' % table))
     if flag and not result.empty:
@@ -38,4 +52,5 @@ def load_next_id(table):
 if __name__ == '__main__':
     print(gen_short_uuid())
     # print(get_md5('aa'))
-    # print(load_next_id('users'))
+    print(load_next_id('users'))
+    print(get_num_records('transactions', acc_user='lxnkf54X'))

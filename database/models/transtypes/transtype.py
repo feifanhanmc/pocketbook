@@ -10,13 +10,14 @@ file_default_transtype = 'default_transtypes.csv'
 
 class Transtype:
     def __init__(self, acc_user, table='transtypes',
-                 columns=['id', 'cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'acc_user']):
+                 columns=['id', 'cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'tye_flow', 'acc_user']):
         self.table = table
         self.columns = columns
         self.acc_user = acc_user
         self.cod_trans_type = ''
         self.txt_trans_type = ''
         self.txt_trans_type_sub = ''
+        self.tye_flow = ''
         self.df_transtype = pd.DataFrame()
         self.df_transtype_default = None
         self.base_path = os.path.dirname(__file__)
@@ -37,7 +38,7 @@ class Transtype:
             return flag
 
     def create_from_transactions(self, df_transactions):
-        pass
+        self.df_transtype = self.df_transtype_default + ''
 
 
 if __name__ == '__main__':

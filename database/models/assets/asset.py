@@ -5,7 +5,8 @@ import pandas as pd
 
 
 class Asset:
-    def __init__(self, acc_user, table='assets', columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'amt_asset']):
+    def __init__(self, acc_user, table='assets',
+                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'tye_asset', 'amt_asset']):
         self.table = table
         self.columns = columns
         self.acc_user = acc_user
@@ -20,9 +21,10 @@ class Asset:
             id = next_id + i
             nam_asset = nam_asset_list[i]
             acc_asset = gen_short_uuid()
+            tye_asset = ''
             amt_asset = 0.0
-            data_asset.append([id, self.acc_user, acc_asset, nam_asset, amt_asset])
-        self.df_asset = pd.DataFrame(data=data_asset, columns=[''])
+            data_asset.append([id, self.acc_user, acc_asset, nam_asset, tye_asset, amt_asset])
+        self.df_asset = pd.DataFrame(data=data_asset, columns=self.columns)
         flag, result = DataBase().write(self.df_asset, self.table)
         print(flag, result)
 

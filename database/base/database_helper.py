@@ -53,5 +53,6 @@ class DataBase:
 if __name__ == '__main__':
     db = DataBase()
     # db.execute('show tables')
-    print(db.read('show tables')[1])
+    # print(db.read('show tables')[1])
+    print(db.read('desc assets')[1]['Default'].tolist())
 
