@@ -125,7 +125,8 @@ if __name__ == '__main__':
         'txt_trans_type_sub': '小类',
         'amt_trans': '金额',
         'nam_asset_related': '关联账户',
-        'txt_remark': '备注'
+        'txt_remark': '备注',
+        'tye_flow': '流向'
     }
     r = Transaction(acc_user='lxnkf54X').create_from_transactions(excel_transactions, dict_db2file_columns)
     print(r)

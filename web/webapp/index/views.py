@@ -1,4 +1,4 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from flask import Blueprint, url_for, render_template, request,\
                   abort, flash, session, redirect
 import json
@@ -11,9 +11,11 @@ mod = Blueprint('index', __name__, url_prefix='/')
 def index():
     return render_template('index.html')
 
+
 @mod.route('/huaji')
 def huaji():
     return render_template('huaji.html')
+
 
 @mod.route('/decode_danmu')
 def decode_danmu():

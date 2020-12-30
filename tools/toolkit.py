@@ -52,5 +52,5 @@ def load_next_id(table, db=None):
 if __name__ == '__main__':
     print(gen_short_uuid())
     # print(get_md5('aa'))
-    print(load_next_id('users'))
-    print(get_num_records('transactions', acc_user='lxnkf54X'))
+    # print(load_next_id('users'))
+    # print(get_num_records('transactions', acc_user='lxnkf54X'))
