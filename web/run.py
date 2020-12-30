@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, Blueprint, url_for, render_template, request,\
-                  abort, flash, session, redirect
-from web.webapp import create_app
+from flask import Flask, Blueprint, url_for, render_template, request, abort, flash, session, redirect
+from web import create_app
 
 app = create_app()
 
 
 @app.route('/')
-def hello_world():
+def home():
     return redirect('/')
 
 

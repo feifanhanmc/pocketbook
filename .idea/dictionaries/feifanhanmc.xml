@@ -5,6 +5,7 @@
       <w>dtype</w>
       <w>filecolumns</w>
       <w>fillna</w>
+      <w>huaji</w>
       <w>initdb</w>
       <w>pymysql</w>
       <w>transtype</w>
