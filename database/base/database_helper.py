@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
-import json
-import pymysql
 from sqlalchemy import create_engine
 import pandas as pd
 from data.data_helper import load_config
