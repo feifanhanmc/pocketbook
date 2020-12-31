@@ -1,0 +1,8 @@
+{
+  "host": "xxx",
+  "port": 8080,
+  "user": "xxx",
+  "password"  :"xxx",
+  "db": "xxx",
+  "charset":  "xxx"
+}
