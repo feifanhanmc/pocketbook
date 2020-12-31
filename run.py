@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, Blueprint, url_for, render_template, request, abort, flash, session, redirect
-from index.views import mod as indexModule
+from web.index.views import mod as indexModule
 from web.wxuser.views import mod as wxUserModule
-from dataexport.views import mod as exportModule
-from dataimport.views import mod as importModule
+from web.dataexport.views import mod as exportModule
+from web.dataimport.views import mod as importModule
 
 
 def create_app():
