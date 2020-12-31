@@ -1,2 +1,3 @@
 *.pyc
-*.json
+dbconfig.json
+wxminiprj_token.json
