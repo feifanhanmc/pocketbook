@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 from flask import Flask, Blueprint, url_for, render_template, request, abort, flash, session, redirect
 from web.index.views import mod as indexModule
 from web.wxuser.views import mod as wxUserModule

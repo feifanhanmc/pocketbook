@@ -28,7 +28,6 @@ def utils_login(wx_data):
         'grant_type': 'authorization_code'
     }
 
-
     response_data = requests.get(wx_login_api, params=req_params)  # 向API发起GET请求
     resData = response_data.json()
     openid = resData['openid']  # 得到用户关于当前小程序的OpenID
