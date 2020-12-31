@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from database.base.database_helper import DataBase
-from data.data_helper import get_data_path
+from data.data_helper import get_backup_path
 from tools.toolkit import load_next_id
 import time
 import os
@@ -8,7 +8,7 @@ import os
 
 def mkdir():
     name_dir = 'backup_all_%s' % time.strftime("%Y%m%d_%H%M%S")
-    path_data = get_data_path()
+    path_data = get_backup_path()
     path_full = os.path.join(path_data, name_dir)
     os.mkdir(path_full)
     return path_full

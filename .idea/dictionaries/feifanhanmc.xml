@@ -1,6 +1,7 @@
 <component name="ProjectDictionaryState">
   <dictionary name="feifanhanmc">
     <words>
+      <w>appid</w>
       <w>dbconfig</w>
       <w>dtype</w>
       <w>filecolumns</w>
@@ -10,7 +11,10 @@
       <w>pymysql</w>
       <w>transtype</w>
       <w>transtypes</w>
+      <w>unpad</w>
       <w>vdefault</w>
+      <w>wxminiprj</w>
+      <w>wxuser</w>
       <w>xlsx</w>
       <w>yyyymmdd</w>
     </words>

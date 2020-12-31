@@ -5,6 +5,7 @@ import json
 import pymysql
 from sqlalchemy import create_engine
 import pandas as pd
+from data.data_helper import load_config
 
 file_config = 'dbconfig.json'
 
@@ -18,8 +19,7 @@ class DataBase:
         self.res = None     # 执行结果
 
         if not self.config:
-            with open(os.path.join(self.base_path, file_config), 'r') as fp:
-                self.config = json.load(fp)
+            self.config = load_config(file_config)
 
         if not self.engine:
             self.engine = create_engine(
