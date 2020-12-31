@@ -22,9 +22,9 @@ class DataBase:
             self.config = load_config(file_config)
 
         if not self.engine:
-            self.engine = create_engine(
-                f'mysql+pymysql://{self.config["user"]}:{self.config["password"]}@{self.config["host"]}:'
-                f'{self.config["port"]}/{self.config["db"]}')
+            self.engine = create_engine('mysql+pymysql://%s:%s@%s:%s/%s' %
+                                        (self.config["user"], self.config["password"], self.config["host"],
+                                         self.config["port"], self.config["db"]))
 
     def execute(self, sql):
         with self.engine.connect() as conn:
