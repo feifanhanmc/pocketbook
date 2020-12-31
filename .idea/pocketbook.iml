@@ -3,6 +3,27 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/test1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/test2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/dataexport" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/dataimport" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/backup" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/models" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/recover" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/sql" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/index" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxuser" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/models/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/models/transactions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/models/transtypes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/database/models/users" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

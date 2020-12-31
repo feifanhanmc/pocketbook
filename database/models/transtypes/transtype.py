@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from tools.toolkit import gen_short_uuid, get_md5, load_next_id
 from database.base.database_helper import DataBase

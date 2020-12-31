@@ -1,4 +1,5 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 from web.wxuser.utils import utils_home, utils_login

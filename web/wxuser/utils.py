@@ -1,7 +1,8 @@
-# -*- coding:utf-8 -*-
-import json, requests
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import json
+import requests
 from web.wxuser.WXBizDataCrypt import WXBizDataCrypt
-from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 from data.data_helper import load_config
 
 file_wxminiprj_token = 'wxminiprj_token.config'

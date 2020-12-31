@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from database.models.users.user import User
 from database.models.transactions.transaction import Transaction

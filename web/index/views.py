@@ -1,4 +1,5 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 import json
 import requests

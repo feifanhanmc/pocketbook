@@ -1,6 +1,7 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from database.base.database_helper import DataBase
-from data.data_helper import get_backup_path
+from data_helper import get_backup_path
 from tools.toolkit import load_next_id
 import time
 import os
