@@ -38,11 +38,12 @@ class User:
             db = DataBase()
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
         flag, result = db.read(sql_check)
-        if flag and not result.empty():
-            acc_user = result['acc_user'][0]
+        print(flag, result)
+        if flag and not result.empty:
+            self.acc_user = result['acc_user'][0]
         else:
-            self.create(nam_user=nam_user)
-        return acc_user
+            self.acc_user = self.create(nam_user=nam_user)
+        return self.acc_user
 
 if __name__ == '__main__':
     u = User()

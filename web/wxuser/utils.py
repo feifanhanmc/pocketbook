@@ -43,7 +43,7 @@ def utils_login_init(wx_data):
     nam_user = userinfo.get('nickName', '')
     
     u = User()
-    acc_user = u.user_check(openid, nam_acc=nam_user)
+    acc_user = u.user_check(openid, nam_user=nam_user)
     return {"code": 200, "msg": "success", "acc_user":acc_user}
 
 

@@ -18,16 +18,30 @@ class Transaction:
         self.acc_asset = acc_asset
         self.nam_asset = ''
         self.amt_trans = 0.0
+        self.tye_flow = ''
         self.dte_trans = ''
         self.tme_trans = ''
         self.acc_asset_related = ''
+        self.nam_asset_related = ''
         self.cod_trans_type = ''
         self.txt_trans_type = ''
         self.txt_trans_type_sub = ''
         self.txt_remark = ''
 
-    def insert(self):
-        pass
+    def insert(self, tran_data, db=None):
+        if not db:
+            self.db = DataBase()
+        id = load_next_id(self.table, self.db)
+        self.acc_asset = tran_data['acc_asset']
+        self.amt_trans = tran_data['amt_trans']
+        data = [[id, self.acc_user, self.acc_asset, self.nam_asset, self.amt_trans, self.tye_flow, self.dte_trans,
+                self.tme_trans, self.acc_asset_related, self.nam_asset_related, self.cod_trans_type, self.txt_trans_type,
+                self.txt_trans_type_sub, self.txt_remark]]
+        df_tran = pd.DataFrame(data=data, columns=self.columns)
+        flag, result = self.db.write(df_tran, self.table)
+        if not flag:
+            print(result)
+        return flag
 
     def update(self):
         pass

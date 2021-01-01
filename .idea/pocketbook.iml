@@ -19,6 +19,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/wxuser" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxtran" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/assets" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/transactions" isTestSource="false" />
