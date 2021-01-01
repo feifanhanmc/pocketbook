@@ -4,8 +4,9 @@ import json
 import requests
 from web.wxuser.WXBizDataCrypt import WXBizDataCrypt
 from data.data_helper import load_config
+from database.models.users.user import User
 
-file_wxminiprj_token = 'wxminiprj_token.config'
+file_wxminiprj_token = 'wxminiprj_token.json'
 wx_login_api = 'https://api.weixin.qq.com/sns/jscode2session'
 
 
@@ -13,11 +14,14 @@ def utils_home():
     return True
 
 
-def utils_login(wx_data):
+def utils_login_init(wx_data):
     wxminiprj_token = load_config(file_wxminiprj_token)
     appID = wxminiprj_token['appID']
     appSecret = wxminiprj_token['appSecret']
 
+    print('wx_data', wx_data)
+
+    acc_user = wx_data.get('acc_user', '')
     code = wx_data['platCode']  # 前端POST过来的微信临时登录凭证code
     encrypted_data = wx_data['platUserInfoMap']['encryptedData']
     iv = wx_data['platUserInfoMap']['iv']
@@ -30,20 +34,16 @@ def utils_login(wx_data):
 
     response_data = requests.get(wx_login_api, params=req_params)  # 向API发起GET请求
     resData = response_data.json()
+    print('resData', resData)
     openid = resData['openid']  # 得到用户关于当前小程序的OpenID
     session_key = resData['session_key']  # 得到用户关于当前小程序的会话密钥session_key
 
     pc = WXBizDataCrypt(appID, session_key)  # 对用户信息进行解密
     userinfo = pc.decrypt(encrypted_data, iv)  # 获得用户信息
-    print(userinfo)
-    '''
-    下面部分是通过判断数据库中用户是否存在来确定添加或返回自定义登录态（若用户不存在则添加；若用户存在，返回用户信息）
+    nam_user = userinfo.get('nickName', '')
     
-    --------略略略略略略略略略-------------
-    
-    这部分我就省略啦，数据库中对用户进行操作
-    '''
+    u = User()
+    acc_user = u.user_check(openid, nam_acc=nam_user)
+    return {"code": 200, "msg": "success", "acc_user":acc_user}
 
-    return json.dumps({"code": 200, "msg": "登录成功", "userinfo": userinfo}, indent=4, sort_keys=True, default=str,
-                      ensure_ascii=False)
 

@@ -7,7 +7,7 @@ import pandas as pd
 
 class User:
     def __init__(self, acc_user=None, pwd_user_md5=None, table='users',
-                 columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone']):
+                 columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone', 'vlu_openid']):
         self.table = table
         self.columns = columns
         self.acc_user = acc_user
@@ -15,6 +15,7 @@ class User:
         self.nam_user = ''
         self.vlu_email = ''
         self.vlu_phone = ''
+        self.vlu_openid = ''
 
     def create(self, nam_user=None):
         self.acc_user = gen_short_uuid()
@@ -25,14 +26,23 @@ class User:
         db = DataBase()
         next_id = load_next_id(self.table)
         df_user = pd.DataFrame(
-            data=[[next_id, self.acc_user, self.pwd_user_md5, self.nam_user, self.vlu_email, self.vlu_phone]],
+            data=[[next_id, self.acc_user, self.pwd_user_md5, self.nam_user, self.vlu_email, self.vlu_phone, self.vlu_openid]],
             columns=self.columns)
         flag, result = db.write(df_user, self.table)
         if flag:
             return self.acc_user
         return flag
 
-
+    def user_check(self, openid, nam_user='', db=None):
+        if not db:
+            db = DataBase()
+        sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
+        flag, result = db.read(sql_check)
+        if flag and not result.empty():
+            acc_user = result['acc_user'][0]
+        else:
+            self.create(nam_user=nam_user)
+        return acc_user
 
 if __name__ == '__main__':
     u = User()

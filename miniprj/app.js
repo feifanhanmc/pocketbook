@@ -23,7 +23,7 @@ App({
                   platUserInfoMap["encryptedData"] = userResult.encryptedData;
                   platUserInfoMap["iv"] = userResult.iv;
                   wx.request({
-              url: 'https://154.8.219.112:9991/wxuser/login',
+              url: 'https://sun.liuyihua.com/wxuser/login',
               data: { 
                 platCode: resp.code,
                       platUserInfoMap: platUserInfoMap,

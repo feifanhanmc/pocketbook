@@ -12,7 +12,8 @@ create table if not exists users (
     pwd_user_md5    varchar(32)     not null,
     nam_user        varchar(50)     default '',
     vlu_email       varchar(25)     default '',
-    vlu_phone       varchar(11)     default ''
+    vlu_phone       varchar(11)     default '',
+    vlu_openid      varchar(30)     default ''
 )
 go
 
