@@ -1,0 +1,4 @@
+<!--pages/assetsDetail/assetsDetail.wxml-->
+<view>
+  <text>{{acc_asset}}</text>
+</view>
