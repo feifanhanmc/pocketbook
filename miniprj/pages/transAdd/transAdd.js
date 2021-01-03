@@ -5,9 +5,34 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    tabs: [
+      {
+        id: 0,
+        name: "流出",
+        isActive: true
+      },
+      {
+        id: 1,
+        name: "流入",
+        isActive: false
+      }
+      ,
+      {
+        id: 2,
+        name: "转账",
+        isActive: false
+      }
+    ]
   },
-
+  handleItemChange(e) {
+    // 接收传递过来的参数
+    const { index } = e.detail;
+    let { tabs } = this.data;
+    tabs.forEach((v, i) => i === index ? v.isActive = true : v.isActive = false);
+    this.setData({
+      tabs
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

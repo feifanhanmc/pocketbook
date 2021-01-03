@@ -1,3 +1,11 @@
 <!--pages/transAdd/transAdd.wxml-->
-<text>pages/transAdd/transAdd.wxml</text>
+
+
+<Tabs tabs="{{tabs}}" binditemChange111111="handleItemChange" >
+  <block wx:if="{{tabs[0].isActive}}">0 </block>
+  <block wx:elif="{{tabs[1].isActive}}">1 </block>
+  <block wx:elif="{{tabs[2].isActive}}">2 </block>
+  <block wx:else>3</block>
+</Tabs>
+
 <navigator open-type="navigateBack">保存</navigator>

@@ -8,21 +8,24 @@ Page({
     assetsData: [
     {
       id: 0,
-      nam_asset: "农业银行信用卡",
+      acc_asset: "asfsdf",
+      nam_asset: "农业银行",
       amt_asset: -99.99,
-      icon_asset: "https://sun.liuyihua.com/static/icons/icon_daily.png"
+      icon_asset: "https://sun.liuyihua.com/static/icons/asset/bank.png"
     },
     {
       id: 1,
-      nam_asset: "中国银行储蓄卡",
+      acc_asset: "sdgdgf",
+      nam_asset: "微信钱包",
       amt_asset:200,
-      icon_asset: "https://sun.liuyihua.com/static/icons/icon_business.png"
+      icon_asset: "https://sun.liuyihua.com/static/icons/asset/wechat.png"
     },
     {
       id: 2,
+      acc_asset: "rjfgdfs",
       nam_asset: "蚂蚁花呗",
       amt_asset: -100,
-      icon_asset: "https://sun.liuyihua.com/static/icons/icon_clothes.png"
+      icon_asset: "https://sun.liuyihua.com/static/icons/asset/ant.png"
     }],
     checkedList: [],
     amt_month_out: 70.48,

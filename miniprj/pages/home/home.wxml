@@ -59,7 +59,7 @@
     <navigator class="homeNavigatorAsset"
     wx:for="{{assetsData}}"
     wx:key="id"
-    url="/pages/goods_detail/index?goods_id={{item.goods_id}}" >
+    url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
       <view class="homeViewAssetItemFisrt">
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image class="homeImageAssetIcon" mode="widthFix" src="{{item.icon_asset}}"></image>
