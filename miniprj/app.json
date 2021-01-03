@@ -1,13 +1,49 @@
 {
   "pages":[
+    "pages/home/home",
+    "pages/bill/bill",
+    "pages/report/report",
+    "pages/setting/setting",
+    "pages/transAdd/transAdd",
+    "pages/assetsAdd/assetsAdd",
     "pages/index/index",
     "pages/logs/logs"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#FABD03",
     "navigationBarTitleText": "Weixin",
     "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "selectedColor": "#FABD03",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "data/icon/tab_bar/home_0.png",
+        "selectedIconPath": "data/icon/tab_bar/home_1.png"
+      },
+      {
+        "pagePath": "pages/bill/bill",
+        "text": "账单",
+        "iconPath": "data/icon/tab_bar/bill_0.png",
+        "selectedIconPath": "data/icon/tab_bar/bill_1.png"
+      },
+      {
+        "pagePath": "pages/report/report",
+        "text": "报表",
+        "iconPath": "data/icon/tab_bar/report_0.png",
+        "selectedIconPath": "data/icon/tab_bar/report_1.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "text": "设置",
+        "iconPath": "data/icon/tab_bar/setting_0.png",
+        "selectedIconPath": "data/icon/tab_bar/setting_1.png"
+      }
+]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

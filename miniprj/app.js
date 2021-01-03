@@ -23,7 +23,7 @@ App({
                   platUserInfoMap["encryptedData"] = userResult.encryptedData;
                   platUserInfoMap["iv"] = userResult.iv;
                   wx.request({
-              url: 'https://sun.liuyihua.com/wxuser/login',
+              url: 'https://sun.liuyihua.com/wxuser/login_init',
               data: { 
                 platCode: resp.code,
                       platUserInfoMap: platUserInfoMap,
@@ -67,6 +67,10 @@ App({
         }
       }
     })
+  },
+  onError: function(err){
+    console.log(err)
+    // 可将报错信息发送至服务器后台
   },
   globalData: {
     userInfo: null
