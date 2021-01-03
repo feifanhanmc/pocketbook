@@ -1,0 +1,103 @@
+/* pages/home/home.wxss */
+/* @import "../../data/style/common.wxss"; */
+image{
+  box-sizing: border-box;
+  border: 1rpx solid blue;
+  width: 100rpx;
+  height: 50rpx;
+}
+
+swiper{
+  width: 100%;
+  height: 250rpx;
+  background-color: #FABD03;
+}
+
+.homeLayoutHorizontal{
+  /* height: 100rpx; */
+  display: flex;
+  /*row 横向  column 列表  */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homeTextOverviewAmountLarge{
+  font-size: 33px;    
+  color: black;       
+  font-weight: bold;  
+}
+.homeTextOverviewAmount{
+  color: black;       
+}
+
+.homeTextOverviewName{
+  color: rgba(0, 0, 0, 0.555);       
+}
+
+.homeViewTransAdd{
+  z-index: 1000;
+  position:fixed;
+  bottom:20rpx;
+  display:flex;
+  width:100%;
+  justify-content:center;
+}
+
+.homeButtonTransAdd{
+  width: 30%;
+  border-radius: 70rpx;
+  background-color: #FABD03;
+}
+
+.homeViewAssetTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.homeTextAssetTitle{
+  /* flex: 1; */
+  font-weight: bold;
+}
+
+.homeTextAssetAdd{
+  color: rgba(0, 0, 0, 0.555);   
+  width: 100rpx;
+}
+.homeNavigatorAsset{
+  height: 150rpx;
+  width: 730rpx;
+  border-left: 1px solid rgb(252, 252, 252);
+  border-right: 1px solid rgb(252, 252, 252);
+  border-top: 2px solid rgb(252, 252, 252);
+  border-bottom: 2px solid rgb(252, 252, 252);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.homeViewAssetItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.homeViewAssetItemFisrt{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.homeViewAssetItemSecond{
+
+}
+
+.homeViewAssetIcon{
+  /* justify-content: center;
+  align-items: center; */
+}
+.homeImageAssetIcon{
+  border-width: 0;
+  width: 100rpx;
+}
+.homeTextAssetAmount{
+}

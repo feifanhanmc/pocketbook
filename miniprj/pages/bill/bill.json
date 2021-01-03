@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "Tabs": "/components/Tabs/Tabs"
+  },
+  "navigationBarTitleText": "账单",
+  "navigationBarTextStyle": "black",
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#FABD03"
+}

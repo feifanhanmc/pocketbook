@@ -1,0 +1,4 @@
+view{
+  color: blanchedalmond;
+  font-size: 50rpx;
+}

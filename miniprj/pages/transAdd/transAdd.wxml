@@ -1,0 +1,3 @@
+<!--pages/transAdd/transAdd.wxml-->
+<text>pages/transAdd/transAdd.wxml</text>
+<navigator open-type="navigateBack">保存</navigator>
