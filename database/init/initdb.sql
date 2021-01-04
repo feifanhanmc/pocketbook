@@ -13,7 +13,14 @@ create table if not exists users (
     nam_user        varchar(50)     default '',
     vlu_email       varchar(25)     default '',
     vlu_phone       varchar(11)     default '',
-    vlu_openid      varchar(30)     default ''
+    vlu_openid      varchar(30)     default '',
+    nam_nick        varchar(50)     default '',
+    cod_gender      varchar(1)      default '',
+    vlu_lang        varchar(20)     default '',
+    vlu_city        varchar(20)     default '',
+    vlu_prov        varchar(20)     default '',
+    vlu_country     varchar(20)     default '',
+    url_avatar      text            default ''
 )
 go
 

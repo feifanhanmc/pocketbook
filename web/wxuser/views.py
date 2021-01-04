@@ -17,9 +17,11 @@ def views_home():
 def views_login_init():
     req_data = request.get_data()
     print('req_data', req_data)
-    result = {}
+    result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result = utils_login_init(data)
+        result['data']= utils_login_init(data)
+        result['code'] = 200
+    print(result)
     return json.dumps(result)
 

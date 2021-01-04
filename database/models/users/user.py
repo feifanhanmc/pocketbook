@@ -36,6 +36,7 @@ class User:
     def user_check(self, openid, nam_user='', db=None):
         if not db:
             db = DataBase()
+        self.vlu_openid = openid
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
         flag, result = db.read(sql_check)
         print(flag, result)
@@ -44,6 +45,11 @@ class User:
         else:
             self.acc_user = self.create(nam_user=nam_user)
         return self.acc_user
+    
+    def save_userinfo(self, userinfo):
+        # 若存在acc_user则update，反之创建
+        pass
+
 
 if __name__ == '__main__':
     u = User()

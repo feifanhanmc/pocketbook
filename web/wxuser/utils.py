@@ -22,9 +22,12 @@ def utils_login_init(wx_data):
     print('wx_data', wx_data)
 
     acc_user = wx_data.get('acc_user', '')
-    code = wx_data['platCode']  # 前端POST过来的微信临时登录凭证code
-    encrypted_data = wx_data['platUserInfoMap']['encryptedData']
-    iv = wx_data['platUserInfoMap']['iv']
+    # wx_data['rawData']['nickName'] = '111'
+    wxuserinfo = wx_data.get('rawData', {})
+    
+    code = wx_data['code']  # 前端POST过来的微信临时登录凭证code
+    encrypted_data = wx_data['encryptedData']
+    iv = wx_data['iv']
     req_params = {
         'appid': appID,
         'secret': appSecret,
@@ -44,6 +47,7 @@ def utils_login_init(wx_data):
     
     u = User()
     acc_user = u.user_check(openid, nam_user=nam_user)
-    return {"code": 200, "msg": "success", "acc_user":acc_user}
+    u.save_userinfo(wxuserinfo)
+    return {"token":acc_user}
 
 
