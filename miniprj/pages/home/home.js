@@ -128,6 +128,11 @@ Page({
         }
       })
     }
+    
+    console.log('showAssets')
+    const token = wx.getStorageSync('token')
+    // const {token} = await request({url:"/wxuser/login_init",data:loginParams,method:"post"});
+
   },
   async handleGetUserInfo(e) {
     console.log('handleGetUserInfo');
@@ -156,6 +161,8 @@ Page({
     }
     }
   },
+
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
