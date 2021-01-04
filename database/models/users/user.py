@@ -7,7 +7,9 @@ import pandas as pd
 
 class User:
     def __init__(self, acc_user=None, pwd_user_md5=None, table='users',
-                 columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone', 'vlu_openid']):
+                 columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone', 'vlu_openid',
+                          'nam_nick', 'cod_gender', 'vlu_lang', 'vlu_city', 'vlu_prov', 'vlu_country', 'url_avatar' ]):
+        self.db = None
         self.table = table
         self.columns = columns
         self.acc_user = acc_user
@@ -18,24 +20,25 @@ class User:
         self.vlu_openid = ''
 
     def create(self, nam_user=None):
-        self.acc_user = gen_short_uuid()
+        if not self.acc_user:
+            self.acc_user = gen_short_uuid()
         if not self.nam_user:
             self.nam_user = gen_short_uuid()
         self.pwd_user_md5 = get_md5(self.acc_user)
+        if not self.db:
+            self.db = DataBase()
 
-        db = DataBase()
-        next_id = load_next_id(self.table)
         df_user = pd.DataFrame(
-            data=[[next_id, self.acc_user, self.pwd_user_md5, self.nam_user, self.vlu_email, self.vlu_phone, self.vlu_openid]],
-            columns=self.columns)
-        flag, result = db.write(df_user, self.table)
+            data=[[self.acc_user, self.pwd_user_md5, self.nam_user, self.vlu_email, self.vlu_phone, self.vlu_openid]],
+            columns=self.columns[1:7])
+        flag, result = self.db.write(df_user, self.table)
         if flag:
             return self.acc_user
         return flag
 
     def user_check(self, openid, nam_user='', db=None):
         if not db:
-            db = DataBase()
+            self.db = DataBase()
         self.vlu_openid = openid
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
         flag, result = db.read(sql_check)
@@ -48,6 +51,9 @@ class User:
     
     def save_userinfo(self, userinfo):
         # 若存在acc_user则update，反之创建
+        pass
+
+    def db_init(self):
         pass
 
 

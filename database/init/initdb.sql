@@ -30,7 +30,9 @@ create table if not exists assets (
     acc_asset       varchar(8)      not null,
     nam_asset       varchar(50)     default '',
     tye_asset       varchar(20)     default '',
-    amt_asset       decimal(18,2)   default 0
+    amt_asset       decimal(18,2)   default 0,
+    ico_asset       varchar(20)     default 'other',
+    boo_active      integer         default 1
 )
 go
 
@@ -48,16 +50,19 @@ create table if not exists transactions (
 	cod_trans_type      varchar(15)     default '',
     txt_trans_type      varchar(30)     default '',
     txt_trans_type_sub  varchar(30)     default '',
-	txt_remark          varchar(50)     default ''
+	txt_remark          varchar(50)     default '',
+	ico_trans           varchar(20)     default 'other'
 )
 go
 
 create table if not exists transtypes (
     id                   integer         primary key     auto_increment,
+    acc_user             varchar(8)      default '',
     cod_trans_type       varchar(15)     not null,
     txt_trans_type       varchar(30)     default '',
     txt_trans_type_sub   varchar(30)     default '',
     tye_flow             varchar(10)     default '',
-    acc_user             varchar(8)      default ''
+    boo_active           integer         default 1
+
 )
 
