@@ -6,10 +6,10 @@ import pandas as pd
 
 
 class User:
-    def __init__(self, acc_user=None, pwd_user_md5=None, table='users',
+    def __init__(self, acc_user=None, pwd_user_md5=None, db=None, table='users',
                  columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone', 'vlu_openid',
                           'nam_nick', 'cod_gender', 'vlu_lang', 'vlu_city', 'vlu_prov', 'vlu_country', 'url_avatar' ]):
-        self.db = None
+        self.db = db
         self.table = table
         self.columns = columns
         self.acc_user = acc_user
@@ -19,14 +19,15 @@ class User:
         self.vlu_phone = ''
         self.vlu_openid = ''
 
+        if not self.db:
+            self.db = DataBase()
+
     def create(self, nam_user=None):
         if not self.acc_user:
             self.acc_user = gen_short_uuid()
         if not self.nam_user:
             self.nam_user = gen_short_uuid()
         self.pwd_user_md5 = get_md5(self.acc_user)
-        if not self.db:
-            self.db = DataBase()
 
         df_user = pd.DataFrame(
             data=[[self.acc_user, self.pwd_user_md5, self.nam_user, self.vlu_email, self.vlu_phone, self.vlu_openid]],
@@ -36,12 +37,10 @@ class User:
             return self.acc_user
         return flag
 
-    def user_check(self, openid, nam_user='', db=None):
-        if not db:
-            self.db = DataBase()
+    def user_check(self, openid, nam_user=''):
         self.vlu_openid = openid
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
-        flag, result = db.read(sql_check)
+        flag, result = self.db.read(sql_check)
         print(flag, result)
         if flag and not result.empty:
             self.acc_user = result['acc_user'][0]

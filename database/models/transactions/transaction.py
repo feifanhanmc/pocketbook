@@ -6,10 +6,11 @@ import pandas as pd
 
 
 class Transaction:
-    def __init__(self, acc_user, acc_asset='', table='transactions',
+    def __init__(self, acc_user, acc_asset='', db=None, table='transactions',
                  columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'amt_trans', 'tye_flow', 'dte_trans',
                           'tme_trans', 'acc_asset_related', 'nam_asset_related', 'cod_trans_type', 'txt_trans_type',
                           'txt_trans_type_sub', 'txt_remark']):
+        self.db = db
         self.table = table
         self.columns = columns
         self.dtype_columns = {}
@@ -27,10 +28,10 @@ class Transaction:
         self.txt_trans_type = ''
         self.txt_trans_type_sub = ''
         self.txt_remark = ''
-
-    def insert(self, tran_data, db=None):
         if not db:
             self.db = DataBase()
+
+    def insert(self, tran_data):
         id = load_next_id(self.table, self.db)
         self.acc_asset = tran_data['acc_asset']
         self.amt_trans = tran_data['amt_trans']
@@ -102,10 +103,8 @@ class Transaction:
 
         return dtype_file_columns, vdefault_file_columns
 
-    def create_from_transactions(self, file_transactions, dic_db2file_columns, db=None):
-        if not db:
-            db = DataBase()
-        flag, result = db.read('desc %s' % self.table)
+    def create_from_transactions(self, file_transactions, dic_db2file_columns):
+        flag, result = self.db.read('desc %s' % self.table)
         if flag:
             df_table_structure = result
             date_columns = self.extract_date_column(dic_db2file_columns)
@@ -118,13 +117,13 @@ class Transaction:
             df_data = df_data.rename(columns=self.revert_dict(dic_db2file_columns))
             # auto fill
             len_df_data = len(df_data)
-            next_id = load_next_id(self.table, db)
+            next_id = load_next_id(self.table, self.db)
             df_data['id'] = [next_id + i for i in range(len_df_data)]
             df_data['acc_user'] = [self.acc_user] * len_df_data
             for column in self.columns:
                 if column not in df_data.columns:
                     df_data[column] = [self.vdefault_columns[column]] * len_df_data
-            flag, result = db.write(df_data, self.table)
+            flag, result = self.db.write(df_data, self.table)
             if not flag:
                 print(result)
             return flag
