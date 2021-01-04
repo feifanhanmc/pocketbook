@@ -1,5 +1,24 @@
 /* pages/home/home.wxss */
 /* @import "../../data/style/common.wxss"; */
+.homeViewAuth{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.homeButtonAuth{
+  width: 50%;
+  border-radius: 70rpx;
+  background-color: #FABD03;
+}
+.homeTextAuth{
+  color: rgba(0, 0, 0, 0.555);       
+}
+/* .userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
 image{
   box-sizing: border-box;
   border: 1rpx solid blue;

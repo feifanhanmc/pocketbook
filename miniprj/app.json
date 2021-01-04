@@ -23,26 +23,26 @@
       {
         "pagePath": "pages/home/home",
         "text": "首页",
-        "iconPath": "data/icon/home_0.png",
-        "selectedIconPath": "data/icon/home_1.png"
+        "iconPath": "/data/icons/tabbar/home_0.png",
+        "selectedIconPath": "/data/icons/tabbar/home_1.png"
       },
       {
         "pagePath": "pages/bill/bill",
         "text": "账单",
-        "iconPath": "data/icon/bill_0.png",
-        "selectedIconPath": "data/icon/bill_1.png"
+        "iconPath": "/data/icons/tabbar/bill_0.png",
+        "selectedIconPath": "/data/icons/tabbar/bill_1.png"
       },
       {
         "pagePath": "pages/report/report",
         "text": "报表",
-        "iconPath": "data/icon/report_0.png",
-        "selectedIconPath": "data/icon/report_1.png"
+        "iconPath": "/data/icons/tabbar/report_0.png",
+        "selectedIconPath": "/data/icons/tabbar/report_1.png"
       },
       {
         "pagePath": "pages/setting/setting",
         "text": "设置",
-        "iconPath": "data/icon/setting_0.png",
-        "selectedIconPath": "data/icon/setting_1.png"
+        "iconPath": "/data/icons/tabbar/setting_0.png",
+        "selectedIconPath": "/data/icons/tabbar/setting_1.png"
       }
     ]
   },
