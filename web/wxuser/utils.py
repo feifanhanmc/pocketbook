@@ -19,12 +19,11 @@ def utils_login_init(wx_data):
     appID = wxminiprj_token['appID']
     appSecret = wxminiprj_token['appSecret']
 
-    print('wx_data', wx_data)
-
     acc_user = wx_data.get('acc_user', '')
-    # wx_data['rawData']['nickName'] = '111'
-    wxuserinfo = wx_data.get('rawData', {})
+    userinfo = json.loads(wx_data.get('rawData', {}))
+    nam_user = userinfo.get('nickName', '')
     
+    # 准备获取openid的请求数据
     code = wx_data['code']  # 前端POST过来的微信临时登录凭证code
     encrypted_data = wx_data['encryptedData']
     iv = wx_data['iv']
@@ -35,19 +34,21 @@ def utils_login_init(wx_data):
         'grant_type': 'authorization_code'
     }
 
+    # 发起请求获取微信用户唯一标识openid
     response_data = requests.get(wx_login_api, params=req_params)  # 向API发起GET请求
     resData = response_data.json()
-    print('resData', resData)
     openid = resData['openid']  # 得到用户关于当前小程序的OpenID
-    session_key = resData['session_key']  # 得到用户关于当前小程序的会话密钥session_key
 
+    '''
+    # 现在好像直接给了用户信息，不需要再进行解密获取
+    session_key = resData['session_key']  # 得到用户关于当前小程序的会话密钥session_key
     pc = WXBizDataCrypt(appID, session_key)  # 对用户信息进行解密
     userinfo = pc.decrypt(encrypted_data, iv)  # 获得用户信息
-    nam_user = userinfo.get('nickName', '')
+    '''
     
     u = User()
     acc_user = u.user_check(openid, nam_user=nam_user)
-    u.save_userinfo(wxuserinfo)
+    u.save_userinfo(userinfo)
     return {"token":acc_user}
 
 
