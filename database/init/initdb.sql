@@ -20,7 +20,7 @@ create table if not exists users (
     vlu_city        varchar(20)     default '',
     vlu_prov        varchar(20)     default '',
     vlu_country     varchar(20)     default '',
-    url_avatar      text            default ''
+    url_avatar      varchar(200)    default ''
 )
 go
 
