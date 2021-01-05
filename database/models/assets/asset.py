@@ -41,6 +41,7 @@ class Asset:
             data.append(value)
         data_asset = pd.DataFrame(data=[data], columns=columns)
         flag, result = self.db.write(data_asset, self.table)
+        print(data_asset, flag, result)
         return flag
 
     def update_assets(self, dict_asset):
