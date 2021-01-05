@@ -1,0 +1,3 @@
+<!--pages/assetsAddStep1/assetsAddStep1.wxml-->
+<text>{{acc_asset}}</text>
+
