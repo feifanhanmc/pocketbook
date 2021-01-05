@@ -6,9 +6,10 @@
   height: 100rpx;
 }
 .addView{
+  margin-top: 20rpx;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
 }
 .addViewTitle{
   display: flex;
@@ -18,7 +19,11 @@
 }
 .addImageAssetIcon{
   border-width: 0;
-  width: 70rpx;
+  width: 200rpx;
+}
+.addTextAssetName{
+  margin-top: 20rpx;
+  margin-bottom: 50rpx;
 }
 .input{
   border: black;
@@ -30,14 +35,29 @@
   justify-content: flex-start;
 }
 .page-section{
-  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100rpx;
+  width: 730rpx;
+  border-left: 1px solid rgb(252, 252, 252);
+  border-right: 1px solid rgb(252, 252, 252);
+  border-top: 2px solid rgb(252, 252, 252);
+  border-bottom: 2px solid rgb(252, 252, 252);
+
+
+
 }
 .weui-cells__title{
-  margin-left: 20rpx;
+  /* font-size: 33px;     */
+  color: black;       
+  font-weight: bold;  
+  margin-right: 20rpx;
+
 }
-.weui-input{
-  margin-left: 20rpx;
-}
+
 .saveButton{
   width: 30%;
   border-radius: 70rpx;

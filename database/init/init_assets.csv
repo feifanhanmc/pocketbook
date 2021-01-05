@@ -2,7 +2,7 @@ acc_user,acc_asset,nam_asset,rmk_asset,tye_asset,amt_asset,ico_asset
 dbuser,9Cv9E2Rr,支付宝,,资产,0,alipay
 dbuser,gvQadiro,蚂蚁花呗,,负债,0,ant
 dbuser,HO7yex5B,储蓄卡,,资产,0,bank
-dbuser,kg4GC8qF,信用卡,,负债,0,bank
+dbuser,kg4GC8qF,信用卡,,负债,0,credit
 dbuser,JZyeyZxP,基金,,资产,0,fund
 dbuser,xrr9Z4uv,股票,,资产,0,stock
 dbuser,kM3GUWe9,微信钱包,,资产,0,wechat
