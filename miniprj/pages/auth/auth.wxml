@@ -1,0 +1,6 @@
+<!--pages/auth/auth.wxml-->
+<view class="homeViewAuth">
+  <button class="homeButtonAuth" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo"> 获取头像昵称 </button>
+  <text class="homeTextAuth">点击按钮并授权使用</text>
+</view>
+
