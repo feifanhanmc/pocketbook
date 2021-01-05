@@ -1,4 +1,8 @@
 // pages/assetsAddStep1/assetsAddStep1.js
+import regeneratorRuntime from '../..//utils/runtime/runtime';
+import { request } from "../../utils/request/request.js";
+import { login } from "../../utils/asyncwx.js";
+
 Page({
 
   /**
@@ -31,6 +35,56 @@ Page({
       selectedAssetNam: nam_asset,
       selectedAssetTye: tye_asset
     })
+  },
+  handleInput1(e){
+    const {value} = e.detail;
+    this.setData({
+      rmk_asset: value
+    })
+  },
+  handleInput2(e){
+    const {value} = e.detail;
+    this.setData({
+      amt_asset: value
+    })
+  },
+  async handleSave(e){
+    if(!this.data.rmk_asset){
+      this.setData({
+        rmk_asset: this.data.selectedAssetNam
+      })
+    }
+    if(!this.data.amt_asset){
+      this.setData({
+        amt_asset: 0
+      })
+    }
+    const addParams = {
+      "nam_asset": this.data.selectedAssetNam,
+      "rmk_asset": this.data.rmk_asset, 
+      "amt_asset": this.data.amt_asset, 
+      "tye_asset": this.data.selectedAssetTye,
+      "ico_asset": this.data.selectedAssetIco}
+    const {result} = await request({url:"/wxassets/add_assets",data:addParams,method:"post"});
+    console.log(result)
+    if(result){
+      wx.setStorageSync('flagRefreshAssetsList', true);
+      wx.setStorageSync('flagRefreshAccountData', true);
+      wx.showToast({
+        title: '添加成功！',
+        icon: 'success',
+        duration: 3000
+      })
+      wx.switchTab({
+        url: '/pages/home/home',
+      })
+    }else{
+      wx.showToast({
+        title: '添加失败，请稍后再试！',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载

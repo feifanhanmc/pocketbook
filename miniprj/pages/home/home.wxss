@@ -1,31 +1,4 @@
 /* pages/home/home.wxss */
-/* @import "../../data/style/common.wxss"; */
-.homeViewAuth{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.homeButtonAuth{
-  width: 50%;
-  border-radius: 70rpx;
-  background-color: #FABD03;
-}
-.homeTextAuth{
-  color: rgba(0, 0, 0, 0.555);       
-}
-/* .userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
-image{
-  box-sizing: border-box;
-  border: 1rpx solid blue;
-  width: 100rpx;
-  height: 50rpx;
-}
-
 swiper{
   width: 100%;
   height: 250rpx;
@@ -84,6 +57,11 @@ swiper{
   color: rgba(0, 0, 0, 0.555);   
   width: 100rpx;
 }
+
+.homeViewAssets{
+  margin-bottom: 200rpx;
+}
+
 .homeNavigatorAsset{
   height: 150rpx;
   width: 730rpx;

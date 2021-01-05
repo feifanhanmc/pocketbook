@@ -10,7 +10,7 @@
     <view class="weui-cells__title">名称</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
-        <input class="weui-input" maxlength="20" focus placeholder="输入资产名称"/>
+        <input class="weui-input" bindinput="handleInput1" maxlength="20" focus placeholder="默认为{{selectedAssetNam}}"/>
       </view>
     </view>
   </view>
@@ -18,7 +18,7 @@
     <view class="weui-cells__title">金额</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
-        <input class="weui-input" type="digit" placeholder="输入资产金额"/>
+        <input class="weui-input" bindinput="handleInput2" type="digit" placeholder="默认为零"/>
       </view>
     </view>
   </view>
@@ -26,5 +26,5 @@
 
 <view class="blankViewBig"></view>
 <view>
-  <button class="saveButton">保存</button>
+  <button class="saveButton" bindtap="handleSave" >保存</button>
 </view>

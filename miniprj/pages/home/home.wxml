@@ -1,102 +1,72 @@
 <!--pages/home/home.wxml-->
-<view wx:if="{{!hasUserInfo && canIUse}}">
-  <view class="homeViewAuth">
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <text>\n</text>
-    <button class="homeButtonAuth" open-type="getUserInfo" bindgetuserinfo="handleGetUserInfo"> 获取头像昵称 </button>
-    <text>\n</text>
-    <text class="homeTextAuth">点击按钮并授权使用</text>
-  </view>
+<swiper indicator-dots="true" indicator-active-color="white"> 
+  <swiper-item>
+    <view>
+      <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月支出</text> 
+    </view>
+    <view>
+      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+      <text class="homeTextOverviewAmountLarge">¥{{amountMonthExpend}}</text>
+    </view>
+    <view class="homeLayoutHorizontal">
+      <view>
+        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月收入</text> 
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthIncome}}</text>
+      </view>
+      <view>
+        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthRemainingBudget}}&nbsp;&nbsp;</text>
+      </view>
+    </view>
+  </swiper-item>
+  <swiper-item>
+    <view>
+      <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;净资产</text> 
+    </view>
+    <view>
+      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+      <text class="homeTextOverviewAmountLarge" >¥{{amountNetAssets}}</text>
+    </view>
+    <view class="homeLayoutHorizontal">
+      <view>
+        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总资产</text> 
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalAssets}}</text>
+      </view>
+      <view>
+        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总负债</text> 
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalLiability}}&nbsp;&nbsp;</text>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>
+
+<view class="homeViewTransAdd">
+  <button class="homeButtonTransAdd" bindtap="handleTap">记一笔</button>
 </view>
-<block wx:else>
-  <swiper indicator-dots="true" indicator-active-color="white"> 
-    <swiper-item>
-      <view>
-        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月支出</text> 
-      </view>
-      <view>
+
+<view><text>\n</text></view>
+<view class="homeViewAssetTitle">
+  <text class="homeTextAssetTitle" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;资产账户</text>
+  <text bindtap="handleAssetAdd" class="homeTextAssetAdd" decode="{{true}}" space="{{true}}">添加&nbsp;&nbsp;</text>
+</view>
+<view><text>\n</text></view>
+<view class="homeViewAssets">
+    <navigator class="homeNavigatorAsset"
+    wx:for="{{assetsList}}"
+    wx:key="id"
+    url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
+      <view class="homeViewAssetItemFisrt">
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <text class="homeTextOverviewAmountLarge">¥{{amountMonthExpend}}</text>
-      </view>
-      <view class="homeLayoutHorizontal">
-        <view>
-          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月收入</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthIncome}}</text>
-        </view>
-        <view>
-          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthRemainingBudget}}&nbsp;&nbsp;</text>
-        </view>
-      </view>
-    </swiper-item>
-    <swiper-item>
-      <view>
-        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;净资产</text> 
-      </view>
-      <view>
+        <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <text class="homeTextOverviewAmountLarge" >¥{{amountNetAssets}}</text>
+        <text class="homeTextAssetName">{{item.nam_asset}}</text>
       </view>
-      <view class="homeLayoutHorizontal">
-        <view>
-          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总资产</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalAssets}}</text>
-        </view>
-        <view>
-          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总负债</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalLiability}}&nbsp;&nbsp;</text>
-        </view>
+      <view class="homeViewAssetItemSecond">
+        <text>{{item.amt_asset}}</text>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       </view>
-    </swiper-item>
-  </swiper>
+      </navigator>
+</view>
 
-  <view class="homeViewTransAdd">
-    <button class="homeButtonTransAdd" bindtap="handleTap">记一笔</button>
-  </view>
-
-  <view><text>\n</text></view>
-  <view class="homeViewAssetTitle">
-    <text class="homeTextAssetTitle" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;资产账户</text>
-    <text bindtap="handleAssetAdd" class="homeTextAssetAdd" decode="{{true}}" space="{{true}}">添加&nbsp;&nbsp;</text>
-  </view>
-  <view><text>\n</text></view>
-  <view>
-      <navigator class="homeNavigatorAsset"
-      wx:for="{{assetsList}}"
-      wx:key="id"
-      url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
-        <view class="homeViewAssetItemFisrt">
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <text class="homeTextAssetName">{{item.nam_asset}}</text>
-        </view>
-        <view class="homeViewAssetItemSecond">
-          <text>{{item.amt_asset}}</text>
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        </view>
-        </navigator>
-  </view>
-
-
-
-
-
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-</block>
 
 
