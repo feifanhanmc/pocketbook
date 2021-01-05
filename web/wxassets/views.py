@@ -10,12 +10,20 @@ mod = Blueprint('wxassets', __name__, url_prefix='/wxassets')
 @mod.route('/show_assets', methods=['POST'])
 def views_show_assets():
     req_data = request.get_data()
-    print('req_data', req_data)
     result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result['data']= utils_login_init(data)
+        result['data']= utils_show_assets(data)
         result['code'] = 200
-    print(result)
     return json.dumps(result)
 
+
+@mod.route('/show_default_assets', methods=['POST'])
+def views_show_default_assets():
+    req_data = request.get_data()
+    result = {'data': {}, 'code': 500}
+    if req_data:
+        data = json.loads(req_data.decode('utf-8'))
+        result['data']= utils_show_assets(data, flag_default=True)
+        result['code'] = 200
+    return json.dumps(result)
