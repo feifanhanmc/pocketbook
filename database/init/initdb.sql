@@ -29,6 +29,7 @@ create table if not exists assets (
     acc_user        varchar(8)      not null,
     acc_asset       varchar(8)      not null,
     nam_asset       varchar(50)     default '',
+    rmk_asset       varchar(50)     default '',
     tye_asset       varchar(20)     default '',
     amt_asset       decimal(18,2)   default 0,
     ico_asset       varchar(20)     default 'other',

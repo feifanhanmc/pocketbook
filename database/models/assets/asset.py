@@ -7,7 +7,7 @@ import pandas as pd
 
 class Asset:
     def __init__(self, acc_user, db=None, table='assets',
-                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'tye_asset', 'amt_asset',
+                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'rmk_asset', 'tye_asset', 'amt_asset',
                           'ico_asset', 'boo_active']):
         self.db = db
         self.table = table

@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    acc_asset: ""
+    acc_asset: "",
+    
   },
 
   /**
@@ -29,7 +30,7 @@ Page({
     let pages = getCurrentPages();
     let currentPage = pages[pages.length - 1];
     let options = currentPage.options;
-    const { acc_asset } = options;
+    const {acc_asset} = options;
     this.setData({
       acc_asset: acc_asset
     })
