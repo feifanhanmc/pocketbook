@@ -108,5 +108,5 @@ swiper{
 }
 .homeImageAssetIcon{
   border-width: 0;
-  width: 100rpx;
+  width: 70rpx;
 }

@@ -77,7 +77,7 @@
       url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
         <view class="homeViewAssetItemFisrt">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <image class="homeImageAssetIcon" mode="widthFix" src="{{baseIconPath + item.ico_asset}}.png"></image>
+          <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <text class="homeTextAssetName">{{item.nam_asset}}</text>
         </view>

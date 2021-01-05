@@ -1,1 +1,45 @@
 /* pages/assetsAddStep1/assetsAddStep1.wxss */
+.blankView{
+  height: 20rpx;
+}
+.blankViewBig{
+  height: 100rpx;
+}
+.addView{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.addViewTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.addImageAssetIcon{
+  border-width: 0;
+  width: 70rpx;
+}
+.input{
+  border: black;
+}
+.nameView{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.page-section{
+  margin-bottom: 20rpx;
+}
+.weui-cells__title{
+  margin-left: 20rpx;
+}
+.weui-input{
+  margin-left: 20rpx;
+}
+.saveButton{
+  width: 30%;
+  border-radius: 70rpx;
+  background-color: #FABD03;
+}

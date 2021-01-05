@@ -26,7 +26,9 @@ Page({
 
     // AssetsData
     assetsList: [],
-    baseIconPath: "/data/icons/asset/",
+
+    // OtherData
+    assetIconPath: "/data/icons/asset/",
   },
   async showAssetsList() {
     const {assets} = await request({url:"/wxassets/show_assets",data:{},method:"post"});

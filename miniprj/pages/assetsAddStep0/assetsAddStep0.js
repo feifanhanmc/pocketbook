@@ -11,7 +11,9 @@ Page({
   data: {
     // AssetsData
     defaultAssetsList: [],
-    baseIconPath: "/data/icons/asset/",
+
+    // OtherData
+    assetIconPath: "/data/icons/asset/",
   },
   async showDefaultAssetsList() {
     if(wx.getStorageSync('defaultAssetsList').length == 0){

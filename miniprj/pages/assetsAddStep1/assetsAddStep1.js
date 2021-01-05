@@ -5,15 +5,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-    acc_asset: "",
-    
-  },
+    // 已选择的资产类型
+    selectedAssetAcc: "", 
+    selectedAssetIco: "other", 
+    selectedAssetNam: "",
+    selectedAssetTye: "",
 
+    // 要创建的资产信息
+    rmk_asset: "",
+    amt_asset: 0.0,
+
+    // OtherData
+    assetIconPath: "/data/icons/asset/",
+  },
+  loadAssetInfo(){
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length - 1];
+    let options = currentPage.options;
+    const accAssetId = parseInt(options.accAssetId)-1;
+    const selectedAssetInfo = wx.getStorageSync('defaultAssetsList')[accAssetId]
+    const {acc_asset, ico_asset, nam_asset, tye_asset} = selectedAssetInfo
+    this.setData({
+      selectedAssetAcc: acc_asset, 
+      selectedAssetIco: ico_asset, 
+      selectedAssetNam: nam_asset,
+      selectedAssetTye: tye_asset
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadAssetInfo()
   },
 
   /**
@@ -27,15 +50,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let pages = getCurrentPages();
-    let currentPage = pages[pages.length - 1];
-    let options = currentPage.options;
-    const {acc_asset} = options;
-    this.setData({
-      acc_asset: acc_asset
-    })
-    console.log(acc_asset)
-    // this.getGoodsDetail(goods_id);
+ 
+
   },
 
   /**
