@@ -106,17 +106,7 @@ swiper{
   flex-direction: row;
   align-items: center;
 }
-.homeViewAssetItemSecond{
-
-}
-
-.homeViewAssetIcon{
-  /* justify-content: center;
-  align-items: center; */
-}
 .homeImageAssetIcon{
   border-width: 0;
   width: 100rpx;
-}
-.homeTextAssetAmount{
 }

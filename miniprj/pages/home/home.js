@@ -11,57 +11,33 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // UserData
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    assetsData: [
-    {
-      id: 0,
-      acc_asset: "asfsdf",
-      nam_asset: "农业银行",
-      amt_asset: -99.99,
-      icon_asset: "/data/icons/asset/bank.png"
-    },
-    {
-      id: 1,
-      acc_asset: "sdgdgf",
-      nam_asset: "微信钱包",
-      amt_asset:200,
-      icon_asset: "/data/icons/asset/wechat.png"
-    },
-    {
-      id: 2,
-      acc_asset: "rjfgdfs",
-      nam_asset: "蚂蚁花呗",
-      amt_asset: -100,
-      icon_asset: "/data/icons/asset/ant.png"
-    }],
-    checkedList: [],
-    amt_month_out: 70.48,
-    amt_month_in: 9.60,
-    amt_asset: 80000,
-    inputNum: 0,
-    testData: "Hello World",
-    sex: 0,
-    person: {
-      age: 11,
-      name: "AA",
-      nickName: "BB"
-    },
-    list: [
-      {
-        id: 0,
-        name: "A"
-      },
-      {
-        id: 1,
-        name: "B"
-      },
-      {
-        id: 2,
-        name: "C"
-      }
-    ]
+    
+    // AccountData
+    amountMonthExpend: 0.0,
+    amountMonthIncome: 0.0,
+    amountMonthRemainingBudget: 0.0,
+    amountNetAssets: 0.0,
+    amountTotalAssets: 0.0,
+    amountTotalLiability: 0.0,
+
+    // AssetsData
+    assetsList: [],
+    baseIconPath: "/data/icons/asset/",
+  },
+  async showAssetsList() {
+    const {assets} = await request({url:"/wxassets/show_assets",data:{},method:"post"});
+    this.setData({
+      assetsList: assets
+    })
+  },
+  handleAssetAdd(e){
+    wx.navigateTo({
+      url: '/pages/assetsAddStep0/assetsAddStep0',
+    })
   },
   handleTap(e){
     console.log(e);
@@ -69,38 +45,14 @@ Page({
       url: '/pages/transAdd/transAdd',
     })
   },
-  handleInput(e){
-    console.log(e.detail.value);
-    this.setData({
-      inputNum: e.detail.value
-    })
-  },
-  handleAssetAdd(e){
-    wx.navigateTo({
-      url: '/pages/assetsAdd/assetsAdd',
-    })
-  },
-  handleClick(e){
-    console.log(e);
-    console.log(e.currentTarget.dataset.operation);
-    const operation = e.currentTarget.dataset.operation;
-    this.setData({
-      inputNum: this.data.inputNum*1 + operation*1
-    })
-  },
-  handleChange(e){
-    
-    const checkedList = e.detail.value;
-    console.log(e)
-    console.log(checkedList);
-    this.setData({
-      checkedList
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // RefreshFlag
+    wx.setStorageSync('flagRefreshAssetsList', true);
+    wx.setStorageSync('flagRefreshAccountData', true);
+
     // 获取缓存中的userInfo
     const userInfo = wx.getStorageSync('userInfo') || {}
     if (JSON.stringify(userInfo) !== "{}"){
@@ -129,16 +81,11 @@ Page({
       })
     }
     
-    console.log('showAssets')
-    const token = wx.getStorageSync('token')
-    // const {token} = await request({url:"/wxuser/login_init",data:loginParams,method:"post"});
+
 
   },
   async handleGetUserInfo(e) {
-    console.log('handleGetUserInfo');
-    console.log(e);
     const userInfo=e.detail.userInfo || {};
-    console.log(userInfo)
     if (JSON.stringify(userInfo) !== "{}"){
       try {
       // 0 将用户信息放进缓存等
@@ -151,7 +98,7 @@ Page({
       const { encryptedData, rawData, iv, signature } = e.detail;
       // 2 获取小程序登录成功后的code
       const { code } = await login();
-      //  3 发送请求 获取用户的token
+      // 3 发送请求 获取用户的token
       const loginParams={ encryptedData, rawData, iv, signature ,code};
       const {token} = await request({url:"/wxuser/login_init",data:loginParams,method:"post"});
       // 4 把token(即acc_user)存入缓存中
@@ -160,6 +107,8 @@ Page({
       console.log(error)
     }
     }
+    // 5 初次创建后，再次调用onShow函数，以更新页面
+    this.onShow()
   },
 
 
@@ -174,6 +123,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    if(wx.getStorageSync('flagRefreshAssetsList')){
+      this.showAssetsList()
+      wx.setStorageSync('flagRefreshAssetsList', false)
+    }
+    
 
   },
 

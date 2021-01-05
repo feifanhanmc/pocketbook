@@ -18,7 +18,6 @@
     <text class="homeTextAuth">点击按钮并授权使用</text>
   </view>
 </view>
-
 <block wx:else>
   <swiper indicator-dots="true" indicator-active-color="white"> 
     <swiper-item>
@@ -27,16 +26,16 @@
       </view>
       <view>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <text class="homeTextOverviewAmountLarge">¥{{amt_month_out}}</text>
+        <text class="homeTextOverviewAmountLarge">¥{{amountMonthExpend}}</text>
       </view>
       <view class="homeLayoutHorizontal">
         <view>
           <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月收入</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_month_out}}</text>
+          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthIncome}}</text>
         </view>
         <view>
-          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算额度</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_month_out}}&nbsp;&nbsp;</text>
+          <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
+          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthRemainingBudget}}&nbsp;&nbsp;</text>
         </view>
       </view>
     </swiper-item>
@@ -46,44 +45,39 @@
       </view>
       <view>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <text class="homeTextOverviewAmountLarge" >¥{{amt_asset}}</text>
+        <text class="homeTextOverviewAmountLarge" >¥{{amountNetAssets}}</text>
       </view>
       <view class="homeLayoutHorizontal">
         <view>
           <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总资产</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_month_out}}</text>
+          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalAssets}}</text>
         </view>
         <view>
           <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总负债</text> 
-          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_month_out}}&nbsp;&nbsp;</text>
+          <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalLiability}}&nbsp;&nbsp;</text>
         </view>
       </view>
     </swiper-item>
   </swiper>
-  <view>
 
   <view class="homeViewTransAdd">
     <button class="homeButtonTransAdd" bindtap="handleTap">记一笔</button>
   </view>
 
   <view><text>\n</text></view>
-
   <view class="homeViewAssetTitle">
     <text class="homeTextAssetTitle" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;资产账户</text>
     <text bindtap="handleAssetAdd" class="homeTextAssetAdd" decode="{{true}}" space="{{true}}">添加&nbsp;&nbsp;</text>
   </view>
-
-
   <view><text>\n</text></view>
-
   <view>
       <navigator class="homeNavigatorAsset"
-      wx:for="{{assetsData}}"
+      wx:for="{{assetsList}}"
       wx:key="id"
       url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
         <view class="homeViewAssetItemFisrt">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <image class="homeImageAssetIcon" mode="widthFix" src="{{item.icon_asset}}"></image>
+          <image class="homeImageAssetIcon" mode="widthFix" src="{{baseIconPath + item.ico_asset}}.png"></image>
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <text class="homeTextAssetName">{{item.nam_asset}}</text>
         </view>
@@ -91,121 +85,18 @@
           <text>{{item.amt_asset}}</text>
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         </view>
-            
-            
         </navigator>
   </view>
 
 
 
 
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>\n</text></view>
-  <view><text>pages/home/home.wxml</text></view>
-  <view><text>pages/home/home.wxml</text></view>
-  <view><text>pages/home/home.wxml</text></view>
-  <view><text>pages/home/home.wxml</text></view>
-  <view><text>pages/home/home.wxml</text></view>
-
-  <view>
-    <navigator url="/pages/transAdd/transAdd">记一笔</navigator>
-
-
-    <icon type="success"></icon>
-
-    <text>pages/home/home.wxml</text>
-
-    <view>
-      <checkbox-group bindchange="handleChange">
-        <checkbox wx:key="id" wx:for="{{list}}" value="{{item.name}}">
-          {{item.name}}
-        </checkbox>
-      </checkbox-group>
-      <view>
-        选中的为{{checkedList}}
-      </view>
-    </view>
-
-    <view>
-      <image lazy-load="true" mode="widthFix" src="https://sun.liuyihua.com/static/images/F1赛车.png"></image>
-    </view>
-
-
-    <view>{{testData}}</view>
-    <view>
-      <view 
-        wx:for="{{list}}" 
-        wx:key="id"
-        wx:for-item="item" 
-        wx:for-index="index">
-      {{index}}
-      {{item.name}}
-      {{item.id}}
-      </view>
-    </view>
-
-    <view>
-      <view
-        wx:for="{{person}}"
-        wx:key="age"
-        wx:for-item="value"
-        wx:for-index="key">
-      属性: {{key}}
-      值:{{value}}
-      </view>
-    </view>
-
-    <view>
-      <view wx:if="{{sex}}">Boy</view>
-      <view wx:if="{{1-sex}}">Girl</view> 
-
-      <view wx:if="{{sex}}">Boy</view>
-      <view wx:elif="{{sex}}">Girl</view>
-      <view wx:else="{{sex}}">Unkown</view>
-
-      <view hidden="{{false}}">hidden1</view>
-      <view hidden="{{true}}">hidden2</view>
-    </view>
-
-
-    <view>
-      <input type="text" bindinput="handleInput" />
-      <view>{{inputNum}}</view>
-      <button bindtap="handleClick" data-operation="{{1}}">+</button>
-      <button bindtap="handleClick" data-operation="{{-1}}">-</button>
-    </view>
-  </view>
-
-  </view>
-
-
-
 
   <view><text>\n</text></view>
   <view><text>\n</text></view>
   <view><text>\n</text></view>
   <view><text>\n</text></view>
   <view><text>\n</text></view>
-  <view><text>\n</text></view>
-
-
-
 </block>
 
 

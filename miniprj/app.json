@@ -5,7 +5,8 @@
     "pages/report/report",
     "pages/setting/setting",
     "pages/transAdd/transAdd",
-    "pages/assetsAdd/assetsAdd",
+    "pages/assetsAddStep0/assetsAddStep0",
+    "pages/assetsAddStep1/assetsAddStep1",
     "pages/assetsDetail/assetsDetail",
     "pages/index/index",
     "pages/logs/logs"

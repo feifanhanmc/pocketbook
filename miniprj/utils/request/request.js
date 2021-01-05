@@ -1,10 +1,11 @@
+// 定义公共的url
+var baseUrl="https://sun.liuyihua.com";
+
 // 同时发送异步代码的次数
 let ajaxTimes=0;
 export const request=(params)=>{
-  let header={...params.header};
-  // 拼接header 带上token，即：acc_user
-  header["Authorization"]=wx.getStorageSync("acc_user");
-
+  // 在发送的请求中带上token，即：acc_user
+  params.data["token"] = wx.getStorageSync("token");
   
   ajaxTimes++;
   // 显示加载中 效果
@@ -13,13 +14,9 @@ export const request=(params)=>{
     mask: true
   });
     
-
-  // 定义公共的url
-  const baseUrl="https://sun.liuyihua.com";
   return new Promise((resolve,reject)=>{
     wx.request({
      ...params,
-     header:header,
      url:baseUrl+params.url,
      success:(result)=>{
        resolve(result.data.data);
