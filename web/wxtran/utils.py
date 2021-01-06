@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
-import requests
-from web.wxuser.WXBizDataCrypt import WXBizDataCrypt
-from data.data_helper import load_config
-from database.models.users.user import User
 from database.models.transactions.transaction import Transaction
 
 

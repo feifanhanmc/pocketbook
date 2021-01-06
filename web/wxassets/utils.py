@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import json
-import requests
-from data.data_helper import load_config
 from database.models.assets.asset import Asset
 
 file_wxminiprj_token = 'wxminiprj_token.json'
