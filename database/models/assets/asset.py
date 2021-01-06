@@ -30,6 +30,7 @@ class Asset:
         sql_show = "select * from assets where acc_user='%s' %s order by id" % (self.acc_user, sql_active)
         flag, result = self.db.read(sql_show)
         if flag:
+            result['index'] = range(len(result))
             return result
         return None
 
