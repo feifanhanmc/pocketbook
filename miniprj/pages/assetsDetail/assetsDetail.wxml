@@ -1,4 +1,46 @@
 <!--pages/assetsDetail/assetsDetail.wxml-->
-<view>
-  <text>{{acc_asset}}</text>
+<view class="viewMain">
+  <view class="viewAsset">
+    <view class="viewAsset1">
+      <view class="viewAsset11">
+        <image class="viewAssetIcon" mode="widthFix" src="{{assetIconPath + ico_asset}}.png"></image>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <text class="textBold">{{nam_asset}}</text>
+        <text decode="{{true}}" space="{{true}}">&nbsp;|&nbsp;</text>
+        <text>{{rmk_asset}}</text>
+      </view>
+      <view class="viewAsset12">
+        <text class="textGray" bindtap="handleAssetsModify">编辑</text>
+      </view>
+    </view>
+    <view class="viewAsset2">
+      <text class="textGray">{{tye_asset==="负债"?"当前欠款":"当前余额"}}</text>
+      <text class="textBig">{{amt_asset}}</text>
+    </view>
+  </view>
+  <view><text>\n</text></view>
+  <view class="viewDetail">
+    <!-- 
+      <view class="viewDetailTitle">
+        <view class="viewDetailTitleItem" bindtap="handTapTabs" wx:for="{{tabs}}" wx:key="tabId" style="{{item.isActive===true?'background-color:black;' :''}}">
+          <text style="{{item.isActive===true?'font-weight:bold;color:white;' :'color:rgba(0, 0, 0, 0.555);'}}">{{item.tabName}}</text>
+        </view>
+      </view> 
+    -->
+    <block wx:if="{{isStockFund}}">
+      <view class="viewDetailProduct">
+        <text class="textBold">产品</text>
+        <text class="textGray">添加</text>
+      </view>
+      <view class="viewDetailProductContent">
+        <text class="textGray">敬请期待</text>
+      </view>
+    </block>
+    <view class="viewDetailTrans">
+      <text class="textBold">流水</text>
+    </view>
+    <view class="viewDetailTransContent">
+      <text>Details</text>
+    </view>
+  </view>
 </view>

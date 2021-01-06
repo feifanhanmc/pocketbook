@@ -54,15 +54,19 @@
     <navigator class="homeNavigatorAsset"
     wx:for="{{assetsList}}"
     wx:key="id"
-    url="/pages/assetsDetail/assetsDetail?acc_asset={{item.acc_asset}}" >
+    url="/pages/assetsDetail/assetsDetail?accAssetIndex={{item.index}}" >
       <view class="homeViewAssetItemFisrt">
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <text class="homeTextAssetName">{{item.nam_asset}}</text>
+        <view class="homeTextAssetName">
+          <text class="homeTextBlod">{{item.nam_asset}}</text>
+          <text class="homeTextAssetRmk">{{item.rmk_asset}}</text>
+        </view>
       </view>
       <view class="homeViewAssetItemSecond">
-        <text>{{item.amt_asset}}</text>
+        <text class="homeTextBlod">{{item.tye_asset==="负债"?"-":""}}</text>
+        <text class="homeTextBlod">{{item.amt_asset}}</text>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       </view>
       </navigator>

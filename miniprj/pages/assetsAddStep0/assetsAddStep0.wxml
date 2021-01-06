@@ -3,7 +3,7 @@
       <navigator class="assetAddNavigatorAsset"
       wx:for="{{defaultAssetsList}}"
       wx:key="id"
-      url="/pages/assetsAddStep1/assetsAddStep1?accAssetId={{item.id}}" >
+      url="/pages/assetsAddStep1/assetsAddStep1?accAssetIndex={{item.index}}" >
         <view class="assetAddViewAssetItemFisrt">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <image class="assetAddImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>

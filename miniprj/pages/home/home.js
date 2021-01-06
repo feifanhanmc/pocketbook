@@ -28,6 +28,7 @@ Page({
     this.setData({
       assetsList: assets
     })
+    wx.setStorageSync('assetsList', assets)
   },
   handleAssetAdd(e){
     wx.navigateTo({
@@ -52,7 +53,9 @@ Page({
       })
     }
 
-
+    // 参数初始化
+    wx.setStorageSync('flagRefreshAssetsList', true)
+    wx.setStorageSync('flagRefreshAccountData', true)
 
   },
   /**

@@ -26,8 +26,8 @@ Page({
     let pages = getCurrentPages();
     let currentPage = pages[pages.length - 1];
     let options = currentPage.options;
-    const accAssetId = parseInt(options.accAssetId)-1;
-    const selectedAssetInfo = wx.getStorageSync('defaultAssetsList')[accAssetId]
+    const accAssetIndex = parseInt(options.accAssetIndex);
+    const selectedAssetInfo = wx.getStorageSync('defaultAssetsList')[accAssetIndex]
     const {acc_asset, ico_asset, nam_asset, tye_asset} = selectedAssetInfo
     this.setData({
       selectedAssetAcc: acc_asset, 

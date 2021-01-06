@@ -8,6 +8,7 @@
     "pages/assetsAddStep0/assetsAddStep0",
     "pages/assetsAddStep1/assetsAddStep1",
     "pages/assetsDetail/assetsDetail",
+    "pages/assetsModify/assetsModify",
     "pages/auth/auth",
     "pages/index/index",
     "pages/logs/logs"
