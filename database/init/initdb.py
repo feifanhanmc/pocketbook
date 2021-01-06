@@ -13,7 +13,7 @@ base_path = os.path.dirname(__file__)
 
 
 def init_data(db):
-    for table in ['users', 'assets', 'transtypes']:
+    for table in ['users', 'assets', 'transtypes', 'transactions']:
         filename = 'init_%s.csv' % table
         filename_full = os.path.join(base_path, filename)
         df_init = pd.read_csv(filename_full).fillna('')

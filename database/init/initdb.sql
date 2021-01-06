@@ -42,6 +42,7 @@ create table if not exists transactions (
     acc_user            varchar(8)      not null,
     acc_asset           varchar(8)      not null,
     nam_asset           varchar(50)     default '',
+    rmk_asset           varchar(50)     default '',
     amt_trans           decimal(18,2)   default 0,
     tye_flow            varchar(10)     default '',
     dte_trans           varchar(8)      default '',
@@ -63,7 +64,8 @@ create table if not exists transtypes (
     txt_trans_type       varchar(30)     default '',
     txt_trans_type_sub   varchar(30)     default '',
     tye_flow             varchar(10)     default '',
-    boo_active           integer         default 1
+    boo_active           integer         default 1,
+    ico_trans            varchar(20)     default 'other'
 
 )
 
