@@ -7,9 +7,9 @@ import pandas as pd
 
 class Transaction:
     def __init__(self, acc_user, acc_asset='', db=None, table='transactions',
-                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'amt_trans', 'tye_flow', 'dte_trans',
+                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'rmk_asset', 'amt_trans', 'tye_flow', 'dte_trans',
                           'tme_trans', 'acc_asset_related', 'nam_asset_related', 'cod_trans_type', 'txt_trans_type',
-                          'txt_trans_type_sub', 'txt_remark']):
+                          'txt_trans_type_sub', 'txt_remark', 'ico_trans']):
         self.db = db
         self.table = table
         self.columns = columns
@@ -28,26 +28,63 @@ class Transaction:
         self.txt_trans_type = ''
         self.txt_trans_type_sub = ''
         self.txt_remark = ''
+
         if not db:
             self.db = DataBase()
 
-    def insert(self, tran_data):
-        id = load_next_id(self.table, self.db)
-        self.acc_asset = tran_data['acc_asset']
-        self.amt_trans = tran_data['amt_trans']
-        data = [[id, self.acc_user, self.acc_asset, self.nam_asset, self.amt_trans, self.tye_flow, self.dte_trans,
-                self.tme_trans, self.acc_asset_related, self.nam_asset_related, self.cod_trans_type, self.txt_trans_type,
-                self.txt_trans_type_sub, self.txt_remark]]
-        df_tran = pd.DataFrame(data=data, columns=self.columns)
-        flag, result = self.db.write(df_tran, self.table)
-        if not flag:
-            print(result)
+    def show_trans(self, acc_asset=None):
+        sql_asset = " "
+        if acc_asset:
+            sql_asset = " and acc_asset='%s'" % acc_asset
+        sql_show = "select * from assets where acc_user='%s' %s order by dte_trans desc, id asc" % \
+                   (self.acc_user, sql_asset)
+        flag, result = self.db.read(sql_show)
+        if flag:
+            result['index'] = range(len(result))
+            return result
+        return None
+
+    def add_trans(self, dict_tran):
+        data, columns = [], []
+        for key, value in dict_tran.items():
+            columns.append(key)
+            data.append(value)
+        data_asset = pd.DataFrame(data=[data], columns=columns)
+        flag, result = self.db.write(data_asset, self.table)
+        print(data_asset, flag, result)
         return flag
 
-    def update(self):
+    def update_trans(self, dict_tran):
+        # 逻辑比较复杂
+        # 关联账户、交易类型、金额等变化后都会引起一系列账户的变化……最后再写
+        # nam_asset_related
+        # cod_trans_type
+        # ico_trans
+        """
+        sql_template = "update transactions set % where acc_user='%s' and acc_asset='%s' and id='%s'"
+        sql_list_update = []
+        for key, value in dict_tran.items():
+            # if key == ''
+            if key in ['amt_trans', 'tye_flow', 'dte_trans', 'tme_trans', 'acc_asset_related', 'cod_trans_type',
+                       'txt_remark']:
+                sql_list_update.append(" %s='%s' " % (key, value))
+        sql_str_update = ",".join(sql_list_update)
+        sql_update = sql_template % (sql_str_update, self.acc_user, dict_tran['acc_asset'], dict_tran['id'])
+        self.db.execute(sql_update)
+        return True
+        """
         pass
 
-    def delete(self):
+    def delete_trans(self, dict_tran):
+        # 删除一笔交易后，资金要回笼
+        # 如果涉及到的相关账户已经没了，要转到应收/应付账户还是该怎么做……
+        # 最后在做
+        """
+        sql_delete = "update assets set boo_active=0 where acc_user='%s' and acc_asset='%s'" % \
+                     (self.acc_user, dict_tran['acc_asset'])
+        self.db.execute(sql_delete)
+        return True
+        """
         pass
 
     @staticmethod

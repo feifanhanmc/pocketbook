@@ -10,7 +10,7 @@ file_wxminiprj_token = 'wxminiprj_token.json'
 
 def utils_show_assets(wx_data, flag_default=False):
     if flag_default:
-        acc_user='dbuser'
+        acc_user = 'dbuser'
     else:
         acc_user = wx_data['token']
     df_assets = Asset(acc_user).show_assets()

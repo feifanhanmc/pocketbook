@@ -8,22 +8,30 @@ from database.models.users.user import User
 from database.models.transactions.transaction import Transaction
 
 
-def utils_tran_add(wx_data):
-    acc_user = wx_data['acc_user']
-    data_tran = wx_data['data_tran']
-    tran = Transaction(acc_user)
-    tran.insert(data_tran)
-    return {"A": 111}
+def utils_show_trans(wx_data):
+    acc_user = wx_data['token']
+    acc_asset = wx_data.get('acc_asset', None)
+    df_trans = Transaction(acc_user).show_assets(acc_asset)
+    data = []
+    for index in range(len(df_trans)):
+        data.append(df_trans.iloc[index].to_dict())
+    return {'trans': data}
 
 
-def utils_tran_delete():
+def utils_add_trans(wx_data):
+    acc_user = wx_data['token']
+    del wx_data['token']
+    wx_data['acc_user'] = acc_user
+    result = Transaction(acc_user).add_assets(wx_data)
+    return {'result': result}
+
+
+def utils_update_trans():
     pass
 
 
-def utils_tran_show():
+def utils_delete_trans():
     pass
 
 
-def utils_tran_update():
-    pass
 

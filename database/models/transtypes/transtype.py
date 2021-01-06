@@ -11,7 +11,8 @@ file_default_transtype = 'default_transtypes.csv'
 
 class Transtype:
     def __init__(self, acc_user, db=None, table='transtypes',
-                 columns=['id', 'cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'tye_flow', 'acc_user']):
+                 columns=['id', 'acc_user', 'cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'tye_flow',
+                          'boo_active','ico_trans']):
         self.db = db
         self.table = table
         self.columns = columns

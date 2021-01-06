@@ -13,7 +13,7 @@ def views_show_assets():
     result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result['data']= utils_show_assets(data)
+        result['data'] = utils_show_assets(data)
         result['code'] = 200
     return json.dumps(result)
 
@@ -35,7 +35,7 @@ def view_add_assets():
     result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result['data']= utlis_add_assets(data)
+        result['data'] = utlis_add_assets(data)
         result['code'] = 200
     return json.dumps(result)
 
@@ -46,9 +46,10 @@ def view_update_assets():
     result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result['data']= utlis_update_assets(data)
+        result['data'] = utils_update_assets(data)
         result['code'] = 200
     return json.dumps(result)
+
 
 @mod.route('/delete_assets', methods=['POST'])
 def view_delete_assets():
@@ -56,7 +57,7 @@ def view_delete_assets():
     result = {'data': {}, 'code': 500}
     if req_data:
         data = json.loads(req_data.decode('utf-8'))
-        result['data']= utlis_delete_assets(data)
+        result['data'] = utils_delete_assets(data)
         result['code'] = 200
     return json.dumps(result)
 
