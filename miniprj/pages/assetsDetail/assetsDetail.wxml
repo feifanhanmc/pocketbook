@@ -41,24 +41,25 @@
     </view>
 
 
-    <view class="homeViewAssets">
-      <navigator class="homeNavigatorAsset"
-      wx:for="{{assetsList}}"
+    <view><text>\n</text></view>
+    <view class="viewContent">
+      <navigator class="navigatorTrans"
+      wx:for="{{currentTransList}}"
       wx:key="id"
-      url="/pages/assetsDetail/assetsDetail?accAssetIndex={{item.index}}" >
-        <view class="homeViewAssetItemFisrt">
+      url="/pages/transModify/transModify?transId={{item.id}}" >
+        <view class="viewTransItemFirst">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <image class="homeImageAssetIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+          <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <view class="homeTextAssetName">
-            <text class="homeTextBlod">{{item.nam_asset}}</text>
-            <text class="homeTextAssetRmk">{{item.rmk_asset}}</text>
+          <view class="textTranName">
+            <text class="textBlod">{{item.txt_trans_type}}</text>
+            <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
           </view>
         </view>
-        <view class="homeViewAssetItemSecond">
-          <text class="homeTextBlod">{{item.tye_asset==="负债"?"-":""}}</text>
-          <text class="homeTextBlod">{{item.amt_asset}}</text>
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <view class="viewTransItemSecond">
+          <text class="textBlod" 
+            style="{{item.tye_flow=='支出'?  'color:red;':  item.tye_flow=='收入'?  'color:green;':  'color:black;'}}">{{item.amt_trans}}</text>
+          <text>{{rmk_asset}}</text>
         </view>
       </navigator>
     </view>

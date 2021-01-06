@@ -1,6 +1,11 @@
 <view class="viewMain">
   <view class="viewCount">
   </view>
+  <view><text>\n</text></view>
+  <view class="viewContentTitle">
+    <text class="textBlod">账单流水</text>
+  </view>
+  <view><text>\n</text></view>
   <view class="viewContent">
     <navigator class="navigatorTrans"
     wx:for="{{transList}}"
@@ -11,8 +16,8 @@
         <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <view class="textTranName">
-          <text class="textBlod">{{item.nam_asset}}</text>
-          <text class="textGray">{{item.rmk_asset}}</text>
+          <text class="textBlod">{{item.txt_trans_type}}</text>
+          <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
         </view>
       </view>
       <view class="viewTransItemSecond">

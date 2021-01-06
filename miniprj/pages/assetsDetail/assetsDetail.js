@@ -21,7 +21,8 @@ Page({
     products: [],
     
     // TransData 
-    transList: [],
+    lastAccAsset: "",
+    currentTransList: [],
 
     // Flag
     isStockFund: false,
@@ -36,12 +37,16 @@ Page({
       url: '/pages/assetsModify/assetsModify',
     })
   },
-  async showTransList() {
-    const {trans} = await request({url:"/wxtran/show_trans",data:{},method:"post"});
+  async showCurrentTransList() {
+    // 如果缓存中的流水信息和这次要请求的信息不一致（包括缓存中没有数据），则请求服务器返回数据；否则从缓存中获取
+    if(wx.getStorageSync('lastAccAsset')!=this.data.acc_asset){
+      const {trans} = await request({url:"/wxtran/show_trans",data:{"acc_asset":this.data.acc_asset},method:"post"});
+      wx.setStorageSync('currentTransList', trans)
+      wx.setStorageSync('lastAccAsset', this.data.acc_asset)
+    }
     this.setData({
-      transList: trans
+      currentTransList: wx.getStorageSync('currentTransList')
     })
-    wx.setStorageSync('transList', trans)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -83,9 +88,9 @@ Page({
       })
     }
 
-    // 加载流水数据，因为不是频次很高的请求，并且每次可能都是不同账户
-   // 分页请求？
-    wx.getStorageSync('flagRefreshTransData')
+    // 加载账单流水数据
+    this.showCurrentTransList()
+
     
   },
 

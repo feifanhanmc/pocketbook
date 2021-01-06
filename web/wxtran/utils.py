@@ -7,7 +7,6 @@ def utils_show_trans(wx_data):
     acc_user = wx_data['token']
     acc_asset = wx_data.get('acc_asset', None)
     df_trans = Transaction(acc_user).show_trans(acc_asset)
-    print('AAAAaaaa', wx_data, df_trans)
     data = []
     for index in range(len(df_trans)):
         data.append(df_trans.iloc[index].to_dict())

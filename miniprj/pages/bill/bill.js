@@ -23,6 +23,7 @@ Page({
       transList: trans
     })
     wx.setStorageSync('transList', trans)
+    wx.setStorageSync('flagRefreshTransData', false)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -42,8 +43,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(!wx.getStorageSync('transList')){
+    if(wx.getStorageSync('flagRefreshTransData')){
       this.showTransList()
+    }else{
+      this.setData({
+        transList: wx.getStorageSync('transList')
+      })
     }
   },
 

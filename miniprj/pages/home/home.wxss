@@ -59,7 +59,7 @@ swiper{
 }
 
 .homeViewAssets{
-  margin-bottom: 200rpx;
+  /* margin-bottom: 200rpx; */
 }
 
 .homeNavigatorAsset{

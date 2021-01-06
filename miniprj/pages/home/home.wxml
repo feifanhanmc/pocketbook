@@ -65,12 +65,15 @@
       </view>
     </view>
     <view class="homeViewAssetItemSecond">
-      <text class="homeTextBlod">{{item.tye_asset==="负债"?"-":""}}</text>
+      <text class="homeTextBlod">{{item.tye_asset=="资产"?"": item.amt_asset>0?"-":""}}</text>
       <text class="homeTextBlod">{{item.amt_asset}}</text>
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
     </view>
   </navigator>
 </view>
+<view><text>\n</text></view>
+<view><text>\n</text></view>
+<view><text>\n</text></view>
 
 
 
