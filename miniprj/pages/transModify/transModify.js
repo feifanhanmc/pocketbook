@@ -1,29 +1,13 @@
-// pages/bill/bill.js
-import regeneratorRuntime from '../..//utils/runtime/runtime';
-import { request } from "../../utils/request/request.js";
-import { login } from "../../utils/asyncwx.js";
-
+// pages/transModify/transModify.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // flagRefreshTransData
-    
-    // TransData
-    transList: [],
 
-    // OtherData
-    tranIconPath: "/data/icons/tran/",
   },
-  async showTransList() {
-    const {trans} = await request({url:"/wxtran/show_trans",data:{},method:"post"});
-    this.setData({
-      transList: trans
-    })
-    wx.setStorageSync('transList', trans)
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -42,9 +26,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if(!wx.getStorageSync('transList')){
-      this.showTransList()
-    }
+
   },
 
   /**

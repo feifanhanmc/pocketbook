@@ -5,7 +5,7 @@ var baseUrl="https://sun.liuyihua.com";
 let ajaxTimes=0;
 export const request=(params)=>{
   // 在发送的请求中带上token，即：acc_user
-  params.data["token"] = wx.getStorageSync("token");
+  params.data["token"] = "dbuser" // wx.getStorageSync("token");
   
   ajaxTimes++;
   // 显示加载中 效果

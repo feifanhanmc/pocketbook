@@ -56,6 +56,7 @@ Page({
     // 参数初始化
     wx.setStorageSync('flagRefreshAssetsList', true)
     wx.setStorageSync('flagRefreshAccountData', true)
+    wx.setStorageSync('flagRefreshTransData', true)
 
   },
   /**

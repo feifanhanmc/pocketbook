@@ -1,1 +1,51 @@
 /* pages/bill/bill.wxss */
+.viewMain{
+  display: flex;
+  flex-direction: column;
+}
+.viewCount{
+  width: 100%;
+  height: 250rpx;
+  background-color: #FABD03;
+  display: flex;
+  flex-direction: column;
+}
+.viewContent{
+  margin-bottom: 200rpx;
+}
+.navigatorTrans{
+  height: 150rpx;
+  width: 730rpx;
+  border-left: 1px solid rgb(252, 252, 252);
+  border-right: 1px solid rgb(252, 252, 252);
+  border-top: 2px solid rgb(252, 252, 252);
+  border-bottom: 2px solid rgb(252, 252, 252);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.viewTransItemFirst{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.viewTransItemSecond{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.imageTranIcon{
+  border-width: 0;
+  width: 70rpx;
+}
+.textTranName{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.textBlod{
+  font-weight: bold;
+}
+.textGray{
+  color: rgba(0, 0, 0, 0.555);   
+}

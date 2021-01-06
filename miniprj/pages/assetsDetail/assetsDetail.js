@@ -1,4 +1,8 @@
 // pages/assetsDetail/assetsDetail.js
+import regeneratorRuntime from '../..//utils/runtime/runtime';
+import { request } from "../../utils/request/request.js";
+import { login } from "../../utils/asyncwx.js";
+
 Page({
 
   /**
@@ -17,19 +21,27 @@ Page({
     products: [],
     
     // TransData 
-    transactions: [],
+    transList: [],
 
     // Flag
     isStockFund: false,
 
     // OtherData
     assetIconPath: "/data/icons/asset/",
+    tranIconPath: "/data/icons/tran/",
   },
   handleAssetsModify(e){
     console.log(e)
     wx.navigateTo({
       url: '/pages/assetsModify/assetsModify',
     })
+  },
+  async showTransList() {
+    const {trans} = await request({url:"/wxtran/show_trans",data:{},method:"post"});
+    this.setData({
+      transList: trans
+    })
+    wx.setStorageSync('transList', trans)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -71,6 +83,10 @@ Page({
       })
     }
 
+    // 加载流水数据，因为不是频次很高的请求，并且每次可能都是不同账户
+   // 分页请求？
+    wx.getStorageSync('flagRefreshTransData')
+    
   },
 
   /**
