@@ -37,4 +37,3 @@ def views_update_trans():
 @mod.route('/delete_trans', methods=['POST'])
 def views_delete_trans():
     pass
-

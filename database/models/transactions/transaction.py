@@ -38,7 +38,6 @@ class Transaction:
             sql_asset = " and acc_asset='%s'" % acc_asset
         sql_show = "select * from transactions where acc_user='%s' %s order by dte_trans desc, id asc" % \
                    (self.acc_user, sql_asset)
-        print('sql_show', sql_show)
         flag, result = self.db.read(sql_show)
         if flag:
             result['index'] = range(len(result))
