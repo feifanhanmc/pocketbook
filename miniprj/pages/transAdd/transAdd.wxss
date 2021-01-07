@@ -5,8 +5,7 @@
   line-height: 80rpx;
 }
 
-  .swiper-tab-list{
-  font-size: 30rpx;
+.swiper-tab-list{
   display: inline-block;
   width: 33.33%;
   color: rgba(0, 0, 0, 0.555);      
@@ -60,5 +59,30 @@
   font-weight: bold;
 }
 .textGray{
+  color: rgba(0, 0, 0, 0.555);   
+}
+
+.viewTranstypes{
+  margin-top: 20rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;  
+}
+.viewTranstypesItem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 118.33rpx;
+  height: 150rpx;
+}
+.imageTranstypesIcon{
+  border-width: 0;
+  width: 70rpx;
+}
+.textSamllGray{
+  font-size: 26rpx;
   color: rgba(0, 0, 0, 0.555);   
 }

@@ -22,30 +22,36 @@
 
 
 
-  <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="{{currentTab==0 ? s1 : currentTab==1 ? s2 : s3}}" bindchange="bindChange">
-      <swiper-item style="height: 700rpx">
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
 
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view>
-          <view>产品</view><view>产品</view>
-          <view>产品</view>
-      </swiper-item>
+
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height: {{swiperViewHeight}}rpx">
       <swiper-item>
-          <view>金融</view>
+        <view class="viewTranstypes">
+          <view class="viewTranstypesItem" wx:for="{{expendTranstypes}}" wx:key="index">
+            <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+          </view>
+        </view>
       </swiper-item>
+
       <swiper-item>
-          <view>理财</view>
+        <view class="viewTranstypes">
+          <view class="viewTranstypesItem" wx:for="{{incomeTranstypes}}" wx:key="index">
+            <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+          </view>
+        </view>
       </swiper-item>
+
+      <swiper-item>
+        <view class="viewTranstypes">
+          <view class="viewTranstypesItem" wx:for="{{transferTranstypes}}" wx:key="index">
+            <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+          </view>
+        </view>
+      </swiper-item>
+    
   </swiper>
 
 </block>

@@ -15,53 +15,58 @@ Page({
     lastTransAssetNam: "",
     lastTransAssetRmk: "",
     
-    // TransData
+    // SelectedTransData
     acc_asset: "",
     amt_trans: 0.0,
-    
-    // TransTypeData
-    transTypeList: [],
+    cod_trans_type: "", 
+    tye_flow: "", 
+    txt_trans_type: "", 
+    ico_trans: "",
 
-    // OtherData
+    // TransTypeData
+    expendTranstypes: [],
+    incomeTranstypes: [],
+    transferTranstypes: [],
+
+    // IconData
     assetIconPath: "/data/icons/asset/",
     tranIconPath: "/data/icons/tran/",
 
+    // SystemData
     winWidth: 0,
     winHeight: 0,
     currentTab: 0,
-
-    s1: 1,
-    s2: 2,
-    s3: 3,
-
-    tabs: [
-      {
-        id: 0,
-        name: "流出",
-        isActive: true
-      },
-      {
-        id: 1,
-        name: "流入",
-        isActive: false
-      }
-      ,
-      {
-        id: 2,
-        name: "转账",
-        isActive: false
-      }
-    ]
+    swiperViewHeight: 0,
   },
   handleInputAmt(e){
 
   },
+  // 动态设置交易类型icon栏目的高度
+  handleSetSwiperHeight(){
+    if(this.data.currentTab==0){
+      this.setData({swiperViewHeight: (parseInt(wx.getStorageSync('expendTranstypes').length/6)+1)*150})
+    }else if(this.data.currentTab==1){
+      this.setData({swiperViewHeight: (parseInt(wx.getStorageSync('incomeTranstypes').length/6)+1)*150})
+    }else{
+      this.setData({swiperViewHeight: (parseInt(wx.getStorageSync('transferTranstypes').length/6)+1)*150})
+    }
+  },
   async handleShowTranstypes(e) {
-    const {transtypes} = await request({url:"/wxtranstypes/show_transtypes",data:{},method:"post"});
-    const {expend, income, transfer} = transtypes
-    wx.setStorageSync('expendTranstypes', expend)
-    wx.setStorageSync('incomeTranstypes', income)
-    wx.setStorageSync('transferTranstypes', transfer)
+    if(wx.getStorageSync('flagRefreshTranstypesData')){
+      const {transtypes} = await request({url:"/wxtranstypes/show_transtypes",data:{},method:"post"});
+      const {expend, income, transfer} = transtypes
+      wx.setStorageSync('expendTranstypes', expend)
+      wx.setStorageSync('incomeTranstypes', income)
+      wx.setStorageSync('transferTranstypes', transfer)
+      wx.setStorageSync('flagRefreshTranstypesDatakey', false)
+    }
+    this.setData({
+      expendTranstypes: wx.getStorageSync('expendTranstypes'),
+      incomeTranstypes: wx.getStorageSync('incomeTranstypes'),
+      transferTranstypes: wx.getStorageSync('transferTranstypes'),
+    })
+    this.handleSetSwiperHeight()
+
   },
   // tab切换逻辑
   swichNav: function( e ) {
@@ -76,21 +81,36 @@ Page({
   },
   bindChange: function( e ) {
       var that = this;
-      that.setData( { currentTab: e.detail.current });
+      that.setData({ 
+        currentTab: e.detail.current 
+      });
+      this.handleSetSwiperHeight()
+
   },
-  handleItemChange(e) {
-    // 接收传递过来的参数
-    const { index } = e.detail;
-    let { tabs } = this.data;
-    tabs.forEach((v, i) => i === index ? v.isActive = true : v.isActive = false);
+  handleChoseTranstype(e){
+    const {index} = e.target.dataset;
+    const expendLen = this.data.expendTranstypes.length
+    const incomeLen = this.data.incomeTranstypes.length
+    const transferLen = this.data.transferTranstypes.length
+    var transtypeChose = {}
+    if(index<expendLen){
+      var transtypeChose = this.data.expendTranstypes[index]
+    }else if(index<(expendLen+incomeLen)){
+      var transtypeChose = this.data.incomeTranstypes[index-expendLen]
+    }else{
+      var transtypeChose = this.data.transferTranstypes[index-incomeLen-expendLen]
+    }
+    const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = transtypeChose;
     this.setData({
-      tabs
+      cod_trans_type, tye_flow, txt_trans_type, ico_trans
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+
     // 初始化LastTransData
     if(!wx.getStorageSync('lastTransData')){
       const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
@@ -98,30 +118,19 @@ Page({
       wx.setStorageSync('lastTransData', lastTransData)
     }
 
-    // 初始化TransTypeData
-    if(!wx.getStorageSync('transTypeList')){
-      this.handleShowTranstypes()
-    }
+    // 设置TranstypeData更新Flag
+    wx.setStorageSync('flagRefreshTranstypesData', true)
 
-
-
-    var that = this;
-
-    /**
-     * 获取当前设备的宽高
-     */
+    // 获取当前设备的宽高
     wx.getSystemInfo( {
-
         success: function( res ) {
             that.setData( {
                 winWidth: res.windowWidth,
                 winHeight: res.windowHeight
             });
         }
-
     });
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -146,10 +155,10 @@ Page({
         lastTransAssetRmk: rmk_asset
       })
     }
- 
-
+    
+    // 加载交易类型数据
+    this.handleShowTranstypes()
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
