@@ -28,6 +28,16 @@ class Transtype:
         if not self.db:
             self.db = DataBase()
 
+    def show_transtypes(self, acc_user=None):
+        if not acc_user:
+            acc_user = self.acc_user
+        sql_show = "select * from transtypes where acc_user='%s' order by id asc" %  acc_user
+        flag, result = self.db.read(sql_show)
+        if flag:
+            result['index'] = range(len(result))
+            return result
+        return None
+
     def create_from_default(self):
         if not self.df_transtype_default:
             next_id = load_next_id(self.table)
