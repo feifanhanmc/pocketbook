@@ -22,8 +22,7 @@
       </view>
       <view class="viewTransItemSecond">
         <text class="textBlod" 
-          style="{{item.tye_flow=='支出'?  'color:red;':  item.tye_flow=='收入'?  'color:green;':  'color:black;'}}">{{item.amt_trans}}</text>
-        <text>{{rmk_asset}}</text>
+          style="{{item.tye_flow=='支出'?  'color:red;':  item.tye_flow=='收入'?  'color:green;':  'color:black;'}}">¥{{item.amt_trans}}</text>
       </view>
     </navigator>
   </view>
