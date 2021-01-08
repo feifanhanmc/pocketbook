@@ -14,8 +14,10 @@ Page({
     lastTransAssetIco: "",
     lastTransAssetNam: "",
     lastTransAssetRmk: "",
-    
+
     // SelectedTransData
+    nam_asset: "",
+    rmk_asset: "",
     acc_asset: "",
     amt_trans: 0.0,
     cod_trans_type: "", 
@@ -26,6 +28,10 @@ Page({
     txt_remark: "",
     acc_asset_related: "",
     nam_asset_related: "",
+
+    // AssetDataPicker
+    assetsListPicker: [],
+    indexPicker: 0,
 
     // TransTypeData
     expendTranstypes: [],
@@ -45,8 +51,25 @@ Page({
     currentTab: 0,
     swiperViewHeight: 0,
   },
+  bindPickerChange: function(e) {
+    const indexPicker = parseInt(e.detail.value)
+    const {acc_asset, nam_asset, rmk_asset, ico_asset} = this.data.assetsListPicker[indexPicker]
+    this.setData({
+      indexPicker,
+      lastTransAssetAcc: acc_asset,
+      lastTransAssetIco: ico_asset,
+      lastTransAssetNam: nam_asset,
+      lastTransAssetRmk: rmk_asset,
+      acc_asset,
+      ico_asset,
+      nam_asset,
+      rmk_asset,
+    })
+  },
   handleInputAmt(e){
-
+    this.setData({
+      amt_trans: e.detail.value
+    })
   },
   handleAddAsset(e){
     wx.navigateTo({
@@ -64,12 +87,21 @@ Page({
     })
   },
   async handleSave(e){
-    if(!this.data.cod_trans_type){
+    if(this.data.amt_trans==0){
       wx.showToast({
-        title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型!',
+        title: '请输入金额',
         icon: 'none',
         duration: 3000 
       })
+      return false;
+    }
+    if(!this.data.cod_trans_type){
+      wx.showToast({
+        title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型',
+        icon: 'none',
+        duration: 3000 
+      })
+      return false;
     }
     const transAddParmas = {
       acc_asset: this.data.acc_asset,
@@ -85,8 +117,39 @@ Page({
       txt_remark: this.data.txt_remark,
       ico_trans: this.data.ico_trans
     }
-    // const {result} = await request({url:"/wx/add_assets",data:addParams,method:"post"});
+    const {result} = await request({url:"/wxtran/add_trans",data:transAddParmas,method:"post"});
 
+    // 保存成功后，更新lastTransData，并设置相关flagRefresh为true
+    if(result){
+      wx.showToast({
+        title: '保存成功',
+        icon: 'success',
+        duration: 3000 
+      })
+      wx.setStorageSync('lastTransData', {
+        acc_asset: this.data.acc_asset,
+        nam_asset: this.data.nam_asset,
+        rmk_asset: this.data.rmk_asset,
+        ico_asset: this.data.ico_asset
+      })
+      
+      console.log('save lastTransData')
+      console.log(wx.getStorageSync('lastTransData'))
+
+      wx.setStorageSync('flagRefreshAssetsList', true)
+      wx.setStorageSync('flagRefreshAccountData', true)
+      wx.setStorageSync('flagRefreshTransData', true)
+ 
+      wx.switchTab({
+        url: '/pages/home/home',
+      })
+    }else{
+      wx.showToast({
+        title: '添加失败，请稍后再试！',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
   },
   // 动态设置交易类型icon栏目的高度
   handleSetSwiperHeight(){
@@ -138,7 +201,6 @@ Page({
     const {index} = e.target.dataset;
     const expendLen = this.data.expendTranstypes.length
     const incomeLen = this.data.incomeTranstypes.length
-    const transferLen = this.data.transferTranstypes.length
     var transtypeChose = {}
     if(index<expendLen){
       var transtypeChose = this.data.expendTranstypes[index]
@@ -157,18 +219,41 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-
+    
     // 初始化LastTransData
     if(!wx.getStorageSync('lastTransData')){
       if(wx.getStorageSync('assetsList').length>0){
         const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
-
-
-        const lastTransData = {acc_asset, nam_asset, rmk_asset, ico_asset}
-        wx.setStorageSync('lastTransData', lastTransData)
+        wx.setStorageSync('lastTransData', {acc_asset, nam_asset, rmk_asset, ico_asset})
       }else{ // 还没有资产账户
       }
     }
+
+    // 初始化assetsListPicker，第一条为最近的一笔交易相关的asset信息
+    var assetsListPicker = []
+    const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
+    assetsListPicker.push({
+      'nam_pick': nam_asset + ' | ' + rmk_asset,
+      'acc_asset': acc_asset, 
+      'nam_asset': nam_asset,
+      'rmk_asset': rmk_asset, 
+      'ico_asset': ico_asset,
+    })
+    wx.getStorageSync('assetsList').forEach(function (asset) {
+      const {acc_asset, nam_asset, rmk_asset, ico_asset} = asset
+      if(acc_asset!=assetsListPicker[0].acc_asset){
+        assetsListPicker.push({
+          'nam_pick': nam_asset + ' | ' + rmk_asset,
+          'acc_asset': acc_asset, 
+          'nam_asset': nam_asset,
+          'rmk_asset': rmk_asset, 
+          'ico_asset': ico_asset,
+        })
+      }
+    });
+    this.setData({
+      assetsListPicker: assetsListPicker
+    })
 
     // 设置TranstypeData更新Flag
     wx.setStorageSync('flagRefreshTranstypesData', true)
@@ -198,7 +283,6 @@ Page({
     }else{
       dateList.push(day)
     }
-    console.log(dateList)
     this.setData({
       dte_trans: dateList.join("")
     })
@@ -223,6 +307,9 @@ Page({
         const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
         this.setData({
           acc_asset,
+          ico_asset,
+          nam_asset,
+          rmk_asset,
           lastTransAssetAcc: acc_asset,
           lastTransAssetIco: ico_asset,
           lastTransAssetNam: nam_asset,

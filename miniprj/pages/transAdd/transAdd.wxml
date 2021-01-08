@@ -8,13 +8,16 @@
   <view class="viewAsset">
     <view class="viewAsset1">
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+      <picker bindchange="bindPickerChange" value="{{indexPicker}}" range="{{assetsListPicker}}" range-key="{{'nam_pick'}}">
+        <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+      </picker>
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       <view class="textTranName">
         <text class="textBlod">{{lastTransAssetNam}}</text>
         <text class="textGray">{{lastTransAssetRmk}}</text>
       </view>
     </view>
+
     <view class="viewAsset2">
       <input class="weui-input" bindinput="handleInputAmt" focus type="digit" maxlength="10" style="{{currentTab==0 ? 'color:red;' : currentTab==1 ? 'color:green;' : 'color:black;'}}" placeholder="{{amt_trans}}"/>
     </view>
@@ -57,7 +60,7 @@
   <view>
     <picker class="pickerDate" mode="date" value="{{dte_trans}}" start="2015-09-01" bindchange="bindDateChange">
       <text class="textGray" style="margin-left: 20rpx; ">日期:</text>
-      <text class="picker">{{dte_trans}} </text>
+      <text class="dtePicker">{{dte_trans}} </text>
     </picker>
   </view>
 
