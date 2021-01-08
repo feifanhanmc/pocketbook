@@ -29,7 +29,7 @@
         <view class="viewTranstypes">
           <view class="viewTranstypesItem" wx:for="{{expendTranstypes}}" wx:key="index">
             <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
-            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:#FABD03;font-weight:bold;font-size:30rpx' : ''}}">{{item.txt_trans_type}}</text>
           </view>
         </view>
       </swiper-item>
@@ -38,7 +38,7 @@
         <view class="viewTranstypes">
           <view class="viewTranstypesItem" wx:for="{{incomeTranstypes}}" wx:key="index">
             <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
-            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:#FABD03;font-weight:bold;font-size:30rpx' : ''}}">{{item.txt_trans_type}}</text>
           </view>
         </view>
       </swiper-item>
@@ -47,12 +47,28 @@
         <view class="viewTranstypes">
           <view class="viewTranstypesItem" wx:for="{{transferTranstypes}}" wx:key="index">
             <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
-            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:black;font-weight:bold;font-size:30rpx;' : ''}}">{{item.txt_trans_type}}</text>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:#FABD03;font-weight:bold;font-size:30rpx' : ''}}">{{item.txt_trans_type}}</text>
           </view>
         </view>
       </swiper-item>
     
   </swiper>
+
+  <view>
+    <picker class="pickerDate" mode="date" value="{{dte_trans}}" start="2015-09-01" bindchange="bindDateChange">
+      <text class="textGray" style="margin-left: 20rpx; ">日期:</text>
+      <text class="picker">{{dte_trans}} </text>
+    </picker>
+  </view>
+
+  <view class="page-section">
+    <text class="textGray" style="margin-left: 20rpx; margin-right:20rpx">备注:</text>
+    <input class="inputRemark" bindinput="handleInputRemark" maxlength="20" focus placeholder="请输入备注信息" />
+  </view>
+
+  <view>
+    <button class="saveButton" bindtap="handleSave" >确认</button>
+  </view>
 
 </block>
 <block wx:else>
