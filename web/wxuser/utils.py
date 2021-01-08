@@ -60,9 +60,9 @@ def utils_login_init(wx_data):
         df_transtypes['cod_trans_type'] = [gen_short_uuid() for i in range(len(df_transtypes))]
         init_flag, init_result = t.init_transtypes(df_transtypes)
         if init_flag:
-            resp['init_transtypes']: True
+            resp['init_transtypes'] = True
         else:
-            resp['init_transtypes']: False
+            resp['init_transtypes'] = False
     resp['token'] = acc_user
     return resp
 
