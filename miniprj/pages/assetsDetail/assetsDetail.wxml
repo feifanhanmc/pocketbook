@@ -53,7 +53,10 @@
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <view class="textTranName">
             <text class="textBlod">{{item.txt_trans_type}}</text>
-            <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
+            <view>
+              <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
+              <text class="textSamllGray" wx:if="{{item.rmk_asset_related}}"> > {{item.rmk_asset_related}}</text>
+            </view>
           </view>
         </view>
         <view class="viewTransItemSecond">

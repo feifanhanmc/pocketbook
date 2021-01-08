@@ -139,6 +139,12 @@ Page({
         })
         return false;
       }
+      this.setData({
+        acc_asset_related: "",
+        nam_asset_related: "",
+        rmk_asset_related: "",
+        ico_asset_related: "",
+      })
     }
 
 
@@ -323,7 +329,7 @@ Page({
     // 初始化日期为今天日期
     const today = new Date()
     const month = today.getMonth()+1
-    const day = today.getDay()
+    const day = today.getDate()
     var dateList = [today.getFullYear()]
     if(month<10){
       dateList.push("0", month)
