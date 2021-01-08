@@ -55,9 +55,9 @@ def utils_login_init(wx_data):
     if flag_new:
         t = Transtype(acc_user)
         df_default_transtypes = t.show_transtypes(acc_user='dbuser', need_index=False)
-        df_transtypes = df_default_transtypes
-        df_transtypes['acc_user'] = acc_user
-        df_transtypes['cod_trans_type'] = [gen_short_uuid() for i in range(len(df_transtypes))]
+        df_default_transtypes['acc_user'] = acc_user
+        df_default_transtypes['cod_trans_type'] = [gen_short_uuid() for i in range(len(df_default_transtypes))]
+        df_transtypes = df_default_transtypes.drop(columns=['id'])
         init_flag, init_result = t.init_transtypes(df_transtypes)
         if init_flag:
             resp['init_transtypes'] = True
