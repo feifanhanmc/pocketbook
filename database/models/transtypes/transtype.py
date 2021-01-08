@@ -41,7 +41,7 @@ class Transtype:
 
     def init_transtypes(self, df_transtypes):
         flag, result = self.db.write(df_transtypes, self.table)
-        return flag
+        return flag, result
 
     def add_transtypes(self):
         pass
