@@ -41,12 +41,14 @@ class User:
         self.vlu_openid = openid
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
         flag, result = self.db.read(sql_check)
-        print(flag, result)
+
         if flag and not result.empty:
             self.acc_user = result['acc_user'][0]
+            flag_new = False
         else:
             self.acc_user = self.create(nam_user=nam_user)
-        return self.acc_user
+            flag_new = True
+        return self.acc_user, flag_new
     
     def save_userinfo(self, userinfo):
         # 若存在acc_user则update，反之创建

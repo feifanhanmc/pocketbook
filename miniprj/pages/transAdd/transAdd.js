@@ -41,6 +41,11 @@ Page({
   handleInputAmt(e){
 
   },
+  handleAddAsset(e){
+    wx.navigateTo({
+      url: '/pages/assetsAddStep0/assetsAddStep0',
+    })
+  },
   // 动态设置交易类型icon栏目的高度
   handleSetSwiperHeight(){
     if(this.data.currentTab==0){
@@ -113,9 +118,13 @@ Page({
 
     // 初始化LastTransData
     if(!wx.getStorageSync('lastTransData')){
-      const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
-      const lastTransData = {acc_asset, nam_asset, rmk_asset, ico_asset}
-      wx.setStorageSync('lastTransData', lastTransData)
+      if(wx.getStorageSync('assetsList').length>0){
+        const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
+        const lastTransData = {acc_asset, nam_asset, rmk_asset, ico_asset}
+        wx.setStorageSync('lastTransData', lastTransData)
+      }else{ // 还没有资产账户
+        wx.setStorageSync('lastTransData', {})
+      }
     }
 
     // 设置TranstypeData更新Flag
@@ -142,22 +151,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // Modify 初始化数据
-    // 更新acc_asset
+    if(wx.getStorageSync('assetsList').length>0){
+      // Modify 初始化数据
+      // 更新acc_asset
 
-    // 若acc_asset为空，则说明不是Modify，是Add
-    if(!this.data.acc_asset){
-      const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
-      this.setData({
-        lastTransAssetAcc: acc_asset,
-        lastTransAssetIco: ico_asset,
-        lastTransAssetNam: nam_asset,
-        lastTransAssetRmk: rmk_asset
-      })
+      // 若acc_asset为空，则说明不是Modify，是Add
+      if(!this.data.acc_asset){
+        const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
+        this.setData({
+          lastTransAssetAcc: acc_asset,
+          lastTransAssetIco: ico_asset,
+          lastTransAssetNam: nam_asset,
+          lastTransAssetRmk: rmk_asset
+        })
+      }
+      
+      // 加载交易类型数据
+      this.handleShowTranstypes()
     }
-    
-    // 加载交易类型数据
-    this.handleShowTranstypes()
   },
   /**
    * 生命周期函数--监听页面隐藏

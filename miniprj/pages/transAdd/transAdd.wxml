@@ -55,4 +55,9 @@
   </swiper>
 
 </block>
-<block wx:else>请先创建账户</block>
+<block wx:else>
+  <view class="viewNoAsset">
+    <button class="buttonNoAsset" bindtap="handleAddAsset">添加资产</button>
+    <text class="textNoAsset">请先添加资产账户</text>
+  </view>
+</block>

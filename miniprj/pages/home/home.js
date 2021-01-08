@@ -36,7 +36,6 @@ Page({
     })
   },
   handleTap(e){
-    console.log(e);
     wx.navigateTo({
       url: '/pages/transAdd/transAdd',
     })

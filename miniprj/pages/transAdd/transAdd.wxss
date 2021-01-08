@@ -86,3 +86,18 @@
   font-size: 26rpx;
   color: rgba(0, 0, 0, 0.555);   
 }
+.viewNoAsset{
+  margin-top: 600rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.buttonNoAsset{
+  width: 50%;
+  border-radius: 70rpx;
+  background-color: #FABD03;
+}
+.textNoAsset{
+  margin-top: 30rpx;
+  color: rgba(0, 0, 0, 0.555);       
+}

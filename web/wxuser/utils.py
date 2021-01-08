@@ -5,6 +5,8 @@ import requests
 from web.wxuser.WXBizDataCrypt import WXBizDataCrypt
 from data.data_helper import load_config
 from database.models.users.user import User
+from database.models.transtypes.transtype import Transtype
+from tools.toolkit import gen_short_uuid
 
 file_wxminiprj_token = 'wxminiprj_token.json'
 wx_login_api = 'https://api.weixin.qq.com/sns/jscode2session'
@@ -15,11 +17,11 @@ def utils_home():
 
 
 def utils_login_init(wx_data):
+    resp = {}
     wxminiprj_token = load_config(file_wxminiprj_token)
     appID = wxminiprj_token['appID']
     appSecret = wxminiprj_token['appSecret']
 
-    acc_user = wx_data.get('acc_user', '')
     userinfo = json.loads(wx_data.get('rawData', {}))
     nam_user = userinfo.get('nickName', '')
     
@@ -47,8 +49,21 @@ def utils_login_init(wx_data):
     '''
     
     u = User()
-    acc_user = u.user_check(openid, nam_user=nam_user)
-    u.save_userinfo(userinfo)
-    return {"token":acc_user}
+    acc_user, flag_new = u.user_check(openid, nam_user=nam_user)
+    # u.save_userinfo(userinfo)
+    # 对于新创建的用户，需要创建默认的transtypes
+    if flag_new:
+        t = Transtype(acc_user)
+        df_default_transtypes = t.show_transtypes(acc_user='dbuser', need_index=False)
+        df_transtypes = df_default_transtypes
+        df_transtypes['acc_user'] = acc_user
+        df_transtypes['cod_trans_type'] = [gen_short_uuid() for i in range(len(df_transtypes))]
+        init_flag, init_result = t.init_transtypes(df_transtypes)
+        if init_flag:
+            resp['init_transtypes']: True
+        else:
+            resp['init_transtypes']: False
+    resp['token'] = acc_user
+    return resp
 
 
