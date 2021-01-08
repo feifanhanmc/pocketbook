@@ -19,6 +19,7 @@ Page({
     nam_asset: "",
     rmk_asset: "",
     acc_asset: "",
+    ico_asset: "",
     amt_trans: 0.0,
     cod_trans_type: "", 
     tye_flow: "", 
@@ -28,10 +29,13 @@ Page({
     txt_remark: "",
     acc_asset_related: "",
     nam_asset_related: "",
-
+    rmk_asset_related: "",
+    ico_asset_related: "",
+    
     // AssetDataPicker
     assetsListPicker: [],
     indexPicker: 0,
+    indexPicker2: 0,
 
     // TransTypeData
     expendTranstypes: [],
@@ -41,6 +45,8 @@ Page({
     // IconData
     assetIconPath: "/data/icons/asset/",
     tranIconPath: "/data/icons/tran/",
+    otherIconPath: "/data/icons/other/",
+    transferIco: "transfer",
 
     // TabsData
     tabs: ['支出', '收入', '转账'],
@@ -64,6 +70,17 @@ Page({
       ico_asset,
       nam_asset,
       rmk_asset,
+    })
+  },
+  bindPickerChange2: function(e) {
+    const indexPicker2 = parseInt(e.detail.value)
+    const {acc_asset, nam_asset, rmk_asset, ico_asset} = this.data.assetsListPicker[indexPicker2]
+    this.setData({
+      indexPicker2,
+      acc_asset_related: acc_asset,
+      nam_asset_related: nam_asset,
+      rmk_asset_related: rmk_asset,
+      ico_asset_related: ico_asset,
     })
   },
   handleInputAmt(e){
@@ -95,14 +112,36 @@ Page({
       })
       return false;
     }
-    if(!this.data.cod_trans_type){
-      wx.showToast({
-        title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型',
-        icon: 'none',
-        duration: 3000 
+    // 转账不需要选择交易类型；支出、收入需要
+    if(this.data.currentTab==2){
+      if(this.data.acc_asset==this.data.acc_asset_related){
+        wx.showToast({
+          title: '请选择不同资产账户',
+          icon: 'none',
+          duration: 3000 
+        })
+        return false;
+      }
+      // 转账的交易类型中还分很多种，默认索引为7的类型
+      const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = wx.getStorageSync('transferTranstypes')[7]
+      this.setData({
+        cod_trans_type,
+        tye_flow,
+        txt_trans_type,
+        ico_trans,
       })
-      return false;
+    }else{
+      if(!this.data.cod_trans_type){
+        wx.showToast({
+          title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型',
+          icon: 'none',
+          duration: 3000 
+        })
+        return false;
+      }
     }
+
+
     const transAddParmas = {
       acc_asset: this.data.acc_asset,
       nam_asset: this.data.nam_asset,
@@ -112,6 +151,8 @@ Page({
       dte_trans: this.data.dte_trans,
       acc_asset_related: this.data.acc_asset_related,
       nam_asset_related: this.data.nam_asset_related,
+      rmk_asset_related: this.data.rmk_asset_related,
+      ico_asset_related: this.data.ico_asset_related,
       cod_trans_type: this.data.cod_trans_type,    
       txt_trans_type: this.data.txt_trans_type,
       txt_remark: this.data.txt_remark,
@@ -158,7 +199,7 @@ Page({
     }else if(this.data.currentTab==1){
       this.setData({swiperViewHeight: (parseInt(wx.getStorageSync('incomeTranstypes').length/6)+1)*150})
     }else{
-      this.setData({swiperViewHeight: (parseInt(wx.getStorageSync('transferTranstypes').length/6)+1)*150})
+      this.setData({swiperViewHeight: 200})
     }
   },
   async handleShowTranstypes(e) {
@@ -195,7 +236,6 @@ Page({
         currentTab: e.detail.current 
       });
       this.handleSetSwiperHeight()
-
   },
   handleChoseTranstype(e){
     const {index} = e.target.dataset;
@@ -212,6 +252,15 @@ Page({
     const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = transtypeChose;
     this.setData({
       cod_trans_type, tye_flow, txt_trans_type, ico_trans
+    })
+  },
+  handleInitRelatedData(){
+    const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
+    this.setData({
+      acc_asset_related: acc_asset,
+      nam_asset_related: nam_asset,
+      rmk_asset_related: rmk_asset,
+      ico_asset_related: ico_asset,
     })
   },
   /**
@@ -257,6 +306,9 @@ Page({
 
     // 设置TranstypeData更新Flag
     wx.setStorageSync('flagRefreshTranstypesData', true)
+
+    // 初始化related账户数据
+    this.handleInitRelatedData()
 
     // 获取当前设备的宽高
     wx.getSystemInfo( {
@@ -316,6 +368,9 @@ Page({
           lastTransAssetRmk: rmk_asset
         })
       }
+
+
+
       
       // 加载交易类型数据
       this.handleShowTranstypes()

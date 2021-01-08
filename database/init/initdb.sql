@@ -49,6 +49,8 @@ create table if not exists transactions (
     tme_trans           varchar(6)      default '',
 	acc_asset_related   varchar(8)      default '',
 	nam_asset_related   varchar(50)     default '',
+    rmk_asset_related   varchar(50)     default '',
+    ico_asset_related   varchar(20)     default 'other',
 	cod_trans_type      varchar(15)     default '',
     txt_trans_type      varchar(30)     default '',
     txt_trans_type_sub  varchar(30)     default '',
