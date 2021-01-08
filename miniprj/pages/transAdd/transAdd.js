@@ -22,6 +22,10 @@ Page({
     tye_flow: "", 
     txt_trans_type: "", 
     ico_trans: "",
+    dte_trans: "",
+    txt_remark: "",
+    acc_asset_related: "",
+    nam_asset_related: "",
 
     // TransTypeData
     expendTranstypes: [],
@@ -31,6 +35,9 @@ Page({
     // IconData
     assetIconPath: "/data/icons/asset/",
     tranIconPath: "/data/icons/tran/",
+
+    // TabsData
+    tabs: ['支出', '收入', '转账'],
 
     // SystemData
     winWidth: 0,
@@ -45,6 +52,41 @@ Page({
     wx.navigateTo({
       url: '/pages/assetsAddStep0/assetsAddStep0',
     })
+  },
+  bindDateChange: function(e) {
+    this.setData({
+      dte_trans: e.detail.value.replace(/-/g,'')
+    })
+  },
+  handleInputRemark(e){
+    this.setData({
+      txt_remark: e.detail.value
+    })
+  },
+  async handleSave(e){
+    if(!this.data.cod_trans_type){
+      wx.showToast({
+        title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型!',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
+    const transAddParmas = {
+      acc_asset: this.data.acc_asset,
+      nam_asset: this.data.nam_asset,
+      rmk_asset: this.data.rmk_asset,
+      amt_trans: this.data.amt_trans,
+      tye_flow: this.data.tye_flow,
+      dte_trans: this.data.dte_trans,
+      acc_asset_related: this.data.acc_asset_related,
+      nam_asset_related: this.data.nam_asset_related,
+      cod_trans_type: this.data.cod_trans_type,    
+      txt_trans_type: this.data.txt_trans_type,
+      txt_remark: this.data.txt_remark,
+      ico_trans: this.data.ico_trans
+    }
+    // const {result} = await request({url:"/wx/add_assets",data:addParams,method:"post"});
+
   },
   // 动态设置交易类型icon栏目的高度
   handleSetSwiperHeight(){
@@ -120,10 +162,11 @@ Page({
     if(!wx.getStorageSync('lastTransData')){
       if(wx.getStorageSync('assetsList').length>0){
         const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
+
+
         const lastTransData = {acc_asset, nam_asset, rmk_asset, ico_asset}
         wx.setStorageSync('lastTransData', lastTransData)
       }else{ // 还没有资产账户
-        wx.setStorageSync('lastTransData', {})
       }
     }
 
@@ -139,6 +182,26 @@ Page({
             });
         }
     });
+
+    // 初始化日期为今天日期
+    const today = new Date()
+    const month = today.getMonth()+1
+    const day = today.getDay()
+    var dateList = [today.getFullYear()]
+    if(month<10){
+      dateList.push("0", month)
+    }else{
+      dateList.push(month)
+    }
+    if(day<10){
+      dateList.push("0", day)
+    }else{
+      dateList.push(day)
+    }
+    console.log(dateList)
+    this.setData({
+      dte_trans: dateList.join("")
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -159,6 +222,7 @@ Page({
       if(!this.data.acc_asset){
         const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
         this.setData({
+          acc_asset,
           lastTransAssetAcc: acc_asset,
           lastTransAssetIco: ico_asset,
           lastTransAssetNam: nam_asset,
