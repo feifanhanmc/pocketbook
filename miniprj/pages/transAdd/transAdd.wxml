@@ -9,13 +9,15 @@
     <view class="viewAsset1">
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       <picker bindchange="bindPickerChange" value="{{indexPicker}}" range="{{assetsListPicker}}" range-key="{{'nam_pick'}}">
-        <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+        <view class="viewAsset11">
+          <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <view class="textTranName">
+            <text class="textBlod">{{lastTransAssetNam}}</text>
+            <text class="textGray">{{lastTransAssetRmk}}</text>
+          </view>
+        </view>
       </picker>
-      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <view class="textTranName">
-        <text class="textBlod">{{lastTransAssetNam}}</text>
-        <text class="textGray">{{lastTransAssetRmk}}</text>
-      </view>
     </view>
 
     <view class="viewAsset2">
