@@ -143,7 +143,7 @@ Page({
         acc_asset_related: "",
         nam_asset_related: "",
         rmk_asset_related: "",
-        ico_asset_related: "",
+        ico_asset_related: "other",
       })
     }
 
@@ -179,9 +179,6 @@ Page({
         rmk_asset: this.data.rmk_asset,
         ico_asset: this.data.ico_asset
       })
-      
-      console.log('save lastTransData')
-      console.log(wx.getStorageSync('lastTransData'))
 
       wx.setStorageSync('flagRefreshAssetsList', true)
       wx.setStorageSync('flagRefreshAccountData', true)
@@ -261,20 +258,22 @@ Page({
     })
   },
   handleInitRelatedData(){
-    const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
-    this.setData({
-      acc_asset_related: acc_asset,
-      nam_asset_related: nam_asset,
-      rmk_asset_related: rmk_asset,
-      ico_asset_related: ico_asset,
-    })
+    if(wx.getStorageSync('assetsList').length>0){
+      const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
+      this.setData({
+        acc_asset_related: acc_asset,
+        nam_asset_related: nam_asset,
+        rmk_asset_related: rmk_asset,
+        ico_asset_related: ico_asset,
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this;
-    
+
     // 初始化LastTransData
     if(!wx.getStorageSync('lastTransData')){
       if(wx.getStorageSync('assetsList').length>0){

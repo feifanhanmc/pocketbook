@@ -22,7 +22,7 @@ def utils_add_assets(wx_data):
     acc_user = wx_data['token']
     del wx_data['token']
     wx_data['acc_user'] = acc_user
-    type_amount = {'资产': 'asset', '负债': 'debt'}[wx_data['tye_asset']]
+    type_amount = wx_data['tye_asset']
     amount = wx_data['amt_asset']
 
     sql_add_assets = Asset(acc_user).add_assets_transaction(wx_data)

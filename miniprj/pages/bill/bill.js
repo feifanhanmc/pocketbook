@@ -22,7 +22,7 @@ Page({
     nodataIconPath: "/data/icons/nodata/",
   },
   async showTransList() {
-    const {trans} = await request({url:"/wxtran/show_trans",data:{},method:"post"});
+    const {trans} = await request({url:"/wxtrans/show_trans",data:{},method:"post"});
     this.setData({
       transList: trans
     })
