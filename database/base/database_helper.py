@@ -24,33 +24,66 @@ class DataBase:
                                         (self.config["user"], self.config["password"], self.config["host"],
                                          self.config["port"], self.config["db"]))
 
+    def connection(self):
+        """
+        desc: 按照数据库事务规范执行，任何一条语句失败则rollback
+        usage:
+            tran = conn.begin()
+            try:
+                conn.execute(sql_1)
+                conn.execute(sql_2)
+                tran.commit()
+            except:
+                tran.rollback()
+        :return:
+        """
+        return self.engine.connect()
+
     def execute(self, sql):
-        with self.engine.connect() as conn:
-            conn.execute(sql)
+        try:
+            with self.engine.connect() as conn:
+                conn.execute(sql)
+            flag = True
+            result = {}
+        except Exception as e:
+            result = str(e)
+            flag = False
+        return flag, result
 
     def read(self, sql):
         try:
             df = pd.read_sql(sql, self.engine)
-            self.res = df
-            self.flag = True
+            result = df
+            flag = True
         except Exception as e:
-            self.res = str(e)
-            self.flag = False
-        return self.flag, self.res
+            result = str(e)
+            flag = False
+        return flag, result
 
     def write(self, df, table, index=False, if_exists='append'):
         try:
             df.to_sql(table, con=self.engine, index=index, if_exists=if_exists)
-            self.flag = True
+            result = {}
+            flag = True
         except Exception as e:
-            self.res = str(e)
-            self.flag = False
-        return self.flag, self.res
+            result = str(e)
+            flag = False
+        return flag, result
 
 
 if __name__ == '__main__':
     db = DataBase()
     # db.execute('show tables')
     # print(db.read('show tables')[1])
-    print(db.read('desc assets')[1]['Default'].tolist())
+    # print(db.read('desc assets')[1]['Default'].tolist())
+    conn = db.connection()
+    trans = conn.begin()
+    try:
+        conn.execute("insert into statistics(acc_user,dte_month,amt_budget) values ('a','a',1)")
+        conn.execute("insert into statistics(acc_user,dte_month,amt_budget) values ('b','b','b')")
+        trans.commit()
+    except Exception as e:
+        print(str(e))
+        trans.rollback()
+
 

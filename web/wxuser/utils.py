@@ -6,6 +6,7 @@ from web.wxuser.WXBizDataCrypt import WXBizDataCrypt
 from data.data_helper import load_config
 from database.models.users.user import User
 from database.models.transtypes.transtype import Transtype
+from database.models.statistics.statistic import Statistic
 from tools.toolkit import gen_short_uuid
 
 file_wxminiprj_token = 'wxminiprj_token.json'
@@ -51,7 +52,7 @@ def utils_login_init(wx_data):
     u = User()
     acc_user, flag_new = u.user_check(openid, nam_user=nam_user)
     # u.save_userinfo(userinfo)
-    # 对于新创建的用户，需要创建默认的transtypes
+    # 对于新创建的用户，需要创建默认的transtypes，并创建初始资产统计表
     if flag_new:
         t = Transtype(acc_user)
         df_default_transtypes = t.show_transtypes(acc_user='dbuser', need_index=False)
@@ -63,6 +64,14 @@ def utils_login_init(wx_data):
             resp['init_transtypes'] = True
         else:
             resp['init_transtypes'] = False
+
+        s = Statistic(acc_user)
+        statistic_flag, statistic_result = s.init_statistics()
+        if statistic_flag:
+            resp['init_statistics'] = True
+        else:
+            resp['init_statistics'] = False
+
     resp['token'] = acc_user
     return resp
 

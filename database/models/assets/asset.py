@@ -45,6 +45,23 @@ class Asset:
         print(data_asset, flag, result)
         return flag
 
+    # 返回适用于数据库事务的执行语句
+    def add_assets_transaction(self, dict_asset):
+        sql_column_list = []
+        sql_value_list = []
+        dict_asset['acc_asset'] = gen_short_uuid()
+        for column, value in dict_asset.items():
+            sql_column_list.append(column)
+            if isinstance(value, str):
+                sql_value_list.append("'%s'" % value)
+            else:
+                sql_value_list.append("%s" % value)
+        sql_column_str = ",".join(sql_column_list)
+        sql_value_str = ",".join(sql_value_list)
+
+        sql_add = "insert into %s(%s) values (%s) " % (self.table, sql_column_str, sql_value_str)
+        return [sql_add]
+
     def update_assets(self, dict_asset):
         sql_template = "update assets set % where acc_user='%s' and acc_asset='%s'"
         sql_list_update = []

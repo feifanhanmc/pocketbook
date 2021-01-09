@@ -53,15 +53,12 @@ class Statistic:
                 return statistics
         return flag
 
-    def update_statistics(self, type_amount, amount):
+    def update_statistics_transaction(self, type_amount, amount):
         """
-        :param type_amount: ['income', 'expend', 'budget']
+        :param type_amount: ['income', 'expend', 'budget', 'asset', 'debt']
         :param amount: positive float
-        :return: [False, True]
+        :return: 适用于数据库事务的sql语句
         """
-        'amt_income_month', 'amt_expend_month', 'amt_budget', 'amt_budget_surplus',
-        'amt_debt_total', 'amt_asset_total', 'amt_asset_net'
-
         if type_amount == 'income':
             sql_set = """ 
                 amt_income_month = amt_income_month + %s,
@@ -80,11 +77,20 @@ class Statistic:
                 amt_budget = %s,
                 amt_budget_surplus = %s - amt_expend_month
                 """ % [amount]*2
+        elif type_amount == 'asset':
+            sql_set = """ 
+                amt_asset_total = amt_asset_total + %s,
+                amt_asset_net = amt_asset_net + %s
+                """ % [amount] * 2
+        elif type_amount == 'debt':
+            sql_set = """ 
+                    amt_asset_total = amt_asset_total - %s,
+                    amt_debt_total = amt_debt_total + %s
+                    """ % [amount] * 2
         else:
             pass
         sql_update = "update % set %s where acc_user ='%s'" % (self.table, sql_set, self.acc_user)
-        self.db.execute(sql_update)
-        return True
+        return sql_update
 
 
 if __name__ == '__main__':
