@@ -21,7 +21,7 @@ class Statistic:
 
     def init_statistics(self):
         if not self.dte_month:
-            self.dte_month = time.strftime("%Y%m%d", time.localtime())
+            self.dte_month = time.strftime("%Y%m", time.localtime())
         df_statistics = pd.DataFrame(
             columns=['acc_user', 'dte_month'],
             data=[[self.acc_user, self.dte_month]])
@@ -29,7 +29,7 @@ class Statistic:
         return flag, result
 
     def show_statistics(self):
-        dte_month_now = time.strftime("%Y%m%d", time.localtime())
+        dte_month_now = time.strftime("%Y%m", time.localtime())
         sql_show = """
             select 
                 dte_month,
