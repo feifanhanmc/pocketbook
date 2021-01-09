@@ -64,29 +64,29 @@ class Statistic:
                 amt_income_month = amt_income_month + %s,
                 amt_asset_total = amt_asset_total + %s,
                 amt_asset_net = amt_asset_net + %s
-                """ % [amount]*3
+                """ % tuple([amount]*3)
         elif type_amount == 'expend':
             sql_set = """ 
                 amt_expend_month = amt_expend_month + %s,
                 amt_budget_surplus = amt_budget - amt_expend_month - %s,
                 amt_asset_total = amt_asset_total - %s,
                 amt_asset_net = amt_asset_net - %s
-                """ % [amount]*4
+                """ % tuple([amount]*4)
         elif type_amount == 'budget':
             sql_set = """ 
                 amt_budget = %s,
                 amt_budget_surplus = %s - amt_expend_month
-                """ % [amount]*2
+                """ % tuple([amount]*2)
         elif type_amount == 'asset':
             sql_set = """ 
                 amt_asset_total = amt_asset_total + %s,
                 amt_asset_net = amt_asset_net + %s
-                """ % [amount] * 2
+                """ % tuple([amount] * 2)
         elif type_amount == 'debt':
             sql_set = """ 
                     amt_asset_total = amt_asset_total - %s,
                     amt_debt_total = amt_debt_total + %s
-                    """ % [amount] * 2
+                    """ % tuple([amount] * 2)
         else:
             pass
         sql_update = "update % set %s where acc_user ='%s'" % (self.table, sql_set, self.acc_user)
