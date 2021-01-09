@@ -6,29 +6,37 @@
     <text class="textBlod">账单流水</text>
   </view>
   <view><text>\n</text></view>
-  <view class="viewContent">
-    <navigator class="navigatorTrans"
-    wx:for="{{transList}}"
-    wx:key="id"
-    url="/pages/transModify/transModify?transId={{item.id}}" >
-      <view class="viewTransItemFirst">
-        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
-        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <view class="textTranName">
-          <text class="textBlod">{{item.txt_trans_type}}</text>
-          <view>
-            <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
-            <text class="textSamllGray" wx:if="{{item.rmk_asset_related}}"> > {{item.rmk_asset_related}}</text>
+  <block wx:if="{{transList.length>0}}">
+    <view class="viewContent">
+      <navigator class="navigatorTrans"
+      wx:for="{{transList}}"
+      wx:key="id"
+      url="/pages/transModify/transModify?transId={{item.id}}" >
+        <view class="viewTransItemFirst">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <view class="textTranName">
+            <text class="textBlod">{{item.txt_trans_type}}</text>
+            <view>
+              <text class="textSamllGray">{{item.dte_trans}} | {{item.rmk_asset}}</text>
+              <text class="textSamllGray" wx:if="{{item.rmk_asset_related}}"> > {{item.rmk_asset_related}}</text>
+            </view>
+            
           </view>
-          
         </view>
-      </view>
-      <view class="viewTransItemSecond">
-        <text class="textBlod" 
-          style="{{item.tye_flow=='支出'?  'color:red;':  item.tye_flow=='收入'?  'color:green;':  'color:black;'}}">¥{{item.amt_trans}}</text>
-      </view>
-    </navigator>
-  </view>
+        <view class="viewTransItemSecond">
+          <text class="textBlod" 
+            style="{{item.tye_flow=='支出'?  'color:red;':  item.tye_flow=='收入'?  'color:green;':  'color:black;'}}">¥{{item.amt_trans}}</text>
+        </view>
+      </navigator>
+    </view>
+  </block>
+  <block wx:else>
+    <image src="{{nodataIconPath+imageNoDataBill}}.png"></image>
+  </block>
+
+
+
 </view>
 

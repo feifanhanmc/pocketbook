@@ -14,8 +14,12 @@ Page({
     // TransData
     transList: [],
 
+    // ImageData
+    imageNoDataBill: "nodata_bill",
+
     // OtherData
     tranIconPath: "/data/icons/tran/",
+    nodataIconPath: "/data/icons/nodata/",
   },
   async showTransList() {
     const {trans} = await request({url:"/wxtran/show_trans",data:{},method:"post"});

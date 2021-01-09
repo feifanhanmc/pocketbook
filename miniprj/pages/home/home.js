@@ -20,8 +20,12 @@ Page({
     // AssetsData
     assetsList: [],
 
+    //ImageData
+    imageNoDataHome: "nodata_home",
+
     // OtherData
     assetIconPath: "/data/icons/asset/",
+    nodataIconPath: "/data/icons/nodata/",
   },
   async showAssetsList() {
     const {assets} = await request({url:"/wxassets/show_assets",data:{},method:"post"});

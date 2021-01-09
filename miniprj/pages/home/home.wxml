@@ -50,27 +50,32 @@
   <text bindtap="handleAssetAdd" class="homeTextAssetAdd" decode="{{true}}" space="{{true}}">添加&nbsp;&nbsp;</text>
 </view>
 <view><text>\n</text></view>
-<view class="homeViewAssets">
-  <navigator class="homeNavigatorAsset"
-  wx:for="{{assetsList}}"
-  wx:key="id"
-  url="/pages/assetsDetail/assetsDetail?accAssetIndex={{item.index}}" >
-    <view class="homeViewAssetItemFisrt">
-      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
-      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <view class="homeTextAssetName">
-        <text class="homeTextBlod">{{item.nam_asset}}</text>
-        <text class="homeTextAssetRmk">{{item.rmk_asset}}</text>
+<block wx:if="{{assetsList.length>0}}">
+  <view class="homeViewAssets">
+    <navigator class="homeNavigatorAsset"
+    wx:for="{{assetsList}}"
+    wx:key="id"
+    url="/pages/assetsDetail/assetsDetail?accAssetIndex={{item.index}}" >
+      <view class="homeViewAssetItemFisrt">
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image class="homeImageAssetIcon" mode="widthFix" src="{{assetIconPath + item.ico_asset}}.png"></image>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <view class="homeTextAssetName">
+          <text class="homeTextBlod">{{item.nam_asset}}</text>
+          <text class="homeTextAssetRmk">{{item.rmk_asset}}</text>
+        </view>
       </view>
-    </view>
-    <view class="homeViewAssetItemSecond">
-      <text class="homeTextBlod">{{item.tye_asset=="资产"?"": item.amt_asset>0?"-":""}}</text>
-      <text class="homeTextBlod">¥{{item.amt_asset}}</text>
-      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-    </view>
-  </navigator>
-</view>
+      <view class="homeViewAssetItemSecond">
+        <text class="homeTextBlod">{{item.tye_asset=="资产"?"": item.amt_asset>0?"-":""}}</text>
+        <text class="homeTextBlod">¥{{item.amt_asset}}</text>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+      </view>
+    </navigator>
+  </view>
+</block>
+<block wx:else>
+    <image src="{{nodataIconPath+imageNoDataHome}}.png"></image>
+  </block>
 <view><text>\n</text></view>
 <view><text>\n</text></view>
 <view><text>\n</text></view>
