@@ -19,12 +19,15 @@
       <sourceFolder url="file://$MODULE_DIR$/tools" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/index" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/wxuser" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/wxtran" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxtrans" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/assets" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/transactions" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/transtypes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/models/users" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxstatistics" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wxtranstypes" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

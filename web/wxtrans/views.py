@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
-from web.wxtran.utils import utils_show_trans, utils_add_trans, utils_update_trans, utils_delete_trans
+from web.wxtrans.utils import utils_show_trans, utils_add_trans, utils_update_trans, utils_delete_trans
 
-mod = Blueprint('wxtran', __name__, url_prefix='/wxtran')
+mod = Blueprint('wxtrans', __name__, url_prefix='/wxtrans')
 
 
 @mod.route('/show_trans', methods=['POST'])

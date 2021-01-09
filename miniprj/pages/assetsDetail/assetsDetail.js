@@ -27,9 +27,13 @@ Page({
     // Flag
     isStockFund: false,
 
+    // ImageData
+    imageNoDataBill: "nodata_bill2",
+        
     // OtherData
     assetIconPath: "/data/icons/asset/",
     tranIconPath: "/data/icons/tran/",
+    nodataIconPath: "/data/icons/nodata/",
   },
   handleAssetsModify(e){
     console.log(e)
