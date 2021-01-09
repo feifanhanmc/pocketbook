@@ -2,10 +2,6 @@
 import os
 from database.base.database_helper import DataBase
 from database.backup.backupdb import backup_db
-from database.models.users.user import User
-from database.models.transtypes.transtype import Transtype
-from database.models.transactions.transaction import Transaction
-from database.models.assets.asset import Asset
 import pandas as pd
 
 file_init_sql = 'initdb.sql'

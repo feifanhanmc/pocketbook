@@ -8,7 +8,7 @@ import pandas as pd
 class User:
     def __init__(self, acc_user=None, pwd_user_md5=None, db=None, table='users',
                  columns=['id', 'acc_user', 'pwd_user_md5', 'nam_user', 'vlu_email', 'vlu_phone', 'vlu_openid',
-                          'nam_nick', 'cod_gender', 'vlu_lang', 'vlu_city', 'vlu_prov', 'vlu_country', 'url_avatar' ]):
+                          'nam_nick', 'cod_gender', 'vlu_lang', 'vlu_city', 'vlu_prov', 'vlu_country', 'url_avatar']):
         self.db = db
         self.table = table
         self.columns = columns

@@ -6,21 +6,23 @@ drop table if exists transactions
 go
 drop table if exists transtypes
 go
+drop table if exists statistics
+go
 create table if not exists users (
-    id              integer         primary key     auto_increment,
-    acc_user        varchar(8)      not null,
-    pwd_user_md5    varchar(32)     not null,
-    nam_user        varchar(50)     default '',
-    vlu_email       varchar(25)     default '',
-    vlu_phone       varchar(11)     default '',
-    vlu_openid      varchar(30)     default '',
-    nam_nick        varchar(50)     default '',
-    cod_gender      varchar(1)      default '',
-    vlu_lang        varchar(20)     default '',
-    vlu_city        varchar(20)     default '',
-    vlu_prov        varchar(20)     default '',
-    vlu_country     varchar(20)     default '',
-    url_avatar      varchar(200)    default ''
+    id                  integer         primary key     auto_increment,
+    acc_user            varchar(8)      not null,
+    pwd_user_md5        varchar(32)     not null,
+    nam_user            varchar(50)     default '',
+    vlu_email           varchar(25)     default '',
+    vlu_phone           varchar(11)     default '',
+    vlu_openid          varchar(30)     default '',
+    nam_nick            varchar(50)     default '',
+    cod_gender          varchar(1)      default '',
+    vlu_lang            varchar(20)     default '',
+    vlu_city            varchar(20)     default '',
+    vlu_prov            varchar(20)     default '',
+    vlu_country         varchar(20)     default '',
+    url_avatar          varchar(200)    default ''
 )
 go
 
@@ -68,6 +70,18 @@ create table if not exists transtypes (
     tye_flow             varchar(10)     default '',
     boo_active           integer         default 1,
     ico_trans            varchar(20)     default 'other'
-
 )
+go
 
+create table if not exists statistics(
+    id                  integer         primary key     auto_increment,
+    acc_user            varchar(8)      not null,
+    dte_month           varchar(8)      not null,
+    amt_income_month    decimal(18,2)   default 0,
+    amt_expend_month    decimal(18,2)   default 0,
+    amt_budget          decimal(18,2)   default 0,
+    amt_budget_surplus  decimal(18,2)   default 0,
+    amt_debt_total      decimal(18,2)   default 0,
+    amt_asset_total     decimal(18,2)   default 0,
+    amt_asset_net       decimal(18,2)   default 0
+)
