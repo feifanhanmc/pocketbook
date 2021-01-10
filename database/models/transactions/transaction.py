@@ -7,9 +7,9 @@ import pandas as pd
 
 class Transaction:
     def __init__(self, acc_user, acc_asset='', db=None, table='transactions',
-                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'rmk_asset', 'amt_trans', 'tye_flow', 'dte_trans',
+                 columns=['id', 'acc_user', 'acc_asset', 'nam_asset', 'rmk_asset', 'amt_trans', 'tye_asset', 'tye_flow', 'dte_trans',
                           'tme_trans', 'acc_asset_related', 'nam_asset_related', 'rmk_asset_related',
-                          'ico_asset_related','cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'txt_remark',
+                          'ico_asset_related', 'tye_asset_related','cod_trans_type', 'txt_trans_type', 'txt_trans_type_sub', 'txt_remark',
                           'ico_trans']):
         self.db = db
         self.table = table
@@ -45,15 +45,19 @@ class Transaction:
             return result
         return None
 
-    def add_trans(self, dict_tran):
+    def add_trans(self, dict_tran, is_transaction=False):
         data, columns = [], []
         for key, value in dict_tran.items():
             columns.append(key)
             data.append(value)
-        data_asset = pd.DataFrame(data=[data], columns=columns)
-        flag, result = self.db.write(data_asset, self.table)
-        print(data_asset, flag, result)
-        return flag
+        data_trans = pd.DataFrame(data=[data], columns=columns)
+        if not is_transaction:
+            flag, result = self.db.write(data_trans, self.table)
+            if not flag:
+                print(result)
+            return flag
+        else:
+            return data_trans, self.table, False, 'append'
 
     def update_trans(self, dict_tran):
         # 逻辑比较复杂

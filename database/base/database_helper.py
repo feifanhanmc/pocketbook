@@ -84,7 +84,7 @@ if __name__ == '__main__':
     # db.execute('show tables')
     # print(db.read('show tables')[1])
     # print(db.read('desc assets')[1]['Default'].tolist())
-    conn = db.connection()
+    conn = db.gen_transaction_conn()
     trans = conn.begin()
     try:
         pd.DataFrame(data=[['c', 'c']], columns=['acc_user', 'pwd_user_md5']).to_sql('users', con=conn, index=False, if_exists='append')
