@@ -37,17 +37,20 @@ Page({
   },
   async showStatistics() {
     const {statistics} = await request({url:"/wxstatistics/show_statistics",data:{},method:"post"});
-    const {amt_expend_month, amt_income_month, amt_budget_surplus, amt_asset_net, amt_asset_total, amt_debt_total, amt_budget} = statistics
-    this.setData({
-      amt_expend_month,
-      amt_income_month,
-      amt_budget_surplus,
-      amt_asset_net,
-      amt_asset_total,
-      amt_debt_total,
-      amt_budget,  
-    })
-    wx.setStorageSync('statistics', statistics)
+    if(JSON.stringify(statistics) != '{}'){
+      const {amt_expend_month, amt_income_month, amt_budget_surplus, amt_asset_net, amt_asset_total, amt_debt_total, amt_budget} = statistics
+      this.setData({
+        amt_expend_month,
+        amt_income_month,
+        amt_budget_surplus,
+        amt_asset_net,
+        amt_asset_total,
+        amt_debt_total,
+        amt_budget,  
+      })
+      wx.setStorageSync('statistics', statistics)
+    }
+    
   },
   handleAssetAdd(e){
     wx.navigateTo({

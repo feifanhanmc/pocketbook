@@ -66,10 +66,9 @@ Page({
       "tye_asset": this.data.selectedAssetTye,
       "ico_asset": this.data.selectedAssetIco}
     const {result} = await request({url:"/wxassets/add_assets",data:addParams,method:"post"});
-    console.log(result)
     if(result){
       wx.setStorageSync('flagRefreshAssetsList', true);
-      wx.setStorageSync('flagRefreshAccountData', true);
+      wx.setStorageSync('flagRefreshStatisticsData', true);
       wx.showToast({
         title: '添加成功！',
         icon: 'success',
