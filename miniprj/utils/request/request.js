@@ -16,21 +16,21 @@ export const request=(params)=>{
     
   return new Promise((resolve,reject)=>{
     wx.request({
-     ...params,
-     url:baseUrl+params.url,
-     success:(result)=>{
-       resolve(result.data.data);
-     },
-     fail:(err)=>{
-       reject(err);
-     },
-     complete:()=>{
+      ...params,
+      url:baseUrl+params.url,
+      success:(result)=>{
+        resolve(result.data.data);
+      },
+      fail:(err)=>{
+        reject(err);
+      },
+      complete:()=>{
       ajaxTimes--;
       if(ajaxTimes===0){
         //  关闭正在等待的图标
         wx.hideLoading();
       }
-     }
+      }
     });
   })
 }
