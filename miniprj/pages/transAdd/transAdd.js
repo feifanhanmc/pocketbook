@@ -171,7 +171,7 @@ Page({
       txt_remark: this.data.txt_remark,
       ico_trans: this.data.ico_trans
     }
-    const {result} = await request({url:"/wxtran/add_trans",data:transAddParmas,method:"post"});
+    const {result} = await request({url:"/wxtrans/add_trans",data:transAddParmas,method:"post"});
 
     // 保存成功后，更新lastTransData，并设置相关flagRefresh为true
     if(result){
@@ -188,7 +188,7 @@ Page({
       })
 
       wx.setStorageSync('flagRefreshAssetsList', true)
-      wx.setStorageSync('flagRefreshAccountData', true)
+      wx.setStorageSync('flagRefreshStatisticsData', true)
       wx.setStorageSync('flagRefreshTransData', true)
  
       wx.switchTab({
