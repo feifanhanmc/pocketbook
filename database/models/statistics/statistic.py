@@ -53,11 +53,12 @@ class Statistic:
                 return statistics
         return flag
 
-    def update_statistics_transaction(self, type_amount, amount):
+    def update_statistics(self, type_amount, amount, is_transaction=False):
         """
         :param type_amount: ['income', 'expend', 'budget', 'asset', 'debt']
         :param amount: positive float
-        :return: 适用于数据库事务的sql语句
+        :param is_transaction:
+        :return: 返回执行结果或返回适用于数据库事务的sql
         """
         if type_amount == 'income':
             sql_set = """ 
@@ -90,7 +91,13 @@ class Statistic:
         else:
             pass
         sql_update = "update % set %s where acc_user ='%s'" % (self.table, sql_set, self.acc_user)
-        return sql_update
+        if not is_transaction:
+            flag, result = self.db.execute(sql_update)
+            if not flag:
+                print(result)
+            return flag
+        else:
+            return sql_update
 
 
 if __name__ == '__main__':

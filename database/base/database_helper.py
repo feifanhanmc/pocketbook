@@ -24,7 +24,7 @@ class DataBase:
                                         (self.config["user"], self.config["password"], self.config["host"],
                                          self.config["port"], self.config["db"]))
 
-    def connection(self):
+    def gen_transaction_conn(self):
         """
         desc: 按照数据库事务规范执行，任何一条语句失败则rollback
         usage:
@@ -32,6 +32,14 @@ class DataBase:
             try:
                 conn.execute(sql_1)
                 conn.execute(sql_2)
+                tran.commit()
+            except:
+                tran.rollback()
+            或
+            tran = conn.begin()
+            try:
+                df1.to_sql()
+                df2.to_sql()
                 tran.commit()
             except:
                 tran.rollback()
@@ -79,8 +87,8 @@ if __name__ == '__main__':
     conn = db.connection()
     trans = conn.begin()
     try:
-        conn.execute("insert into statistics(acc_user,dte_month,amt_budget) values ('a','a',1)")
-        conn.execute("insert into statistics(acc_user,dte_month,amt_budget) values ('b','b','b')")
+        pd.DataFrame(data=[['c', 'c']], columns=['acc_user', 'pwd_user_md5']).to_sql('users', con=conn, index=False, if_exists='append')
+        pd.DataFrame(data=[['dddddddddddddd', 'd']], columns=['acc_user', 'pwd_user_md5']).to_sql('users', con=conn, index=False, if_exists='append')
         trans.commit()
     except Exception as e:
         print(str(e))

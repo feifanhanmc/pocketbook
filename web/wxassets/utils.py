@@ -25,13 +25,13 @@ def utils_add_assets(wx_data):
     type_amount = wx_data['tye_asset']
     amount = wx_data['amt_asset']
 
-    sql_add_assets = Asset(acc_user).add_assets_transaction(wx_data)
-    sql_update_statistics = Statistic(acc_user).update_statistics_transaction(type_amount, amount)
+    df_asset, table_asset, index_asset, if_exists_asset = Asset(acc_user).add_assets(wx_data, is_transaction=True)
+    sql_update_statistics = Statistic(acc_user).update_statistics(type_amount, amount, is_transaction=True)
 
-    conn = DataBase().connection()
+    conn = DataBase().gen_transaction_conn()
     tran = conn.begin()
     try:
-        conn.execute(sql_add_assets)
+        df_asset.to_sql(table_asset, con=conn, index=index_asset, if_exists=if_exists_asset)
         conn.execute(sql_update_statistics)
         tran.commit()
         return {'result': True}
