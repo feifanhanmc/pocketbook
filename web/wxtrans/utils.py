@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from database.models.transactions.transaction import Transaction
+from database.models.statistics.statistic import Statistic
+from database.base.database_helper import DataBase
 
 
 def utils_show_trans(wx_data):

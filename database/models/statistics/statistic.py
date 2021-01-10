@@ -44,7 +44,7 @@ class Statistic:
             where acc_user='%s' 
             """ % (dte_month_now, dte_month_now, dte_month_now, self.table, self.acc_user)
         flag, statistics = self.db.read(sql_show)
-        if flag:
+        if flag and not statistics.empty:
             if dte_month_now == statistics['dte_month'].values[0]:
                 sql_update = "update %s set dte_month='%s', amt_income_month=0, amt_expend_month=0, " \
                              "amt_budget_surplus=amt_budget where acc_user='%s'" % \
@@ -60,25 +60,27 @@ class Statistic:
         :param is_transaction: 为False则直接执行；为True则返回sql语句，待后续按照数据库事务规范执行
         :return: 返回执行结果或返回适用于数据库事务的sql
         """
+        sql_set = " amt_asset_total = amt_asset_total "
         if type_amount == 'income':
             sql_set = " amt_income_month = amt_income_month + %s, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
         elif type_amount == 'expend':
-            sql_set = " amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget - amt_expend_month - %s, amt_asset_total = amt_asset_total - %s, amt_asset_net = amt_asset_net - %s " % tuple([amount]*4)
+            sql_set = " amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget - amt_expend_month, amt_asset_total = amt_asset_total - %s, amt_asset_net = amt_asset_net - %s " % tuple([amount]*3)
         elif type_amount == 'transfer':
             if tye_asset == 'asset' and tye_asset_related == 'debt':    # 资产负债都减少
                 sql_set = " amt_asset_total = amt_asset_total - %s, amt_debt_total = amt_debt_total - %s " % tuple([amount]*2)
             elif tye_asset == 'debt' and tye_asset_related == 'asset':  # 资产负债都增加
                 sql_set = " amt_asset_total = amt_asset_total + %s, amt_debt_total = amt_debt_total + %s " % tuple([amount]*2)
             else:   # 不需要任何变动
-                sql_set = " amt_asset_total = amt_asset_total "
+                pass
         elif type_amount == 'budget':
             sql_set = " amt_budget = %s, amt_budget_surplus = %s - amt_expend_month " % tuple([amount]*2)
         elif type_amount == 'asset':
             sql_set = " amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount] * 2)
         elif type_amount == 'debt':
-            sql_set = " amt_asset_total = amt_asset_total - %s, amt_debt_total = amt_debt_total + %s " % tuple([amount] * 2)
+            sql_set = " amt_debt_total = amt_debt_total + %s, amt_asset_net = amt_asset_net - %s " % tuple([amount] * 2)
         else:
             pass
+        
         sql_update = "update %s set %s where acc_user ='%s'" % (self.table, sql_set, self.acc_user)
         if not is_transaction:
             flag, result = self.db.execute(sql_update)
