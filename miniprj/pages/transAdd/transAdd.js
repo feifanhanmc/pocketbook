@@ -22,6 +22,7 @@ Page({
     ico_asset: "",
     amt_trans: 0.0,
     cod_trans_type: "", 
+    tye_asset: "",
     tye_flow: "", 
     txt_trans_type: "", 
     ico_trans: "",
@@ -31,6 +32,7 @@ Page({
     nam_asset_related: "",
     rmk_asset_related: "",
     ico_asset_related: "",
+    tye_asset_related: "",
     
     // AssetDataPicker
     assetsListPicker: [],
@@ -74,13 +76,14 @@ Page({
   },
   bindPickerChange2: function(e) {
     const indexPicker2 = parseInt(e.detail.value)
-    const {acc_asset, nam_asset, rmk_asset, ico_asset} = this.data.assetsListPicker[indexPicker2]
+    const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = this.data.assetsListPicker[indexPicker2]
     this.setData({
       indexPicker2,
       acc_asset_related: acc_asset,
       nam_asset_related: nam_asset,
       rmk_asset_related: rmk_asset,
       ico_asset_related: ico_asset,
+      tye_asset_related: tye_asset,
     })
   },
   handleInputAmt(e){
@@ -122,8 +125,8 @@ Page({
         })
         return false;
       }
-      // 转账的交易类型中还分很多种，默认索引为7的类型
-      const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = wx.getStorageSync('transferTranstypes')[7]
+      // 转账的交易类型中还分很多种，默认索引为0的类型
+      const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = wx.getStorageSync('transferTranstypes')[0]
       this.setData({
         cod_trans_type,
         tye_flow,
@@ -144,6 +147,8 @@ Page({
         nam_asset_related: "",
         rmk_asset_related: "",
         ico_asset_related: "other",
+        tye_asset_related: "",
+
       })
     }
 
@@ -153,12 +158,14 @@ Page({
       nam_asset: this.data.nam_asset,
       rmk_asset: this.data.rmk_asset,
       amt_trans: this.data.amt_trans,
+      tye_asset: this.data.tye_asset,
       tye_flow: this.data.tye_flow,
       dte_trans: this.data.dte_trans,
       acc_asset_related: this.data.acc_asset_related,
       nam_asset_related: this.data.nam_asset_related,
       rmk_asset_related: this.data.rmk_asset_related,
       ico_asset_related: this.data.ico_asset_related,
+      tye_asset_related: this.data.tye_asset_related,
       cod_trans_type: this.data.cod_trans_type,    
       txt_trans_type: this.data.txt_trans_type,
       txt_remark: this.data.txt_remark,
@@ -259,12 +266,13 @@ Page({
   },
   handleInitRelatedData(){
     if(wx.getStorageSync('assetsList').length>0){
-      const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
+      const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = wx.getStorageSync('assetsList')[0]
       this.setData({
         acc_asset_related: acc_asset,
         nam_asset_related: nam_asset,
         rmk_asset_related: rmk_asset,
         ico_asset_related: ico_asset,
+        tye_asset_related: tye_asset,
       })
     }
   },
