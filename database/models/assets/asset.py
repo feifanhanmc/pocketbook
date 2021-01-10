@@ -34,14 +34,18 @@ class Asset:
             return result
         return None
 
-    def add_assets(self, dict_asset):
+    def add_assets(self, dict_asset, is_transaction=False):
         dict_asset['acc_asset'] = gen_short_uuid()
         data, columns = [], []
         for key, value in dict_asset.items():
             columns.append(key)
             data.append(value)
         data_asset = pd.DataFrame(data=[data], columns=columns)
-        flag, result = self.db.write(data_asset, self.table)
+        if not is_transaction:
+            flag, result = self.db.write(data_asset, self.table)
+            return flag
+        else:
+            return ''
         print(data_asset, flag, result)
         return flag
 
@@ -50,6 +54,7 @@ class Asset:
         sql_column_list = []
         sql_value_list = []
         dict_asset['acc_asset'] = gen_short_uuid()
+        print('dict_asset', [dict_asset])
         for column, value in dict_asset.items():
             sql_column_list.append(column)
             if isinstance(value, str):

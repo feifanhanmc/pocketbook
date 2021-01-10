@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import json
 from flask import Blueprint, url_for, render_template, request, abort, flash, session, redirect
 from web.wxassets.utils import utils_show_assets, utils_add_assets, utils_update_assets, utils_delete_assets
