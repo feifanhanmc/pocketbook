@@ -6,16 +6,16 @@
     </view>
     <view>
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <text class="homeTextOverviewAmountLarge">¥{{amountMonthExpend}}</text>
+      <text class="homeTextOverviewAmountLarge">¥{{amt_expend_month}}</text>
     </view>
     <view class="homeLayoutHorizontal">
       <view>
         <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;本月收入</text> 
-        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthIncome}}</text>
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_income_month}}</text>
       </view>
       <view>
         <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
-        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountMonthRemainingBudget}}&nbsp;&nbsp;</text>
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_budget_surplus}}&nbsp;&nbsp;</text>
       </view>
     </view>
   </swiper-item>
@@ -25,16 +25,16 @@
     </view>
     <view>
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <text class="homeTextOverviewAmountLarge" >¥{{amountNetAssets}}</text>
+      <text class="homeTextOverviewAmountLarge" >¥{{amt_asset_net}}</text>
     </view>
     <view class="homeLayoutHorizontal">
       <view>
         <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总资产</text> 
-        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalAssets}}</text>
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_asset_total}}</text>
       </view>
       <view>
         <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总负债</text> 
-        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amountTotalLiability}}&nbsp;&nbsp;</text>
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_debt_total}}&nbsp;&nbsp;</text>
       </view>
     </view>
   </swiper-item>
@@ -66,7 +66,7 @@
         </view>
       </view>
       <view class="homeViewAssetItemSecond">
-        <text class="homeTextBlod">{{item.tye_asset=="资产"?"": item.amt_asset>0?"-":""}}</text>
+        <text class="homeTextBlod">{{item.tye_asset=="asset"?"": item.amt_asset>0?"-":""}}</text>
         <text class="homeTextBlod">¥{{item.amt_asset}}</text>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       </view>

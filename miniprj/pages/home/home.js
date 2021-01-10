@@ -10,12 +10,13 @@ Page({
    */
   data: {  
     // AccountData
-    amountMonthExpend: 0.0,
-    amountMonthIncome: 0.0,
-    amountMonthRemainingBudget: 0.0,
-    amountNetAssets: 0.0,
-    amountTotalAssets: 0.0,
-    amountTotalLiability: 0.0,
+    amt_expend_month: 0,
+    amt_income_month: 0,
+    amt_budget_surplus: 0,
+    amt_asset_net: 0,
+    amt_asset_total: 0,
+    amt_debt_total: 0,
+    amt_budget: 0,  
 
     // AssetsData
     assetsList: [],
@@ -33,6 +34,20 @@ Page({
       assetsList: assets
     })
     wx.setStorageSync('assetsList', assets)
+  },
+  async showStatistics() {
+    const {statistics} = await request({url:"/wxstatistics/show_statistics",data:{},method:"post"});
+    const {amt_expend_month, amt_income_month, amt_budget_surplus, amt_asset_net, amt_asset_total, amt_debt_total, amt_budget} = statistics
+    this.setData({
+      amt_expend_month,
+      amt_income_month,
+      amt_budget_surplus,
+      amt_asset_net,
+      amt_asset_total,
+      amt_debt_total,
+      amt_budget,  
+    })
+    wx.setStorageSync('statistics', statistics)
   },
   handleAssetAdd(e){
     wx.navigateTo({
@@ -58,7 +73,7 @@ Page({
 
     // 参数初始化
     wx.setStorageSync('flagRefreshAssetsList', true)
-    wx.setStorageSync('flagRefreshAccountData', true)
+    wx.setStorageSync('flagRefreshStatisticsData', true)
     wx.setStorageSync('flagRefreshTransData', true)
 
   },
@@ -77,11 +92,10 @@ Page({
       this.showAssetsList()
       wx.setStorageSync('flagRefreshAssetsList', false)
     }
-    if(wx.getStorageSync('flagRefreshAccountData')){
-      // this.showAssetsList()
-      wx.setStorageSync('flagRefreshAccountData', false)
+    if(wx.getStorageSync('flagRefreshStatisticsData')){
+      this.showStatistics()
+      wx.setStorageSync('flagRefreshStatisticsData', false)
     }
-    
 
   },
 
