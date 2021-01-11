@@ -14,7 +14,7 @@
       </view>
     </view>
     <view class="viewAsset2">
-      <text class="textGray">{{tye_asset==="负债"?"当前欠款":"当前余额"}}</text>
+      <text class="textGray">{{tye_asset==="debt"?"当前欠款":"当前余额"}}</text>
       <text class="textBig">{{amt_asset}}</text>
     </view>
   </view>
@@ -63,7 +63,7 @@
           </view>
           <view class="viewTransItemSecond">
             <text class="textBlod" 
-              style="{{item.tye_flow=='expend'?  'color:red;':  item.tye_flow=='income'?  'color:green;':  'color:black;'}}">¥{{item.amt_trans}}</text>
+              style="{{item.tye_flow=='expend'?  'color:red;':  item.tye_flow=='income'?  'color:green;':  'color:black;'}}">{{item.amt_trans}}</text>
           </view>
         </navigator>
       </view>
