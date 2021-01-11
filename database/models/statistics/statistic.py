@@ -53,7 +53,7 @@ class Statistic:
                 return statistics
         return pd.DataFrame()
 
-    def update_statistics(self, type_amount, amount, tye_asset='', tye_asset_related='', is_transaction=False):
+    def update_statistics(self, type_amount, amount, cod_trans_type='', tye_asset='', tye_asset_related='', is_transaction=False):
         """
         :param type_amount: ['income', 'expend', 'transfer', 'budget', 'asset', 'debt']
         :param amount: positive float
@@ -62,7 +62,10 @@ class Statistic:
         """
         sql_set = " amt_asset_total = amt_asset_total "
         if type_amount == 'income':
-            sql_set = " amt_income_month = amt_income_month + %s, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
+            if cod_trans_type in ('yqkDZNq7', 'xSTyQpeH'):  # 退款、报销，不计入收入
+                sql_set = " amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*2)
+            else:
+                sql_set = " amt_income_month = amt_income_month + %s, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
         elif type_amount == 'expend':
             sql_set = " amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget - amt_expend_month, amt_asset_total = amt_asset_total - %s, amt_asset_net = amt_asset_net - %s " % tuple([amount]*3)
         elif type_amount == 'transfer':

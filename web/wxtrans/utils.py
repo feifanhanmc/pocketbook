@@ -24,9 +24,10 @@ def utils_add_trans(wx_data):
     amount = wx_data['amt_trans']
     tye_asset = wx_data['tye_asset']
     tye_asset_related = wx_data.get('tye_asset_related', '')
+    cod_trans_type = wx_data.get('cod_trans_type', '')
 
     df_trans, table_trans, index_trans, if_exists_trans = Transaction(acc_user).add_trans(wx_data, is_transaction=True)
-    sql_update_statistics = Statistic(acc_user).update_statistics(type_amount, amount, tye_asset=tye_asset, tye_asset_related=tye_asset_related, is_transaction=True)
+    sql_update_statistics = Statistic(acc_user).update_statistics(type_amount, amount, cod_trans_type=cod_trans_type, tye_asset=tye_asset, tye_asset_related=tye_asset_related, is_transaction=True)
 
     conn = DataBase().gen_transaction_conn()
     tran = conn.begin()

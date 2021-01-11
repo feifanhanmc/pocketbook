@@ -52,19 +52,8 @@ def utils_login_init(wx_data):
     u = User()
     acc_user, flag_new = u.user_check(openid, nam_user=nam_user)
     # u.save_userinfo(userinfo)
-    # 对于新创建的用户，需要创建默认的transtypes，并创建初始资产统计表
+    # 对于新创建的用户，需要创建初始资产统计表
     if flag_new:
-        t = Transtype(acc_user)
-        df_default_transtypes = t.show_transtypes(acc_user='dbuser', need_index=False)
-        df_default_transtypes['acc_user'] = acc_user
-        df_default_transtypes['cod_trans_type'] = [gen_short_uuid() for i in range(len(df_default_transtypes))]
-        df_transtypes = df_default_transtypes.drop(columns=['id'])
-        init_flag, init_result = t.init_transtypes(df_transtypes)
-        if init_flag:
-            resp['init_transtypes'] = True
-        else:
-            resp['init_transtypes'] = False
-
         s = Statistic(acc_user)
         statistic_flag, statistic_result = s.init_statistics()
         if statistic_flag:
