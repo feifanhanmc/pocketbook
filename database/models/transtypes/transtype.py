@@ -28,10 +28,9 @@ class Transtype:
         if not self.db:
             self.db = DataBase()
 
-    def show_transtypes(self, acc_user=None, need_index=True):
-        if not acc_user:
-            acc_user = self.acc_user
-        sql_show = "select * from transtypes where acc_user='%s' order by id asc" % acc_user
+    # 包括用户自定义交易类别和默认类别
+    def show_transtypes(self, acc_user_default='dbuser',need_index=True):
+        sql_show = "select * from transtypes where acc_user in ('%s', '%s') order by id asc" % (self.acc_user, acc_user_default)
         flag, result = self.db.read(sql_show)
         if flag:
             if need_index:

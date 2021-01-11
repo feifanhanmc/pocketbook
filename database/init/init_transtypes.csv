@@ -20,6 +20,7 @@ dbuser,cBRgr41o,薪资,,income,bonus
 dbuser,0MIA45aa,利息,,income,intrest
 dbuser,xSTyQpeH,报销,,income,bonus
 dbuser,O4s4uj1L,其他,,income,other
+dbuser,0PpB3SXE,转账,,transfer,transfer
 dbuser,VhUHlgxj,其他,,transfer,other
 dbuser,I9SPpzmR,还卡,,transfer,credit
 dbuser,uMm0HlS6,借出,,transfer,out
@@ -28,5 +29,4 @@ dbuser,2mqK3Wwr,收债,,transfer,collect_debts
 dbuser,hNoN0rmS,投资,,transfer,invest
 dbuser,n2jgwgbd,还债,,transfer,refund
 dbuser,LrPEBIep,取现,,transfer,cash
-dbuser,0PpB3SXE,转账,,transfer,transfer
 dbuser,VhUHlgxj,其他,,transfer,other
