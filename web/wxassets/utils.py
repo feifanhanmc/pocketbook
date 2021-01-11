@@ -23,6 +23,8 @@ def utils_add_assets(wx_data):
     del wx_data['token']
     wx_data['acc_user'] = acc_user
     type_amount = wx_data['tye_asset']
+    if type_amount == 'debt':
+        wx_data['amt_asset'] = -1 * float(wx_data['amt_asset'])
     amount = wx_data['amt_asset']
 
     df_asset, table_asset, index_asset, if_exists_asset = Asset(acc_user).add_assets(wx_data, is_transaction=True)

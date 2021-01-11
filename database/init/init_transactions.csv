@@ -1,5 +1,5 @@
 acc_user,acc_asset,nam_asset,rmk_asset,amt_trans,tye_asset,tye_flow,dte_trans,tme_trans,acc_asset_related,nam_asset_related,rmk_asset_related,ico_asset_related,tye_asset_related,cod_trans_type,txt_trans_type,txt_trans_type_sub,txt_remark,ico_trans
-dbuser,9Cv9E2Rr,支付宝,支付宝,9.9,asset,支出,20200202,,,,,,,vmgPVwRO,餐饮,,,food
-dbuser,kg4GC8qF,信用卡,农行信用卡,20,debt,其他,20200302,120000,9Cv9E2Rr,支付宝,,credit,asset,I9SPpzmR,还信用卡,,,credit
-dbuser,HO7yex5B,储蓄卡,农业银行,100,asset,其他,20200322,,NAW1bShd,应收,,out,asset,uMm0HlS6,借出,,借钱给别人,out
-dbuser,HO7yex5B,储蓄卡,农业银行,100,asset,收入,20200428,,,,,,,cBRgr41o,薪资,,,bonus
+dbuser,9Cv9E2Rr,支付宝,支付宝,-9.9,asset,expend,20200202,,,,,,,vmgPVwRO,餐饮,,,food
+dbuser,kg4GC8qF,信用卡,农行信用卡,20,debt,transfer,20200302,120000,9Cv9E2Rr,支付宝,,credit,asset,I9SPpzmR,还信用卡,,,credit
+dbuser,HO7yex5B,储蓄卡,农业银行,100,asset,transfer,20200322,,NAW1bShd,应收,,out,asset,uMm0HlS6,借出,,借钱给别人,out
+dbuser,HO7yex5B,储蓄卡,农业银行,100,asset,income,20200428,,,,,,,cBRgr41o,薪资,,,bonus

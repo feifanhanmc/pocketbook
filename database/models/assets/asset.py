@@ -47,16 +47,48 @@ class Asset:
         else:
             return data_asset, self.table, False, 'append'
 
-    def update_assets(self, dict_asset):
+    def modify_assets_info(self, dict_asset):
         sql_template = "update assets set % where acc_user='%s' and acc_asset='%s'"
-        sql_list_update = []
+        sql_list_modify= []
         for key, value in dict_asset.items():
             if key in ['nam_asset', 'amt_asset']:
-                sql_list_update.append(" %s='%s' " % (key, value))
-        sql_str_update = ",".join(sql_list_update)
-        sql_update = sql_template % (sql_str_update, self.acc_user, dict_asset['acc_asset'])
-        self.db.execute(sql_update)
-        return True
+                sql_list_modify.append(" %s='%s' " % (key, value))
+        sql_str_modify = ",".join(sql_list_modify)
+        sql_modify = sql_template % (sql_str_modify, self.acc_user, dict_asset['acc_asset'])
+        flag, result = self.db.execute(sql_modify)
+        if not flag:
+            print(result)
+        return flag
+
+    def update_assets(self, tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, is_transaction=False):
+        sql_update_assets, sql_update_assets_related = "", ""
+        sql_template = "update %s set amt_asset=amt_asset %s %s where acc_user='%s' and acc_asset='%s' "
+        if tye_flow == 'transfer':  # 账面金额一减一增
+            sql_update_assets = sql_template % (self.table, '-', amount, self.acc_user, acc_asset)
+            sql_update_assets_related = sql_template % (self.table, '+', amount, self.acc_user, acc_asset_related)
+        elif tye_flow in ('income', 'expend'):
+            sql_update_assets = sql_template % (self.table, '+', amount, self.acc_user, acc_asset)
+        else:
+            pass
+        
+        print('sql_update_assets', sql_update_assets)
+        print('sql_update_assets_related', sql_update_assets_related)
+
+        if not is_transaction:
+            if sql_update_assets:
+                flag, result = self.db.execute(sql_update_assets)
+                if not flag:
+                    print(result)
+                    return False
+                else:
+                    if sql_update_assets_related:
+                        flag, result = self.db.execute(sql_update_assets_related)
+                        if not flag:
+                            print(result)
+                            return False
+            return True
+        else:
+            return sql_update_assets, sql_update_assets_related
 
     def delete_assets(self, dict_asset):
         sql_delete = "update assets set boo_active=0 where acc_user='%s' and acc_asset='%s'" % \
