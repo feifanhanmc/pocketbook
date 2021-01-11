@@ -57,6 +57,9 @@ class Statistic:
         """
         :param type_amount: ['income', 'expend', 'transfer', 'budget', 'asset', 'debt']
         :param amount: positive float
+        :param cod_trans_type: 交易类型代码
+        :param tye_asset: 资产账户类型
+        :param tye_asset_related: 相关联的资产账户类型
         :param is_transaction: 为False则直接执行；为True则返回sql语句，待后续按照数据库事务规范执行
         :return: 返回执行结果或返回适用于数据库事务的sql
         """
