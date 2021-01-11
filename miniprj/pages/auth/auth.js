@@ -39,7 +39,7 @@ Page({
         console.log('Auth Success!')
         // RefreshFlag
         wx.setStorageSync('flagRefreshAssetsList', true);
-        wx.setStorageSync('flagRefreshAccountData', true);
+        wx.setStorageSync('flagRefreshStatisticsData', true);
         wx.switchTab({
           url: '/pages/home/home',
         })

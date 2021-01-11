@@ -51,7 +51,7 @@ Page({
     transferIco: "transfer",
 
     // TabsData
-    tabs: ['支出', '收入', '转账'],
+    tabs: ['流出', '流入', '转账'],
 
     // SystemData
     winWidth: 0,
@@ -61,17 +61,19 @@ Page({
   },
   bindPickerChange: function(e) {
     const indexPicker = parseInt(e.detail.value)
-    const {acc_asset, nam_asset, rmk_asset, ico_asset} = this.data.assetsListPicker[indexPicker]
+    const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = this.data.assetsListPicker[indexPicker]
     this.setData({
       indexPicker,
       lastTransAssetAcc: acc_asset,
       lastTransAssetIco: ico_asset,
       lastTransAssetNam: nam_asset,
       lastTransAssetRmk: rmk_asset,
+      lastTransAssetTye: tye_asset,
       acc_asset,
       ico_asset,
       nam_asset,
       rmk_asset,
+      tye_asset,
     })
   },
   bindPickerChange2: function(e) {
@@ -184,7 +186,8 @@ Page({
         acc_asset: this.data.acc_asset,
         nam_asset: this.data.nam_asset,
         rmk_asset: this.data.rmk_asset,
-        ico_asset: this.data.ico_asset
+        ico_asset: this.data.ico_asset,
+        tye_asset: this.data.tye_asset,
       })
 
       wx.setStorageSync('flagRefreshAssetsList', true)
@@ -219,7 +222,7 @@ Page({
       wx.setStorageSync('expendTranstypes', expend)
       wx.setStorageSync('incomeTranstypes', income)
       wx.setStorageSync('transferTranstypes', transfer)
-      wx.setStorageSync('flagRefreshTranstypesDatakey', false)
+      wx.setStorageSync('flagRefreshTranstypesData', false)
     }
     this.setData({
       expendTranstypes: wx.getStorageSync('expendTranstypes'),
@@ -285,24 +288,25 @@ Page({
     // 初始化LastTransData
     if(!wx.getStorageSync('lastTransData')){
       if(wx.getStorageSync('assetsList').length>0){
-        const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('assetsList')[0]
-        wx.setStorageSync('lastTransData', {acc_asset, nam_asset, rmk_asset, ico_asset})
+        const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = wx.getStorageSync('assetsList')[0]
+        wx.setStorageSync('lastTransData', {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset})
       }else{ // 还没有资产账户
       }
     }
 
     // 初始化assetsListPicker，第一条为最近的一笔交易相关的asset信息
     var assetsListPicker = []
-    const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
+    const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = wx.getStorageSync('lastTransData')
     assetsListPicker.push({
       'nam_pick': nam_asset + ' | ' + rmk_asset,
       'acc_asset': acc_asset, 
       'nam_asset': nam_asset,
       'rmk_asset': rmk_asset, 
       'ico_asset': ico_asset,
+      'tye_asset': tye_asset,
     })
     wx.getStorageSync('assetsList').forEach(function (asset) {
-      const {acc_asset, nam_asset, rmk_asset, ico_asset} = asset
+      const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = asset
       if(acc_asset!=assetsListPicker[0].acc_asset){
         assetsListPicker.push({
           'nam_pick': nam_asset + ' | ' + rmk_asset,
@@ -310,15 +314,13 @@ Page({
           'nam_asset': nam_asset,
           'rmk_asset': rmk_asset, 
           'ico_asset': ico_asset,
+          'tye_asset': tye_asset,
         })
       }
     });
     this.setData({
       assetsListPicker: assetsListPicker
     })
-
-    // 设置TranstypeData更新Flag
-    wx.setStorageSync('flagRefreshTranstypesData', true)
 
     // 初始化related账户数据
     this.handleInitRelatedData()
@@ -369,16 +371,18 @@ Page({
 
       // 若acc_asset为空，则说明不是Modify，是Add
       if(!this.data.acc_asset){
-        const {acc_asset, nam_asset, rmk_asset, ico_asset} = wx.getStorageSync('lastTransData')
+        const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = wx.getStorageSync('lastTransData')
         this.setData({
           acc_asset,
           ico_asset,
           nam_asset,
           rmk_asset,
+          tye_asset,
           lastTransAssetAcc: acc_asset,
           lastTransAssetIco: ico_asset,
           lastTransAssetNam: nam_asset,
-          lastTransAssetRmk: rmk_asset
+          lastTransAssetRmk: rmk_asset,
+          lastTransAssetTye: tye_asset,
         })
       }
 
