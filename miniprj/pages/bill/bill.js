@@ -64,7 +64,7 @@ Page({
     });
   },
   async showReport() {  
-    const {report} = await request({url:"/wxtrans/show_report",data:{},method:"post"});
+    const {report} = await request({url:"/wxtrans/show_flow",data:{},method:"post"});
     const {days, expend, income} = report;
     this.setData({
       days,

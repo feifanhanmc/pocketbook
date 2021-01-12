@@ -59,7 +59,7 @@ class Transaction:
         else:
             return data_trans, self.table, False, 'append'
 
-    def show_report(self, month_now):
+    def show_flow(self, month_now):
         sql_show = """
             select 
                 tye_flow,
@@ -72,6 +72,26 @@ class Transaction:
             group by tye_flow, day
             order by tye_flow, day
             """ % (self.table, self.acc_user, month_now)
+        flag, result = self.db.read(sql_show)
+        if flag:
+            return result
+        return pd.DataFrame()
+
+    def show_report(self, date, date_length):
+        sql_show = """
+            select 
+                tye_flow,
+                cod_trans_type,
+                txt_trans_type,
+                ico_trans,
+                sum(case when tye_flow='expend' then -1*amt_trans else amt_trans end) as amount,
+                count(*) as cnt
+            from %s
+            where acc_user='%s'
+            and left(dte_trans,%s)='%s'
+            group by tye_flow, cod_trans_type, txt_trans_type, ico_trans
+            order by tye_flow, amount desc
+            """ % (self.table, self.acc_user, date_length, date)
         flag, result = self.db.read(sql_show)
         if flag:
             return result
