@@ -6,7 +6,7 @@
     </view>
     <view>
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-      <text class="homeTextOverviewAmountLarge">{{amt_expend_month}}</text>
+      <text class="homeTextOverviewAmountLarge">{{-1*amt_expend_month}}</text>
     </view>
     <view class="homeLayoutHorizontal">
       <view>
@@ -34,7 +34,7 @@
       </view>
       <view>
         <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;总负债</text> 
-        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_debt_total}}&nbsp;&nbsp;</text>
+        <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{-1*amt_debt_total}}&nbsp;&nbsp;</text>
       </view>
     </view>
   </swiper-item>
