@@ -79,6 +79,7 @@ Page({
     wx.setStorageSync('flagRefreshStatisticsData', true)
     wx.setStorageSync('flagRefreshTransData', true)
     wx.setStorageSync('flagRefreshTranstypesData', true)
+    wx.setStorageSync('flagRefreshReportData', true)
 
   },
   /**
