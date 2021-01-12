@@ -122,8 +122,7 @@
 }
 .viewTransItemSecond{
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
 }
 .imageTranIcon{
   border-width: 0;

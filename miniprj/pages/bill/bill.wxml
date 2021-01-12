@@ -42,6 +42,7 @@
         <view class="viewTransItemSecond">
           <text class="textBlod" 
             style="{{item.tye_flow=='expend'?  'color:red;':  item.tye_flow=='income'?  'color:green;':  'color:black;'}}">{{item.amt_trans}}</text>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         </view>
       </navigator>
     </view>

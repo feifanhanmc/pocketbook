@@ -1,9 +1,36 @@
 <!--pages/report/report.wxml-->
-<view>
-  <view>
-    <text>2021年</text>
-    <text>全部/1月</text>
+<view class="viewMain">
+  <view class="viewPicker">
+    <picker mode="multiSelector" bindchange="bindPicker" value="{{index}}" range="{{datePicker}}">
+      <block wx:if="{{ datePicker[1][index[1]]=='ALL'}}">
+        <view class="select">{{datePicker[0][index[0]] + '年'}}▼</view>
+      </block>
+      <block wx:else>
+        <view class="select">{{datePicker[0][index[0]] + '年' + datePicker[1][index[1]] + '月'}}▼</view>
+      </block>
+  </picker>
   </view>
-  <view>pie</view>
-  <view>transType</view>
+  <view>
+    <canvas canvas-id="ringCanvas" disable-scroll="true" class="canvas" bindtap="handleChange"></canvas>
+  </view>
+  <view class="viewContent">
+      <view class="viewTrans" wx:for="{{currentReport}}" wx:key="id">
+        <view class="viewTransItemFirst">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <view class="textTranName">
+            <text class="textBlod">{{item.txt_trans_type}}</text>
+            <view>
+              <text class="textSamllGray">{{item.cnt}}笔</text>
+            </view>
+          </view>
+        </view>
+        <view class="viewTransItemSecond">
+          <text class="textBlod" 
+            style="{{item.tye_flow=='expend'?  'color:red;':  item.tye_flow=='income'?  'color:green;':  'color:black;'}}">{{item.amount}}</text>
+            <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          </view>
+      </view>
+    </view>
 </view>
