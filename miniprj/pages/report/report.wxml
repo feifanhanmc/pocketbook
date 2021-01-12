@@ -1,2 +1,9 @@
 <!--pages/report/report.wxml-->
-<text>pages/report/report.wxml</text>
+<view>
+  <view>
+    <text>2021年</text>
+    <text>全部/1月</text>
+  </view>
+  <view>pie</view>
+  <view>transType</view>
+</view>

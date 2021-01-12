@@ -1,7 +1,21 @@
 <view class="viewMain">
   <view class="viewCount">
+    <text class="textBlod" style="margin-top: 20rpx;margin-left:20rpx">本月流量</text>
+    <swiper style="height: 150px">
+      <swiper-item>
+        <view class="viewCountSwiper">
+          <text class="textGray" style="margin-left: 20rpx">流出</text>
+          <canvas canvas-id="lineCanvasExpend" disable-scroll="true" class="canvas" ></canvas>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="viewCountSwiper">
+          <text class="textGray" style="margin-left: 20rpx">流入</text>
+          <canvas canvas-id="lineCanvasIncome" disable-scroll="true" class="canvas" ></canvas>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
-  <view><text>\n</text></view>
   <view class="viewContentTitle">
     <text class="textBlod">账单流水</text>
   </view>

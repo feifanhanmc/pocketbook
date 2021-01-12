@@ -1,4 +1,9 @@
 // pages/report/report.js
+import regeneratorRuntime from '../..//utils/runtime/runtime';
+import { request } from "../../utils/request/request.js";
+import { login } from "../../utils/asyncwx.js";
+var wxCharts = require('../../utils/wxcharts')
+
 Page({
 
   /**
