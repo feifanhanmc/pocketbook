@@ -36,21 +36,12 @@ def utils_add_trans(wx_data):
     sql_update_statistics = Statistic(acc_user).update_statistics(tye_flow, amount, cod_trans_type=cod_trans_type, tye_asset=tye_asset, tye_asset_related=tye_asset_related, is_transaction=True)
     sql_update_assets, sql_update_assets_related = Asset(acc_user).update_assets(tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, is_transaction=True)
     
-    conn = DataBase().gen_transaction_conn()
-    tran = conn.begin()
-    try:
-        df_trans.to_sql(table_trans, con=conn, index=index_trans, if_exists=if_exists_trans)
-        conn.execute(sql_update_statistics)
-        if sql_update_assets:
-            conn.execute(sql_update_assets)
-        if sql_update_assets_related:
-            conn.execute(sql_update_assets_related)
-        tran.commit()
-        return {'result': True}
-    except Exception as e:
-        print(str(e))
-        tran.rollback()
-        return {'result': False}
+    dfinfo_list = [[df_trans, table_trans, index_trans, if_exists_trans]]
+    sql_list = [sql_update_statistics, sql_update_assets]
+    if sql_update_assets_related:
+        sql_list.append(sql_update_assets_related)
+    return {'result': DataBase().transaction(dfinfo_list, sql_list)}
+
 
 def utils_show_report(wx_data):
     acc_user = wx_data['token']
