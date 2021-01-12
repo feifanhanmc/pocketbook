@@ -22,25 +22,17 @@ def utils_add_assets(wx_data):
     acc_user = wx_data['token']
     del wx_data['token']
     wx_data['acc_user'] = acc_user
-    type_amount = wx_data['tye_asset']
-    if type_amount == 'debt':
+    tye_amount = wx_data['tye_asset']
+    if tye_amount == 'debt':
         wx_data['amt_asset'] = -1 * float(wx_data['amt_asset'])
     amount = wx_data['amt_asset']
 
     df_asset, table_asset, index_asset, if_exists_asset = Asset(acc_user).add_assets(wx_data, is_transaction=True)
-    sql_update_statistics = Statistic(acc_user).update_statistics(type_amount, amount, is_transaction=True)
+    sql_update_statistics = Statistic(acc_user).update_statistics(tye_amount, amount, is_transaction=True)
 
-    conn = DataBase().gen_transaction_conn()
-    tran = conn.begin()
-    try:
-        df_asset.to_sql(table_asset, con=conn, index=index_asset, if_exists=if_exists_asset)
-        conn.execute(sql_update_statistics)
-        tran.commit()
-        return {'result': True}
-    except Exception as e:
-        print(str(e))
-        tran.rollback()
-        return {'result': False}
+    dfinfo_list = [[df_asset, table_asset, index_asset, if_exists_asset]]
+    sql_list = [sql_update_statistics]
+    return {'result': DataBase().transaction(dfinfo_list, sql_list)}
 
 
 def utils_update_assets(wx_data):

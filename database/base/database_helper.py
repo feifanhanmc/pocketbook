@@ -24,7 +24,7 @@ class DataBase:
                                         (self.config["user"], self.config["password"], self.config["host"],
                                          self.config["port"], self.config["db"]))
 
-    def gen_transaction_conn(self):
+    def transaction(self, dfinfo_list, sql_list):
         """
         desc: 按照数据库事务规范执行，任何一条语句失败则rollback
         usage:
@@ -45,7 +45,19 @@ class DataBase:
                 tran.rollback()
         :return:
         """
-        return self.engine.connect()
+        conn = self.engine.connect()
+        tran = conn.begin()
+        try:
+            for df, table, index, if_exists in dfinfo_list:
+                df.to_sql(table, con=conn, index=index, if_exists=if_exists)
+            for sql in sql_list:
+                conn.execute(sql)
+            tran.commit()
+            return True
+        except Exception as e:
+            print(e)
+            tran.rollback()
+            return False
 
     def execute(self, sql):
         try:
