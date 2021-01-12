@@ -43,7 +43,7 @@ class Transaction:
         if flag:
             result['index'] = range(len(result))
             return result
-        return None
+        return pd.DataFrame()
 
     def add_trans(self, dict_tran, is_transaction=False):
         data, columns = [], []
@@ -58,6 +58,25 @@ class Transaction:
             return flag
         else:
             return data_trans, self.table, False, 'append'
+
+    def show_report(self):
+        sql_show = """
+            select 
+                tye_flow,
+                left(dte_trans,6) as month,
+                right(dte_trans,2) as day,
+                sum(case when tye_flow='expend' then -1*amt_trans else amt_trans end) as amt_day
+            from %s
+            where acc_user='%s'
+            and tye_flow in ('income', 'expend')
+            group by tye_flow, month, day
+            order by tye_flow, month desc, day
+            """ % (self.table, self.acc_user)
+        flag, result = self.db.read(sql_show)
+        if flag:
+            result['index'] = range(len(result))
+            return result
+        return pd.DataFrame()
 
     def update_trans(self, dict_tran):
         # 逻辑比较复杂

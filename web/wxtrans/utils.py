@@ -52,6 +52,13 @@ def utils_add_trans(wx_data):
         tran.rollback()
         return {'result': False}
 
+def utils_show_report(wx_data):
+    acc_user = wx_data['token']
+    df_report = Transaction(acc_user).show_report()
+    data = []
+    for index in range(len(df_report)):
+        data.append(df_report.iloc[index].to_dict())
+    return {'report': data}
 
 def utils_update_trans():
     pass
