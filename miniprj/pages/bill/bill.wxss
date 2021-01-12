@@ -5,16 +5,26 @@
 }
 .viewCount{
   width: 100%;
-  height: 250rpx;
-  background-color: #FABD03;
+  /* height: 250rpx; */
+  /* background-color: #FABD03; */
   display: flex;
   flex-direction: column;
+}
+.viewCountSwiper{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.canvas {
+  width: 100%;
+  /* height: 250rpx; */
+  /* background-color: #FABD03; */
 }
 .viewContentTitle{
   margin-left: 20rpx
 }
 .viewContent{
-  margin-bottom: 200rpx;
+  margin-bottom: 180rpx;
 }
 .navigatorTrans{
   height: 150rpx;
