@@ -59,22 +59,21 @@ class Transaction:
         else:
             return data_trans, self.table, False, 'append'
 
-    def show_report(self):
+    def show_report(self, month_now):
         sql_show = """
             select 
                 tye_flow,
-                left(dte_trans,6) as month,
                 right(dte_trans,2) as day,
-                sum(case when tye_flow='expend' then -1*amt_trans else amt_trans end) as amt_day
+                sum(case when tye_flow='expend' then -1*amt_trans else amt_trans end) as amount
             from %s
             where acc_user='%s'
+            and left(dte_trans,6)='%s'
             and tye_flow in ('income', 'expend')
-            group by tye_flow, month, day
-            order by tye_flow, month desc, day
-            """ % (self.table, self.acc_user)
+            group by tye_flow, day
+            order by tye_flow, day
+            """ % (self.table, self.acc_user, month_now)
         flag, result = self.db.read(sql_show)
         if flag:
-            result['index'] = range(len(result))
             return result
         return pd.DataFrame()
 

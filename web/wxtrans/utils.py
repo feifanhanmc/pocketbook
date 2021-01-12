@@ -4,6 +4,10 @@ from database.models.transactions.transaction import Transaction
 from database.models.statistics.statistic import Statistic
 from database.models.assets.asset import Asset
 from database.base.database_helper import DataBase
+import time
+import calendar
+import pandas as pd
+import numpy as np
 
 
 def utils_show_trans(wx_data):
@@ -45,11 +49,23 @@ def utils_add_trans(wx_data):
 
 def utils_show_report(wx_data):
     acc_user = wx_data['token']
-    df_report = Transaction(acc_user).show_report()
-    data = []
-    for index in range(len(df_report)):
-        data.append(df_report.iloc[index].to_dict())
-    return {'report': data}
+    month_now = time.strftime("%Y%m", time.localtime())
+    df_report = Transaction(acc_user).show_report(month_now)
+    num_days = calendar.monthrange(int(month_now[:4]),int(month_now[4:]))[1]
+    days = [("0%s" if day<10 else "%s") % day for day in range(1, num_days+1)]
+    df_default = pd.DataFrame(data=np.array([days]).T, columns=['day'])
+
+    df_report_expend = df_report[(df_report['tye_flow'] == 'expend')]
+    df_report_income = df_report[(df_report['tye_flow'] == 'income')]
+    expend_amount = pd.merge(df_default, df_report_expend, how='left', on='day').sort_values(by=['day']).fillna(0)['amount'].to_list()
+    income_amount = pd.merge(df_default, df_report_income, how='left', on='day').sort_values(by=['day']).fillna(0)['amount'].to_list()
+
+    report = {
+        'days': days,
+        'expend': expend_amount,
+        'income': income_amount,
+    }
+    return {'report': report}
 
 def utils_update_trans():
     pass
