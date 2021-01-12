@@ -80,13 +80,14 @@ def utils_show_report(wx_data):
         date = "%s%s" % (year, month)
         date_length = 6
 
-    report = {}
+    report = []
     df_report = Transaction(acc_user).show_report(date, date_length)
     for tye_flow in ('expend', 'income', 'transfer'):
         df_content = df_report[df_report['tye_flow'] == tye_flow]
-        report[tye_flow] = []
+        report_content = []
         for index in range(len(df_content)):
-            report[tye_flow].append(df_content.iloc[index].to_dict())
+            report_content.append(df_content.iloc[index].to_dict())
+        report.append(report_content)
 
     return {'report': report}
 
