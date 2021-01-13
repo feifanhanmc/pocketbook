@@ -147,7 +147,7 @@ Page({
    */
   onShow: function () {
     // 准备数据
-    if(!wx.getStorageSync('reportData')){
+    if(wx.getStorageSync('flagRefreshReportData')){
       this.loadReport()
     }else{
       const report = wx.getStorageSync('reportData')
