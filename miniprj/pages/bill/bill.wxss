@@ -2,6 +2,7 @@
 .viewMain{
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 }
 .viewCount{
   width: 100%;
@@ -65,3 +66,4 @@
   color: rgba(0, 0, 0, 0.555);   
   font-size: 24rpx;    
 }
+.charts{width: 750upx; height:200rpx;background-color: #FFFFFF;}

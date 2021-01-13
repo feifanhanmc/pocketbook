@@ -2,7 +2,7 @@
 import regeneratorRuntime from '../..//utils/runtime/runtime';
 import { request } from "../../utils/request/request.js";
 import { login } from "../../utils/asyncwx.js";
-var wxCharts = require('../../utils/wxcharts')
+import uCharts from '../../utils/u-charts.js';
 
 Page({
 
@@ -25,8 +25,12 @@ Page({
     // SystemData
     windowWidth: 320,
 
+    // ImageData
+    imageNoDataReport: "noreport",
+
     // OtherData
     tranIconPath: "/data/icons/tran/",
+    nodataIconPath: "/data/icons/nodata/",
   },
   handleChange(e){
     const indexReport = (this.data.indexReport+1)%3
@@ -41,6 +45,7 @@ Page({
     this.setData({
       index,
     })
+    this.loadReport()
   },
   extractPieData(rawData){
     var pie = []
@@ -53,25 +58,40 @@ Page({
   showRingReport(report, indexReport){
     const series = this.extractPieData(report[indexReport])
     const name = this.data.nameList[indexReport]
-    new wxCharts({
+    new uCharts({
+      $this:this,
       canvasId: 'ringCanvas',
-      animation: true,
       type: 'ring',
-      series: series,    
+      fontSize:11,
+      legend:true,
       title: {
         name: name,
         color: this.data.colorList[indexReport],
-        fontSize: 10,
+        fontSize: 27,
+        offsetY:2,
       },
       subtitle: {
         name: '⇌',
         color: '#FABD03',
-        fontSize: 9,
+        fontSize: 25,
+        offsetY: 0,
       },
-      legend: false,
-      dataLabel: true,
+      extra: {
+        pie: {
+          offsetAngle: -45,
+          ringWidth: 15,
+          labelWidth:15
+        }
+      },
+      background:'#FFFFFF',
+      pixelRatio:1,
+      series: series,
+      animation: true,
       width: this.data.windowWidth,
-      height: 100,
+      height: 200,
+      disablePieStroke: true,
+      dataLabel: true,
+      padding: [0,0,0,0]
     });
   },
   async loadReport(){

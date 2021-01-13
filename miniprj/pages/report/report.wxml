@@ -10,10 +10,12 @@
       </block>
   </picker>
   </view>
-  <view>
-    <canvas canvas-id="ringCanvas" disable-scroll="true" class="canvas" bindtap="handleChange"></canvas>
+  <view class="viewCanvas">
+    <canvas canvas-id="ringCanvas" id="ringCanvas" class="charts" bindtap="handleChange"></canvas>
+    <view class="viewBlank"></view>
   </view>
-  <view class="viewContent">
+  <block wx:if="{{currentReport.length>0}}">
+    <view class="viewContent">
       <view class="viewTrans" wx:for="{{currentReport}}" wx:key="id">
         <view class="viewTransItemFirst">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
@@ -33,4 +35,9 @@
           </view>
       </view>
     </view>
+  </block>
+  <block wx:else>
+    <image style="width: 750rpx;display: flex; flex-direction: row; justify-content: center" mode="widthFix" src="{{nodataIconPath+imageNoDataReport}}.png"></image>
+  </block>
+
 </view>

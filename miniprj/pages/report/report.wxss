@@ -47,3 +47,19 @@
   color: rgba(0, 0, 0, 0.555);   
   font-size: 24rpx;    
 }
+.canvas{
+  margin-left: 0%;
+  margin-top: 0%;
+}
+.charts{
+  margin-top: 20rpx;
+  width: 700rpx; 
+  height:420rpx;
+  background-color: #FFFFFF;}
+.viewCanvas{
+  display: flex;
+  flex-direction: row;
+}
+.viewBlank{
+  width: 50rpx;
+}

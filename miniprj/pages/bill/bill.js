@@ -2,7 +2,7 @@
 import regeneratorRuntime from '../..//utils/runtime/runtime';
 import { request } from "../../utils/request/request.js";
 import { login } from "../../utils/asyncwx.js";
-var wxCharts = require('../../utils/wxcharts')
+import uCharts from '../../utils/u-charts.js';
 
 Page({
 
@@ -35,12 +35,13 @@ Page({
   },
   genReport(id, data, name, color, windowWidth){
     // 生成图表
-    new wxCharts({
+    new uCharts({
+      $this:this,
       canvasId: id,
       type: 'column',
       categories: this.data.days,
       dataPointShape: false,
-      legend: false,
+      legend: {show:false},
       series: [{
           name: name,
           data: data,
@@ -51,16 +52,18 @@ Page({
           }
       }],
       yAxis: {
+          max: Math.max(...data)*1.1,
           title: '金额',
           min: 0,
-          disabled: true,
           gridColor: '#ffffff',
+          disabled: true,
       },
       xAxis:{
-        disableGrid: true
+        disableGrid: true,
+        labelCount:15,
       },
       width: windowWidth,
-      height: 100,
+      height: 120,
     });
   },
   async showReport() {  
