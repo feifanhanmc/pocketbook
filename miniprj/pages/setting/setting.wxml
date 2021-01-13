@@ -1,3 +1,38 @@
 <!--pages/setting/setting.wxml-->
-<text>pages/setting/setting.wxml</text>
-<button open-type="contact" bindcontact="handleContact">问题反馈</button>
+<view>
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">{{nickName}}</text>
+  </view>
+  <view class="viewSet">
+    <view class="viewSetItem">
+        <view class="viewSetItem1">
+          <image class="imageIcon" src="{{setIconPath+imageExport}}.png"></image>
+          <text style="color: black">数据导出</text>
+        </view>
+        <view class="viewSetItem2">
+          <button class="viewSetButton" bindtap="handleExport">〉</button>
+        </view>
+    </view>
+    <view class="viewSetItem">
+        <view class="viewSetItem1">
+          <image class="imageIcon" src="{{setIconPath+imageLike}}.png"></image>
+          <text style="color: black">分享转发</text>
+        </view>
+        <view class="viewSetItem2">
+          <button class="viewSetButton" open-type="share">〉</button>
+        </view>
+    </view>
+    <view class="viewSetItem">
+        <view class="viewSetItem1">
+          <image class="imageIcon" src="{{setIconPath+imageFeedback}}.png"></image>
+          <text style="color: black">问题反馈</text>
+        </view>
+        <view class="viewSetItem2">
+          <button class="viewSetButton" open-type="feedback" >〉</button>
+        </view>
+    </view>
+  </view>
+</view>
+
+

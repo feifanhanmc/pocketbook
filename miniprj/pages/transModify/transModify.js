@@ -5,7 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+   //ImageData
+   imageNoData: "nodata",
 
+   // OtherData
+   nodataIconPath: "/data/icons/nodata/",
   },
 
   /**
