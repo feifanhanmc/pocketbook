@@ -36,9 +36,14 @@ Page({
     nodataIconPath: "/data/icons/nodata/",
   },
   handleAssetsModify(e){
-    console.log(e)
-    wx.navigateTo({
-      url: '/pages/assetsModify/assetsModify',
+    // console.log(e)
+    // wx.navigateTo({
+    //   url: '/pages/assetsModify/assetsModify',
+    // })
+    wx.showToast({
+      title: '开发中，敬请期待',
+      icon: 'none',
+      duration: 3000 
     })
   },
   async showCurrentTransList() {

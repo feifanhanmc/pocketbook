@@ -1,2 +1,5 @@
 <!--pages/assetsModify/assetsModify.wxml-->
-<text>pages/assetsModify/assetsModify.wxml</text>
+<view>
+  <text>开发中，敬请期待</text>
+  <image style="width: 750rpx;display: flex; flex-direction: row; justify-content: center" mode="widthFix" src="{{nodataIconPath+imageNoData}}.png"></image>
+</view>

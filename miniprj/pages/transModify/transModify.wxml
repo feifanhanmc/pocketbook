@@ -1,2 +1,5 @@
 <!--pages/transModify/transModify.wxml-->
-<text>pages/transModify/transModify.wxml</text>
+<view class="viewMain">
+  <view><text style="color:gray; font-size: 50rpx">开发中，敬请期待</text></view>
+  <image style="width: 750rpx;display: flex; flex-direction: row; justify-content: center" mode="widthFix" src="{{nodataIconPath+imageNoData}}.png"></image>
+</view>

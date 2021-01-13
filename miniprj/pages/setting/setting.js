@@ -1,22 +1,61 @@
 // pages/setting/setting.js
+import regeneratorRuntime from '../..//utils/runtime/runtime';
+import { request } from "../../utils/request/request.js";
+import { login } from "../../utils/asyncwx.js";
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    // UserData
+    nickName: "",
+    avatarUrl: "",
 
+    //ImageData
+    imageFeedback: "feedback",
+    imageLike: "like",
+    imageExport: "export",
+
+    // OtherData
+    setIconPath: "/data/icons/set/",
   },
-    handleContact (e) {
-        console.log(e)
-        console.log(e.detail.path)
-        console.log(e.detail.query)
-    },
+  async handleExport(e){
+    const {url} = await request({url:"/wxtrans/export_trans",data:{},method:"post"});
+    if(url){
+      // 复制到用户剪切板
+      wx.setClipboardData({
+        data: url,
+        success (res) {
+          wx.getClipboardData({
+            success (res) {
+              console.log(res.data) // data
+            }
+          })
+          
+          wx.showToast({
+            title: '链接已复制',
+            icon: 'success',
+            duration: 3000
+          })
+        }
+      })
+    }else{
+      wx.showToast({
+        title: '导出失败，请稍后再试！',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 初始化用户数据
+    const {nickName, avatarUrl} = wx.getStorageSync('userInfo')
+    this.setData({nickName, avatarUrl})
   },
 
   /**
