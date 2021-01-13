@@ -97,6 +97,27 @@ class Transaction:
             return result
         return pd.DataFrame()
 
+    def export_trans(self):   
+        sql_export = """
+            select 
+                dte_trans as `日期`,
+                case when amt_trans<0 then -1*amt_trans else amt_trans end as `金额`,
+                case 
+                    when tye_flow='income' then '流入' 
+                    when tye_flow='expend' then '流出' 
+                    else '转账' end as `资金流向`,
+                txt_trans_type as `交易类型`,
+                rmk_asset as `账户名称`,
+                rmk_asset_related as `相关账户名称`,
+                txt_remark as `备注`
+            from %s
+            where acc_user='%s'
+        """ % (self.table, self.acc_user)
+        flag, result = self.db.read(sql_export)
+        if flag:
+            return result
+        return pd.DataFrame()
+
     def update_trans(self, dict_tran):
         # 逻辑比较复杂
         # 关联账户、交易类型、金额等变化后都会引起一系列账户的变化……最后再写
