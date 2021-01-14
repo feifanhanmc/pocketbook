@@ -48,10 +48,10 @@ class DataBase:
         conn = self.engine.connect()
         tran = conn.begin()
         try:
-            for df, table, index, if_exists in dfinfo_list:
-                df.to_sql(table, con=conn, index=index, if_exists=if_exists)
             for sql in sql_list:
                 conn.execute(sql)
+            for df, table, index, if_exists in dfinfo_list:
+                df.to_sql(table, con=conn, index=index, if_exists=if_exists)
             tran.commit()
             return True
         except Exception as e:

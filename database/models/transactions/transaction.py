@@ -4,6 +4,20 @@ from tools.toolkit import gen_short_uuid, get_md5, load_next_id
 from database.base.database_helper import DataBase
 import pandas as pd
 
+dic_trans4assets_adjust = {
+    'acc_user': '',
+    'acc_asset': '',
+    'nam_asset': '',
+    'rmk_asset': '',
+    'amt_trans': '',         
+    'tye_asset': '',         
+    'tye_flow': 'adjust',          
+    'dte_trans': '',         
+    'cod_trans_type': 'W51hSzBL',    
+    'txt_trans_type': '资金调整',    
+    'ico_trans': 'other'        
+}
+
 
 class Transaction:
     def __init__(self, acc_user, acc_asset='', db=None, table='transactions',
@@ -89,6 +103,7 @@ class Transaction:
             from %s
             where acc_user='%s'
             and left(dte_trans,%s)='%s'
+            and tye_flow in ('income', 'expend', 'transfer')
             group by tye_flow, cod_trans_type, txt_trans_type, ico_trans
             order by tye_flow, amount desc
             """ % (self.table, self.acc_user, date_length, date)

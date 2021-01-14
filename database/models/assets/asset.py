@@ -18,21 +18,25 @@ class Asset:
         if not self.db:
             self.db = DataBase()
 
-    def show_assets(self, flag_active=1):
+    def show_assets(self, acc_asset=None, flag_active=1, need_index=True):
         """
         :param db:
         :param flag_active: 1, 0, 'all'
         :return:
         """
-        sql_active = " "
+        sql_active, sql_asset = " ", " "
         if flag_active in (0, 1):
-            sql_active = " and boo_active='%s'" % flag_active
-        sql_show = "select * from assets where acc_user='%s' %s order by id" % (self.acc_user, sql_active)
+            sql_active = " and boo_active='%s' " % flag_active
+        if acc_asset:
+            sql_asset = " and acc_asset='%s' " % acc_asset
+        sql_show = "select * from assets where acc_user='%s' %s %s order by id" % (self.acc_user, sql_active, sql_asset)
+
         flag, result = self.db.read(sql_show)
         if flag:
-            result['index'] = range(len(result))
+            if need_index:
+                result['index'] = range(len(result))
             return result
-        return None
+        return pd.DataFrame()
 
     def add_assets(self, dict_asset, is_transaction=False):
         dict_asset['acc_asset'] = gen_short_uuid()
@@ -47,19 +51,25 @@ class Asset:
         else:
             return data_asset, self.table, False, 'append'
 
-    def modify_assets_info(self, dict_asset):
-        sql_template = "update assets set % where acc_user='%s' and acc_asset='%s'"
-        sql_list_modify= []
-        for key, value in dict_asset.items():
-            if key in ['nam_asset', 'amt_asset']:
-                sql_list_modify.append(" %s='%s' " % (key, value))
-        sql_str_modify = ",".join(sql_list_modify)
-        sql_modify = sql_template % (sql_str_modify, self.acc_user, dict_asset['acc_asset'])
-        flag, result = self.db.execute(sql_modify)
-        if not flag:
-            print(result)
-        return flag
+    # 用于资产账户信息的更改
+    def modify_assets(self, acc_asset, df_asset, is_transaction=False):
+        # 由于中文编码有问题，所以update改为delete+insert
+        sql_delete = "delete from %s where acc_user='%s' and acc_asset='%s'" % (self.table, self.acc_user, acc_asset)
+        if not is_transaction:
+            flag, result = self.db.execute(sql_delete)
+            if not flag:
+                print(result)
+                return False
+            else:
+                flag, result = self.db.write(df_asset, self.table)
+                if not flag:
+                    print(result)
+                    return False
+            return True
+        else:
+            return sql_delete, self.table, False, 'append'
 
+    # 用于交易等相关数据库事务的更新
     def update_assets(self, tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, is_transaction=False):
         sql_update_assets, sql_update_assets_related = "", ""
         sql_template = "update %s set amt_asset=amt_asset %s %s where acc_user='%s' and acc_asset='%s' "
