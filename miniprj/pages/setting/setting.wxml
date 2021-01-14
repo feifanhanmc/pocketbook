@@ -16,7 +16,7 @@
     </view>
     <view class="viewSetItem">
         <view class="viewSetItem1">
-          <image class="imageIcon" src="{{setIconPath+imageLike}}.png"></image>
+          <image class="imageIcon" src="{{setIconPath+imageShare}}.png"></image>
           <text style="color: black">分享转发</text>
         </view>
         <view class="viewSetItem2">

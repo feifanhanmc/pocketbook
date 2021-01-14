@@ -17,6 +17,10 @@ Page({
     amt_asset_total: 0,
     amt_debt_total: 0,
     amt_budget: 0,  
+    amt_budget_temp: "",
+
+    // ViewData
+    inputHidden: true,
 
     // AssetsData
     assetsList: [],
@@ -27,6 +31,58 @@ Page({
     // OtherData
     assetIconPath: "/data/icons/asset/",
     nodataIconPath: "/data/icons/nodata/",
+  },
+  handleSetBudget(e){
+    this.setData({
+      inputHidden: false
+    })
+  },
+  handleCancelBudget(){
+    this.setData({
+      inputHidden: true,
+      amt_budget_temp: ""
+    })
+  },
+  async handleSubmitBudget(e){
+    var amt_budget_temp = parseFloat(this.data.amt_budget_temp)
+    if((amt_budget_temp.toString() == "NaN") || (amt_budget_temp==0)){
+      wx.showToast({
+        title: '输入有误',
+        icon: 'none',
+        duration: 3000 
+      })
+      this.setData({
+        inputHidden: true,
+        amt_budget_temp: ""
+      })
+    }else{     
+      this.setData({
+        inputHidden: true,
+      })
+      const {result} = await request({url:"/wxstatistics/set_budget",data:{'amt_budget': amt_budget_temp},method:"post"});
+      if(result){
+        this.setData({
+          amt_budget: amt_budget_temp
+        })
+        wx.showToast({
+          title: '设置成功',
+          icon: 'success',
+          duration: 3000
+        })
+        wx.setStorageSync('flagRefreshStatisticsData', true)
+      }else{
+        wx.showToast({
+          title: '设置失败，请稍后再试',
+          icon: 'none',
+          duration: 3000 
+        })
+      }
+    }
+  },
+  handleInput(e){
+    this.setData({
+      amt_budget_temp: e.detail.value
+    })
   },
   async showAssetsList() {
     const {assets} = await request({url:"/wxassets/show_assets",data:{},method:"post"});

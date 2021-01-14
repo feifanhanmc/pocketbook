@@ -99,3 +99,9 @@ swiper{
 .homeTextAssetRmk{
   color: rgba(0, 0, 0, 0.555);   
 }
+.viewInput{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 50rpx;
+}
