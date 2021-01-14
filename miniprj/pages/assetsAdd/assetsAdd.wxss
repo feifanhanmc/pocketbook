@@ -1,0 +1,28 @@
+/* pages/assetsAddStep0/assetsAddStep0.wxss */
+
+.assetAddNavigatorAsset{
+  height: 150rpx;
+  width: 730rpx;
+  border-left: 1px solid rgb(252, 252, 252);
+  border-right: 1px solid rgb(252, 252, 252);
+  border-top: 2px solid rgb(252, 252, 252);
+  border-bottom: 2px solid rgb(252, 252, 252);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.assetAddViewAssetItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.assetAddViewAssetItemFisrt{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.assetAddImageAssetIcon{
+  border-width: 0;
+  width: 70rpx;
+}
