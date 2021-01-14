@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, send_from_directory, request
-from web.dataexport.utils import utils_export 
+from web.dexport.utils import utils_export
 import json
 import os
 
 
-mod = Blueprint('export', __name__, url_prefix='/export')
+mod = Blueprint('dexport', __name__, url_prefix='/dexport')
 
 
 @mod.route('/', methods=['GET'])

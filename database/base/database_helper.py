@@ -96,11 +96,11 @@ if __name__ == '__main__':
     # db.execute('show tables')
     # print(db.read('show tables')[1])
     # print(db.read('desc assets')[1]['Default'].tolist())
-    conn = db.gen_transaction_conn()
+    conn = db.engine.connect()
     trans = conn.begin()
     try:
         pd.DataFrame(data=[['c', 'c']], columns=['acc_user', 'pwd_user_md5']).to_sql('users', con=conn, index=False, if_exists='append')
-        pd.DataFrame(data=[['dddddddddddddd', 'd']], columns=['acc_user', 'pwd_user_md5']).to_sql('users', con=conn, index=False, if_exists='append')
+        pd.DataFrame(data=[['d', 'd', '']], columns=['acc_user', 'pwd_user_md5', 'cod_gender']).to_sql('users', con=conn, index=False, if_exists='append')
         trans.commit()
     except Exception as e:
         print(str(e))

@@ -51,8 +51,23 @@ class User:
         return self.acc_user, flag_new
     
     def save_userinfo(self, userinfo):
-        # 若存在acc_user则update，反之创建
-        pass
+        dict_mapping = {
+            'nickName':     'nam_nick',
+            'gender':       'cod_gender',
+            'language':     'vlu_lang',
+            'city':         'vlu_city',
+            'province':     'vlu_prov',
+            'country':      'vlu_country',
+            'avatarUrl':    'url_avatar'}
+        data, columns = [], []
+        for key, column in dict_mapping.items():
+            columns.append(column)
+            data.append(userinfo.get(key, ''))
+        df_userinfo = pd.DataFrame(data=data, columns=columns)
+        flag, result = self.db.write(df_userinfo, self.table)
+        if not flag:
+            print(result)
+        return flag, result
 
     def db_init(self):
         pass

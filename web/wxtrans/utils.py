@@ -5,7 +5,7 @@ from database.models.statistics.statistic import Statistic
 from database.models.assets.asset import Asset
 from database.base.database_helper import DataBase
 from tools.toolkit import gen_short_uuid
-from web.dataexport.utils import utils_export
+from web.dexport.utils import get_export_path
 import time
 import calendar
 import pandas as pd
@@ -14,6 +14,7 @@ import os
 
 
 url_base = 'https://sun.liuyihua.com'
+
 
 def utils_show_trans(wx_data):
     acc_user = wx_data['token']
@@ -102,11 +103,11 @@ def utils_export_trans(wx_data):
     df_trans = Transaction(acc_user).export_trans()
     
     filename = "%s.xlsx" % gen_short_uuid()
-    path_server = utils_export()
-    file_server = os.path.join(path_server, filename)
+    path_server = get_export_path()
+    file_server = os.path.join(path_server, filename)   # 文件存放路径
     df_trans.to_excel(file_server)
 
-    url_file = "%s/export/?filename=%s" % (url_base, filename)
+    url_file = "%s/dexport/?filename=%s" % (url_base, filename)  # 文件请求下载路径
     return {'url': url_file}
 
 

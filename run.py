@@ -7,8 +7,8 @@ from web.wxtrans.views import mod as wxTranModule
 from web.wxassets.views import mod as wxAssetModule
 from web.wxtranstypes.views import mod as wxTransTypeModule
 from web.wxstatistics.views import mod as wxStatisticModule
-from web.dataexport.views import mod as exportModule
-from web.dataimport.views import mod as importModule
+from web.dexport.views import mod as exportModule
+from web.dimport.views import mod as importModule
 
 
 def create_app(static_folder='web/static', template_folder='web/templates'):

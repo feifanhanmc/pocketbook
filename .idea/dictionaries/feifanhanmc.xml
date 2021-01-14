@@ -4,6 +4,8 @@
       <w>appid</w>
       <w>dbconfig</w>
       <w>dbuser</w>
+      <w>dfinfo</w>
+      <w>dirname</w>
       <w>dtype</w>
       <w>filecolumns</w>
       <w>fillna</w>
@@ -13,6 +15,7 @@
       <w>transtype</w>
       <w>transtypes</w>
       <w>unpad</w>
+      <w>userdata</w>
       <w>userinfo</w>
       <w>vdefault</w>
       <w>wxassets</w>

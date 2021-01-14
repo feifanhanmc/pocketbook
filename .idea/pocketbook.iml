@@ -7,8 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/test/test1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/test2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/dataexport" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/dataimport" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/dexport" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/dimport" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/database/backup" isTestSource="false" />
