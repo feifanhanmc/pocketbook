@@ -25,7 +25,6 @@ def utils_login_init(wx_data):
 
     userinfo = json.loads(wx_data.get('rawData', {}))
     nam_user = userinfo.get('nickName', '')
-    print('nam_user', nam_user)
 
     # 准备获取openid的请求数据
     code = wx_data['code']  # 前端POST过来的微信临时登录凭证code

@@ -8,7 +8,9 @@ def get_export_path():
     :return: 返回导出路径
     """
     path_base = os.path.dirname(__file__)
-    path_export = os.path.abspath(os.path.join(path_base, "../../data/dexport"))
+    path_export = os.path.abspath(os.path.join(path_base, "../../data/export"))
+    if not os.path.exists(path_export):
+        os.makedirs(path_export)
     return path_export
 
 

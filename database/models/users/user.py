@@ -22,7 +22,7 @@ class User:
         if not self.db:
             self.db = DataBase()
 
-    def create(self, nam_user=None):
+    def create(self):
         if not self.acc_user:
             self.acc_user = gen_short_uuid()
         if not self.nam_user:
@@ -38,7 +38,10 @@ class User:
         return flag
 
     def user_check(self, openid, nam_user=''):
+        if nam_user:
+            self.nam_user = nam_user
         self.vlu_openid = openid
+
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
         flag, result = self.db.read(sql_check)
 
@@ -46,7 +49,7 @@ class User:
             self.acc_user = result['acc_user'][0]
             flag_new = False
         else:
-            self.acc_user = self.create(nam_user=nam_user)
+            self.acc_user = self.create()
             flag_new = True
         return self.acc_user, flag_new
     
