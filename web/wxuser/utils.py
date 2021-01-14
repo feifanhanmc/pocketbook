@@ -24,7 +24,6 @@ def utils_login_init(wx_data):
     appSecret = wxminiprj_token['appSecret']
 
     userinfo = json.loads(wx_data.get('rawData', {}))
-    nam_user = userinfo.get('nickName', '')
 
     # 准备获取openid的请求数据
     code = wx_data['code']  # 前端POST过来的微信临时登录凭证code
@@ -50,21 +49,16 @@ def utils_login_init(wx_data):
     '''
     
     u = User()
-    acc_user, flag_new = u.user_check(openid, nam_user=nam_user)
-    # 对于新创建的用户，需要存储用户信息并创建初始资产统计表
-    if flag_new:
-        userinfo_flag, userinfo_result = u.save_userinfo(userinfo)
-        if userinfo_flag:
-            resp['save_userinfo'] = True
-        else:
-            resp['save_userinfo'] = False
-
-        s = Statistic(acc_user)
-        statistic_flag, statistic_result = s.init_statistics()
-        if statistic_flag:
-            resp['init_statistics'] = True
-        else:
-            resp['init_statistics'] = False
+    acc_user, flag_new = u.user_check(openid, userinfo)
+    if acc_user:
+        # 对于新创建的用户，需要创建初始资产统计表
+        if flag_new:
+            s = Statistic(acc_user)
+            statistic_flag, statistic_result = s.init_statistics()
+            if statistic_flag:
+                resp['init_statistics'] = True
+            else:
+                resp['init_statistics'] = False
 
     resp['token'] = acc_user
     return resp
