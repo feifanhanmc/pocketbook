@@ -110,7 +110,7 @@ Page({
   },
   handleAssetAdd(e){
     wx.navigateTo({
-      url: '/pages/assetsAddStep0/assetsAddStep0',
+      url: '/pages/assetsAdd/assetsAdd',
     })
   },
   handleTap(e){

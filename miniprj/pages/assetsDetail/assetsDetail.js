@@ -16,6 +16,7 @@ Page({
     rmk_asset: "",
     tye_asset: "",
     amt_asset: 0.0,
+    accAssetIndex: 0,
 
     // StockInfo & FundInfo
     products: [],
@@ -36,14 +37,8 @@ Page({
     nodataIconPath: "/data/icons/nodata/",
   },
   handleAssetsModify(e){
-    // console.log(e)
-    // wx.navigateTo({
-    //   url: '/pages/assetsModify/assetsModify',
-    // })
-    wx.showToast({
-      title: '开发中，敬请期待',
-      icon: 'none',
-      duration: 3000 
+    wx.navigateTo({
+      url: '/pages/assetsModify/assetsModify?type=modify&accAssetIndex='+this.data.accAssetIndex,
     })
   },
   async showCurrentTransList() {
@@ -87,7 +82,8 @@ Page({
       nam_asset,
       rmk_asset,
       tye_asset,
-      amt_asset
+      amt_asset,
+      accAssetIndex
     })
 
     // 判断是否是股票基金类账户，并进行初始化操作
