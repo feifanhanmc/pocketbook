@@ -51,7 +51,7 @@
 
 <view><text>\n</text></view>
 <view hidden="{{inputHidden}}" class="viewInput">
-  <input type="digit" bindinput="handleInput" focus placeholder="当前预算: {{amt_budget}}" style="margin-left:20rpx"></input>
+  <input type="digit" bindinput="handleInput" focus placeholder="当前预算: {{amt_budget}}，键入修改" style="margin-left:20rpx"></input>
   <view style="margin-bottom:50rpx">
     <text bindtap="handleCancelBudget" decode="{{true}}" space="{{true}}" style="color: gray">取消&nbsp;&nbsp;</text>
     <text bindtap="handleSubmitBudget" decode="{{true}}" space="{{true}}" style="color: green;font-weight:bold">修改&nbsp;&nbsp;</text>
