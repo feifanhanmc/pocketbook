@@ -1,3 +1,4 @@
 *.pyc
 dbconfig.json
 wxminiprj_token.json
+data/export/*
