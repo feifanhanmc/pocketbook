@@ -20,9 +20,9 @@ class DataBase:
             self.config = load_config(file_config)
 
         if not self.engine:
-            self.engine = create_engine('mysql+pymysql://%s:%s@%s:%s/%s' %
+            self.engine = create_engine('mysql+pymysql://%s:%s@%s:%s/%s?charset=%s' %
                                         (self.config["user"], self.config["password"], self.config["host"],
-                                         self.config["port"], self.config["db"]))
+                                         self.config["port"], self.config["db"], self.config["charset"]))
 
     def transaction(self, dfinfo_list, sql_list):
         """
