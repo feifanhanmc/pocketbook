@@ -36,9 +36,9 @@ class User:
         if not self.acc_user:
             self.acc_user = gen_short_uuid()
         self.pwd_user_md5 = get_md5(self.acc_user)
-
-        columns = ['acc_user', 'pwd_user_md5']
-        data = [self.acc_user, self.pwd_user_md5]
+        
+        columns = ['acc_user', 'pwd_user_md5', 'vlu_openid']
+        data = [self.acc_user, self.pwd_user_md5, self.vlu_openid]
         for key, column in dict_mapping.items():
             columns.append(column)
             data.append(userinfo.get(key, ''))
