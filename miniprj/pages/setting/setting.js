@@ -17,6 +17,8 @@ Page({
     imageFeedback: "feedback",
     imageLike: "like",
     imageExport: "export",
+    imageShare: "share",
+    imageBudget: "budget",
 
     // OtherData
     setIconPath: "/data/icons/set/",

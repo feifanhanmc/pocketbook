@@ -14,8 +14,13 @@
         <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_income_month}}</text>
       </view>
       <view>
-        <text class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
+        <view wx:if="{{amt_budget==0}}">
+          <text bindtap="handleSetBudget" class="homeTextOverviewName" decode="{{true}}" space="{{true}}">设置预算&nbsp;&nbsp;</text>
+        </view>
+        <view wx:else>
+          <text bindtap="handleSetBudget" class="homeTextOverviewName" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;预算剩余</text> 
         <text class="homeTextOverviewAmount" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;{{amt_budget_surplus}}&nbsp;&nbsp;</text>
+        </view>
       </view>
     </view>
   </swiper-item>
@@ -45,6 +50,13 @@
 </view>
 
 <view><text>\n</text></view>
+<view hidden="{{inputHidden}}" class="viewInput">
+  <input type="digit" bindinput="handleInput" focus placeholder="当前预算: {{amt_budget}}" style="margin-left:20rpx"></input>
+  <view>
+    <text bindtap="handleCancelBudget" decode="{{true}}" space="{{true}}" style="color: gray">取消&nbsp;&nbsp;</text>
+    <text bindtap="handleSubmitBudget" decode="{{true}}" space="{{true}}" style="color: green;font-weight:bold">修改&nbsp;&nbsp;</text>
+  </view>
+</view>
 <view class="homeViewAssetTitle">
   <text class="homeTextAssetTitle" decode="{{true}}" space="{{true}}">&nbsp;&nbsp;资产账户</text>
   <text bindtap="handleAssetAdd" class="homeTextAssetAdd" decode="{{true}}" space="{{true}}">添加&nbsp;&nbsp;</text>
