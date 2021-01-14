@@ -104,4 +104,5 @@ swiper{
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 50rpx;
+  border-bottom: 2px solid rgb(252, 252, 252);
 }
