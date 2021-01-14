@@ -33,16 +33,25 @@ Page({
         // 3 发送请求 获取用户的token
         const loginParams={ encryptedData, rawData, iv, signature ,code};
         const {token} = await request({url:"/wxuser/login_init",data:loginParams,method:"post"});
-        // 4 把token(即acc_user)存入缓存中
-        wx.setStorageSync("token", token);  
-        // 5 认证完成后，返回home页面
-        console.log('Auth Success!')
-        // RefreshFlag
-        wx.setStorageSync('flagRefreshAssetsList', true);
-        wx.setStorageSync('flagRefreshStatisticsData', true);
-        wx.switchTab({
-          url: '/pages/home/home',
-        })
+        if(token){
+          // 4 把token(即acc_user)存入缓存中
+          wx.setStorageSync("token", token);  
+          // 5 认证完成后，返回home页面
+          console.log('Auth Success!')
+          // RefreshFlag
+          wx.setStorageSync('flagRefreshAssetsList', true);
+          wx.setStorageSync('flagRefreshStatisticsData', true);
+          wx.switchTab({
+            url: '/pages/home/home',
+          })
+        }else{
+          wx.showToast({
+            title: '添加失败，请稍后再试！',
+            icon: 'none',
+            duration: 3000 
+          })
+        }
+
       } catch (error){
         console.log(error)
       }

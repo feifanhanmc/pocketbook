@@ -66,9 +66,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 获取缓存中的userInfo，若没有用户信息则说明是新用户，跳转至认证界面
-    const userInfo = wx.getStorageSync('userInfo') || {}
-    if (JSON.stringify(userInfo) === "{}"){
+    // 获取缓存中的token，若没有用户信息则说明是新用户，跳转至认证界面
+    const token = wx.getStorageSync('token')
+    if (!token){
       wx.redirectTo({
         url: '/pages/auth/auth'
       })
