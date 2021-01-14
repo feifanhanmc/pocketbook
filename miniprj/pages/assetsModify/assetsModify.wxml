@@ -1,5 +1,34 @@
-<!--pages/assetsModify/assetsModify.wxml-->
-<view>
-  <text>开发中，敬请期待</text>
-  <image style="width: 750rpx;display: flex; flex-direction: row; justify-content: center" mode="widthFix" src="{{nodataIconPath+imageNoData}}.png"></image>
+<!--pages/assetsAddStep1/assetsAddStep1.wxml-->
+<view class="addView">
+  <view class="addViewTitle">
+    <image class="addImageAssetIcon" mode="widthFix" src="{{assetIconPath}}{{selectedAssetIco}}.png"></image>  
+  </view>
+  <view class="addTextAssetName">
+    <text>{{selectedAssetNam}}</text>
+  </view>
+  <view class="page-section">
+    <view class="weui-cells__title">名称</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input wx:if="{{modifyType=='add'}}" class="weui-input" bindinput="handleInput1" maxlength="20" focus placeholder="默认为{{selectedAssetNam}}"/>
+        <input wx:if="{{modifyType=='modify'}}" class="weui-input" bindinput="handleInput1" maxlength="20" focus placeholder="{{selectedAssetRmk}}"/>
+      </view>
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="weui-cells__title" wx:if="{{selectedAssetTye=='debt'}}">欠款</view>
+    <view class="weui-cells__title" wx:else>余额</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input wx:if="{{modifyType=='add'}}" class="weui-input" bindinput="handleInput2" type="digit" placeholder="默认为零"/>
+        <input wx:if="{{modifyType=='modify'}}" class="weui-input" bindinput="handleInput2" type="digit" placeholder="{{selectedAssetAmt}}"/>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="blankViewBig"></view>
+<view class="viewButton">
+  <button wx:if="{{modifyType=='modify'}}" class="deleteButton " bindtap="handleDelete" >删除</button>
+  <button class="saveButton" bindtap="handleSave" >保存</button>
 </view>

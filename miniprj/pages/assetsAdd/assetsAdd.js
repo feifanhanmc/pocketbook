@@ -1,5 +1,5 @@
 // pages/assetsAddStep0/assetsAddStep0.js
-import regeneratorRuntime from '../..//utils/runtime/runtime';
+import regeneratorRuntime from '../../utils/runtime/runtime';
 import { request } from "../../utils/request/request.js";
 import { login } from "../../utils/asyncwx.js";
 

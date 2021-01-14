@@ -1,6 +1,6 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "选择资产类型",
+  "navigationBarTitleText": "选择账户类型",
   "navigationBarTextStyle": "black",
   "backgroundTextStyle": "dark",
   "navigationBarBackgroundColor": "#FABD03"

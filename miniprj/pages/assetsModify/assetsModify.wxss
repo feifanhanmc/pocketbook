@@ -1,1 +1,73 @@
-/* pages/assetsModify/assetsModify.wxss */
+/* pages/assetsAddStep1/assetsAddStep1.wxss */
+.blankView{
+  height: 20rpx;
+}
+.blankViewBig{
+  height: 100rpx;
+}
+.addView{
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.addViewTitle{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.addImageAssetIcon{
+  border-width: 0;
+  width: 200rpx;
+}
+.addTextAssetName{
+  margin-top: 20rpx;
+  margin-bottom: 50rpx;
+}
+.input{
+  border: black;
+}
+.nameView{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.page-section{
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100rpx;
+  width: 730rpx;
+  border-left: 1px solid rgb(252, 252, 252);
+  border-right: 1px solid rgb(252, 252, 252);
+  border-top: 2px solid rgb(252, 252, 252);
+  border-bottom: 2px solid rgb(252, 252, 252);
+}
+.weui-cells__title{
+  /* font-size: 33px;     */
+  color: black;       
+  font-weight: bold;  
+  margin-right: 20rpx;
+
+}
+.viewButton{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.saveButton{
+  width: 30%;
+  border-radius: 70rpx;
+  background-color: #FABD03;
+}
+.deleteButton{
+  width: 30%;
+  border-radius: 70rpx;
+  background-color: red;
+  margin-right: 40rpx;
+}
