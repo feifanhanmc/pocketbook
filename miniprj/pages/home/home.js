@@ -115,7 +115,7 @@ Page({
   },
   handleTap(e){
     wx.navigateTo({
-      url: '/pages/transAdd/transAdd',
+      url: '/pages/transModify/transModify',
     })
   },
   /**

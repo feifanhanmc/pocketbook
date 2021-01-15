@@ -46,6 +46,7 @@ create table if not exists transactions (
     rmk_asset           varchar(50)     default '',
     amt_trans           decimal(18,2)   default 0,
     tye_asset           varchar(20)     default '',
+    ico_asset           varchar(20)     default 'other',
     tye_flow            varchar(10)     default '',
     dte_trans           varchar(8)      default '',
     tme_trans           varchar(6)      default '',

@@ -1,5 +1,94 @@
-<!--pages/transModify/transModify.wxml-->
-<view class="viewMain">
-  <view><text style="color:gray; font-size: 50rpx">开发中，敬请期待</text></view>
-  <image style="width: 750rpx;display: flex; flex-direction: row; justify-content: center" mode="widthFix" src="{{nodataIconPath+imageNoData}}.png"></image>
-</view>
+<!--pages/transAdd/transAdd.wxml-->
+<block wx:if="{{lastTransAssetAcc}}" class="block">
+  <view class="swiper-tab">
+      <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">流出</view>
+      <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">流入</view>
+      <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">转账</view>
+  </view>
+  <view class="viewAsset">
+    <view class="viewAsset1">
+      <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+      <picker bindchange="bindPickerChange" value="{{indexPicker}}" range="{{assetsListPicker}}" range-key="{{'nam_pick'}}">
+        <view class="viewAsset11">
+          <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <view class="textTranName">
+            <text class="textBlod">{{lastTransAssetNam}}</text>
+            <text class="textGray">{{lastTransAssetRmk}}</text>
+          </view>
+        </view>
+      </picker>
+    </view>
+
+    <view class="viewAsset2">
+      <input class="weui-input" bindinput="handleInputAmt" focus type="digit" maxlength="10" style="{{currentTab==0 ? 'color:red;' : currentTab==1 ? 'color:green;' : 'color:black;'}}" placeholder="{{amt_trans}}"/>
+    </view>
+  </view>
+
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{swiperViewHeight}}rpx">
+    <swiper-item>
+        <view class="viewTranstypes">
+          <view class="viewTranstypesItem" wx:for="{{expendTranstypes}}" wx:key="index">
+            <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:#FABD03;font-weight:bold;font-size:30rpx' : ''}}">{{item.txt_trans_type}}</text>
+          </view>
+        </view>
+      </swiper-item>
+
+      <swiper-item>
+        <view class="viewTranstypes">
+          <view class="viewTranstypesItem" wx:for="{{incomeTranstypes}}" wx:key="index">
+            <image class="imageTranstypesIcon" bindtap="handleChoseTranstype" data-index="{{item.index}}" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
+            <text class="textSamllGray" style="{{item.cod_trans_type==cod_trans_type ? 'color:#FABD03;font-weight:bold;font-size:30rpx' : ''}}">{{item.txt_trans_type}}</text>
+          </view>
+        </view>
+      </swiper-item>
+
+      <swiper-item>
+        <view class="viewTransfer">
+          <image class="imageTransfer" mode="widthFix" src="{{otherIconPath + transferIco}}.png"></image>
+        </view>
+        <view class="viewAsset3">
+          <view class="viewAsset31">
+            <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+            <picker bindchange="bindPickerChange2" value="{{indexPicker2}}" range="{{assetsListPicker}}" range-key="{{'nam_pick'}}">
+              <view class="viewAsset11">
+                <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + ico_asset_related}}.png"></image>
+                <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+                <view class="textTranName">
+                  <text class="textBlod">{{nam_asset_related}}</text>
+                  <text class="textGray">{{rmk_asset_related}}</text>
+                </view>
+              </view>
+            </picker>
+          </view>
+          <view class="viewAsset2">
+            <text class="weui-input" style="{{currentTab==0 ? 'color:red;' : currentTab==1 ? 'color:green;' : 'color:black;'}}">{{amt_trans}}</text>
+          </view>
+      </view>
+      </swiper-item>
+  </swiper>
+
+  <view>
+    <picker class="pickerDate" mode="date" value="{{dte_trans}}" start="2015-09-01" bindchange="bindDateChange">
+      <text class="textGray" style="margin-left: 20rpx; ">日期:</text>
+      <text class="dtePicker">{{dte_trans}} </text>
+    </picker>
+  </view>
+
+  <view class="page-section">
+    <text class="textGray" style="margin-left: 20rpx; margin-right:20rpx">备注:</text>
+    <input class="inputRemark" bindinput="handleInputRemark" maxlength="20" placeholder="请输入备注信息" />
+  </view>
+
+  <view style="margin-top: 20rpx">
+    <button class="saveButton" bindtap="handleSave" >确认</button>
+  </view>
+
+</block>
+<block wx:else>
+  <view class="viewNoAsset">
+    <button class="buttonNoAsset" bindtap="handleAddAsset">添加资产</button>
+    <text class="textNoAsset">请先添加资产账户</text>
+  </view>
+</block>

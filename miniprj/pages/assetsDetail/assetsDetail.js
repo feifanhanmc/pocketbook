@@ -36,6 +36,22 @@ Page({
     tranIconPath: "/data/icons/tran/",
     nodataIconPath: "/data/icons/nodata/",
   },
+  handleModifyTrans(e){
+    const index = parseInt(e.currentTarget.id)
+    const trans = this.data.currentTransList[index]
+    const {tye_flow} = trans
+    if(tye_flow=='adjust'){
+      wx.showToast({
+        title: '仅支持长按删除',
+        icon: 'none',
+        duration: 3000 
+      })
+    }else{
+      wx.navigateTo({
+        url: "/pages/transModify/transModify?transStr="+JSON.stringify(trans)
+      })
+    }   
+  },
   handleAssetsModify(e){
     wx.navigateTo({
       url: '/pages/assetsModify/assetsModify?type=modify&accAssetIndex='+this.data.accAssetIndex,

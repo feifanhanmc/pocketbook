@@ -45,10 +45,7 @@
 
     <block wx:if="{{currentTransList.length>0}}">
       <view class="viewContent">
-        <navigator class="navigatorTrans"
-        wx:for="{{currentTransList}}"
-        wx:key="id"
-        url="/pages/transModify/transModify?transId={{item.id}}" >
+        <view bindtap="handleModifyTrans" id="{{index}}" class="navigatorTrans"  wx:for="{{currentTransList}}" wx:key="id" >
           <view class="viewTransItemFirst">
             <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
             <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>
@@ -66,7 +63,7 @@
               style="{{item.tye_flow=='expend'?  'color:red;':  item.tye_flow=='income'?  'color:green;':  'color:black;'}}">{{item.amt_trans}}</text>
               <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
             </view>
-        </navigator>
+          </view>
       </view>
     </block>
     <block wx:else>

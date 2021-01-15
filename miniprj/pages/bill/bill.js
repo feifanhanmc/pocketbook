@@ -25,6 +25,23 @@ Page({
     tranIconPath: "/data/icons/tran/",
     nodataIconPath: "/data/icons/nodata/",
   },
+  handleModifyTrans(e){
+    const index = parseInt(e.currentTarget.id)
+    const trans = this.data.transList[index]
+    console.log(trans)
+    const {tye_flow} = trans
+    if(tye_flow=='adjust'){
+      wx.showToast({
+        title: '仅支持长按删除',
+        icon: 'none',
+        duration: 3000 
+      })
+    }else{
+      wx.navigateTo({
+        url: "/pages/transModify/transModify?transStr="+JSON.stringify(trans)
+      })
+    }   
+  },
   async showTransList() {
     const {trans} = await request({url:"/wxtrans/show_trans",data:{},method:"post"});
     this.setData({
