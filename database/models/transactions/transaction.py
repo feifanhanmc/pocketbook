@@ -47,12 +47,14 @@ class Transaction:
         if not db:
             self.db = DataBase()
 
-    def show_trans(self, acc_asset=None):
-        sql_asset = " "
+    def show_trans(self, acc_asset=None, id=None):
+        sql_asset, sql_id = " ", " "
         if acc_asset:
             sql_asset = " and (acc_asset='%s' or acc_asset_related='%s') " % (acc_asset, acc_asset)
-        sql_show = "select * from transactions where acc_user='%s' %s order by dte_trans desc, id desc" % \
-                   (self.acc_user, sql_asset)
+        if id:
+            sql_id = " and id=%s " % id
+        sql_show = "select * from transactions where acc_user='%s' %s %s order by dte_trans desc, id desc" % \
+                   (self.acc_user, sql_asset, sql_id)
         flag, result = self.db.read(sql_show)
         if flag:
             result['index'] = range(len(result))
@@ -133,38 +135,18 @@ class Transaction:
             return result
         return pd.DataFrame()
 
-    def update_trans(self, dict_tran):
-        # 逻辑比较复杂
-        # 关联账户、交易类型、金额等变化后都会引起一系列账户的变化……最后再写
-        # nam_asset_related
-        # cod_trans_type
-        # ico_trans
-        """
-        sql_template = "update transactions set % where acc_user='%s' and acc_asset='%s' and id='%s'"
-        sql_list_update = []
-        for key, value in dict_tran.items():
-            # if key == ''
-            if key in ['amt_trans', 'tye_flow', 'dte_trans', 'tme_trans', 'acc_asset_related', 'cod_trans_type',
-                       'txt_remark']:
-                sql_list_update.append(" %s='%s' " % (key, value))
-        sql_str_update = ",".join(sql_list_update)
-        sql_update = sql_template % (sql_str_update, self.acc_user, dict_tran['acc_asset'], dict_tran['id'])
-        self.db.execute(sql_update)
-        return True
-        """
-        pass
 
-    def delete_trans(self, dict_tran):
-        # 删除一笔交易后，资金要回笼
-        # 如果涉及到的相关账户已经没了，要转到应收/应付账户还是该怎么做……
-        # 最后在做
-        """
-        sql_delete = "update assets set boo_active=0 where acc_user='%s' and acc_asset='%s'" % \
-                     (self.acc_user, dict_tran['acc_asset'])
-        self.db.execute(sql_delete)
-        return True
-        """
-        pass
+    # 由于删除交易记录会有资金回流，因此一般情况下禁止直接删除记录，而不做后续处理
+    def delete_trans(self, id, is_transaction=True):
+        sql_delete = "delete from %s where acc_user='%s' and id=%s " % (self.table, self.acc_user, id)
+        if not is_transaction:
+            flag, result = self.db.execute(sql_delete)
+            if not flag:
+                print(result)
+            return flag
+        else:
+            return sql_delete
+
 
     @staticmethod
     def revert_dict(dic):

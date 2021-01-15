@@ -70,14 +70,31 @@ class Asset:
             return sql_delete, self.table, False, 'append'
 
     # 用于交易等相关数据库事务的更新
-    def update_assets(self, tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, is_transaction=False):
+    def update_assets(self, tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, tye_update='add', is_transaction=False):
+        """
+        :param tye_flow: ['income', 'expend', 'transfer']
+        :param tye_update: ['add', 'delete_trans', 'delete_asset']
+        """
         sql_update_assets, sql_update_assets_related = "", ""
         sql_template = "update %s set amt_asset=amt_asset %s %s where acc_user='%s' and acc_asset='%s' "
-        if tye_flow == 'transfer':  # 账面金额一减一增
-            sql_update_assets = sql_template % (self.table, '-', amount, self.acc_user, acc_asset)
-            sql_update_assets_related = sql_template % (self.table, '+', amount, self.acc_user, acc_asset_related)
-        elif tye_flow in ('income', 'expend'):
-            sql_update_assets = sql_template % (self.table, '+', amount, self.acc_user, acc_asset)
+        if tye_update == 'add':
+            if tye_flow == 'transfer':  # 账面金额一减一增
+                sql_update_assets = sql_template % (self.table, '-', amount, self.acc_user, acc_asset)
+                sql_update_assets_related = sql_template % (self.table, '+', amount, self.acc_user, acc_asset_related)
+            elif tye_flow in ('income', 'expend'):
+                sql_update_assets = sql_template % (self.table, '+', amount, self.acc_user, acc_asset)
+            else:
+                pass
+        elif tye_update == 'delete_trans':  # 删除交易记录会引起资产账户变动
+            if tye_flow == 'transfer':
+                sql_update_assets = sql_template % (self.table, '+', amount, self.acc_user, acc_asset)
+                sql_update_assets_related = sql_template % (self.table, '-', amount, self.acc_user, acc_asset_related)
+            elif tye_flow in ('income', 'expend'):
+                sql_update_assets = sql_template % (self.table, '-', amount, self.acc_user, acc_asset)
+            else:
+                pass
+        elif tye_update == 'delete_asset':
+            pass
         else:
             pass
         

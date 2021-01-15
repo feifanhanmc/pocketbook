@@ -11,6 +11,7 @@ import calendar
 import pandas as pd
 import numpy as np
 import os
+import copy
 
 
 url_base = 'https://sun.liuyihua.com'
@@ -29,7 +30,7 @@ def utils_show_trans(wx_data):
     return {'trans': data}
 
 
-def utils_add_trans(wx_data):
+def utils_add_trans(wx_data, is_transaction=False):
     acc_user = wx_data['token']
     del wx_data['token']
     wx_data['acc_user'] = acc_user
@@ -40,6 +41,7 @@ def utils_add_trans(wx_data):
     acc_asset_related = wx_data.get('acc_asset_related', '')
     tye_asset_related = wx_data.get('tye_asset_related', '')
     cod_trans_type = wx_data.get('cod_trans_type', '')
+    # 从前台返回的数据是经过调整后的绝对值等，需要处理后才能存入数据库
     if tye_flow == 'expend':
         wx_data['amt_trans'] = -1 * float(wx_data['amt_trans'])
     amount = wx_data['amt_trans']
@@ -50,9 +52,13 @@ def utils_add_trans(wx_data):
     
     dfinfo_list = [[df_trans, table_trans, index_trans, if_exists_trans]]
     sql_list = [sql_update_statistics, sql_update_assets]
-    if sql_update_assets_related:
-        sql_list.append(sql_update_assets_related)
-    return {'result': DataBase().transaction(dfinfo_list, sql_list)}
+    
+    if not is_transaction:
+        if sql_update_assets_related:
+            sql_list.append(sql_update_assets_related)
+        return {'result': DataBase().transaction(dfinfo_list, sql_list)}
+    else:
+        return sql_list, dfinfo_list
 
 
 def utils_show_flow(wx_data):
@@ -113,12 +119,54 @@ def utils_export_trans(wx_data):
     return {'url': url_file}
 
 
-def utils_update_trans():
-    pass
+# modify拆解为delete+add
+def utils_modify_trans(wx_data):
+    acc_user = wx_data['token']
+    id = wx_data['id']
+    wx_data_delete = {'token': wx_data['token'], 'id': id}
+    wx_data_add = copy.deepcopy(wx_data)
+    sql_list, dfinfo_list =[], []
+
+    # delete
+    sql_delete_list, dfinfo_delete_list = utils_delete_trans(wx_data_delete, is_transaction=True)
+    sql_list.extend(sql_delete_list)
+    dfinfo_list.extend(dfinfo_delete_list)
+
+    # add
+    sql_add_list, dfinfo_add_list = utils_add_trans(wx_data_add, is_transaction=True)
+    sql_list.extend(sql_add_list)
+    dfinfo_list.extend(dfinfo_add_list)
+
+    return {'result': DataBase().transaction(dfinfo_list, sql_list)}
 
 
-def utils_delete_trans():
-    pass
+# 删除交易记录后，对应的资金要回流
+def utils_delete_trans(wx_data, is_transaction=False):
+    acc_user = wx_data['token']
+    id = wx_data['id']
 
+    sql_delete_trans = Transaction(acc_user).delete_trans(id, is_transaction=True)
+    df_trans = Transaction(acc_user).show_trans(id=id)
+    if not df_trans.empty:
+        df_trans = df_trans.iloc[:1]
+        tye_flow = df_trans['tye_flow'][0]
+        amount = df_trans['amt_trans'][0]
+        acc_asset = df_trans['acc_asset'][0]
+        tye_asset = df_trans['tye_asset'][0]
+        acc_asset_related = df_trans['acc_asset_related'][0]
+        tye_asset_related = df_trans['tye_asset_related'][0]
+        cod_trans_type = df_trans['cod_trans_type'][0]
 
+        sql_update_assets, sql_update_assets_related = Asset(acc_user).update_assets(tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, tye_update='delete_trans', is_transaction=True)
+        sql_update_statistics = Statistic(acc_user).update_statistics(tye_flow, amount, cod_trans_type=cod_trans_type, tye_asset=tye_asset, tye_asset_related=tye_asset_related, is_transaction=True)
+
+    dfinfo_list = []
+    sql_list = [sql_delete_trans, sql_update_assets, sql_update_statistics]
+    if sql_update_assets_related:
+        sql_list.append(sql_update_assets_related)
+
+    if not is_transaction:
+        return {'result': DataBase().transaction(dfinfo_list, sql_list)}
+    else:
+        return sql_list, dfinfo_list
 
