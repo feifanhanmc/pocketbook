@@ -188,3 +188,16 @@
   border-bottom: 2px solid rgb(252, 252, 252);
   height: 2rpx;
 }
+.viewButton{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 98rpx;
+}
+.deleteButton{
+  width: 30%;
+  border-radius: 70rpx;
+  background-color: red;
+  margin-right: 40rpx;
+}

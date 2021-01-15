@@ -1,5 +1,5 @@
 <!--pages/transAdd/transAdd.wxml-->
-<block wx:if="{{lastTransAssetAcc}}" class="block">
+<block wx:if="{{lastTransAssetAcc || modifyFlag}}" class="block">
   <view class="swiper-tab">
       <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">流出</view>
       <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">流入</view>
@@ -10,11 +10,14 @@
       <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
       <picker bindchange="bindPickerChange" value="{{indexPicker}}" range="{{assetsListPicker}}" range-key="{{'nam_pick'}}">
         <view class="viewAsset11">
-          <image class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
+          <image wx:if="{{modifyFlag}}" class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + ico_asset}}.png"></image>
+          <image wx:else class="imageAssetIcon" mode="widthFix" src="{{assetIconPath + lastTransAssetIco}}.png"></image>
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <view class="textTranName">
-            <text class="textBlod">{{lastTransAssetNam}}</text>
-            <text class="textGray">{{lastTransAssetRmk}}</text>
+            <text wx:if="{{modifyFlag}}" class="textBlod">{{nam_asset}}</text>
+            <text wx:else class="textBlod">{{lastTransAssetNam}}</text>
+            <text wx:if="{{modifyFlag}}" class="textGray">{{lastTransAssetRmk}}</text>
+            <text wx:else class="textGray">{{rmk_asset}}</text>
           </view>
         </view>
       </picker>
@@ -78,11 +81,13 @@
 
   <view class="page-section">
     <text class="textGray" style="margin-left: 20rpx; margin-right:20rpx">备注:</text>
-    <input class="inputRemark" bindinput="handleInputRemark" maxlength="20" placeholder="请输入备注信息" />
+    <input wx:if="{{modifyFlag}}" class="inputRemark" bindinput="handleInputRemark" maxlength="20" placeholder="{{txt_remark}}" />
+    <input wx:else class="inputRemark" bindinput="handleInputRemark" maxlength="20" placeholder="请输入备注信息" />
   </view>
 
-  <view style="margin-top: 20rpx">
-    <button class="saveButton" bindtap="handleSave" >确认</button>
+  <view class="viewButton">
+    <button wx:if="{{modifyFlag}}" class="deleteButton " bindtap="handleDelete" >删除</button>
+    <button class="saveButton" bindtap="handleSave" >保存</button>
   </view>
 
 </block>
