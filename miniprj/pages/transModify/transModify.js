@@ -18,11 +18,17 @@ Page({
     // 转入信息
     modifyFlag: false,
 
+    // 修改时原始记录信息
+    id: "",
+
+    // 确认修改标识
+    deleteFlag: false,
+
     // SelectedTransData
     nam_asset: "",
     rmk_asset: "",
     acc_asset: "",
-    ico_asset: "",
+    ico_asset: "other",
     amt_trans: 0.0,
     cod_trans_type: "", 
     tye_asset: "",
@@ -34,7 +40,7 @@ Page({
     acc_asset_related: "",
     nam_asset_related: "",
     rmk_asset_related: "",
-    ico_asset_related: "",
+    ico_asset_related: "other",
     tye_asset_related: "",
     
     // AssetDataPicker
@@ -69,10 +75,10 @@ Page({
     if(JSON.stringify(opt)!='{}'){  // 有参数则表明从Modify页面跳转而来
       this.setData({modifyFlag: true})
       const trans = JSON.parse(opt.transStr);
-      console.log(trans)
-      const {acc_asset, nam_asset, rmk_asset, ico_asset, amt_trans, cod_trans_type, ico_trans,tye_flow, acc_asset_related, nam_asset_related, rmk_asset_related, ico_asset_related, tye_asset_related} = trans
+      const {id, acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset, amt_trans, txt_trans_type, cod_trans_type, ico_trans, dte_trans, tye_flow, txt_remark, acc_asset_related, nam_asset_related, rmk_asset_related, ico_asset_related, tye_asset_related} = trans
       this.setData({
-        acc_asset, nam_asset, rmk_asset, ico_asset, amt_trans, cod_trans_type, ico_trans,tye_flow, acc_asset_related, nam_asset_related, rmk_asset_related, ico_asset_related, tye_asset_related
+        id, acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset, amt_trans, txt_trans_type, cod_trans_type, ico_trans, dte_trans, tye_flow, txt_remark, acc_asset_related, nam_asset_related, rmk_asset_related, ico_asset_related, tye_asset_related,
+        currentTab: tye_flow=='expend' ? 0 : tye_flow=='income' ? 1 : 2
       })
 
     } 
@@ -126,103 +132,187 @@ Page({
       txt_remark: e.detail.value
     })
   },
-  async handleSave(e){
-    if(this.data.amt_trans==0){
-      wx.showToast({
-        title: '请输入金额',
-        icon: 'none',
-        duration: 3000 
-      })
-      return false;
-    }
-    // 转账不需要选择交易类型；支出、收入需要
-    if(this.data.currentTab==2){
-      if(this.data.acc_asset==this.data.acc_asset_related){
-        wx.showToast({
-          title: '请选择不同资产账户',
-          icon: 'none',
-          duration: 3000 
-        })
-        return false;
-      }
-      // 转账的交易类型中还分很多种，默认索引为0的类型
-      const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = wx.getStorageSync('transferTranstypes')[0]
-      this.setData({
-        cod_trans_type,
-        tye_flow,
-        txt_trans_type,
-        ico_trans,
-      })
-    }else{
-      if(!this.data.cod_trans_type){
-        wx.showToast({
-          title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型',
-          icon: 'none',
-          duration: 3000 
-        })
-        return false;
-      }
-      this.setData({
-        acc_asset_related: "",
-        nam_asset_related: "",
-        rmk_asset_related: "",
-        ico_asset_related: "other",
-        tye_asset_related: "",
-
-      })
-    }
-
-    const transAddParmas = {
-      acc_asset: this.data.acc_asset,
-      nam_asset: this.data.nam_asset,
-      rmk_asset: this.data.rmk_asset,
-      amt_trans: this.data.amt_trans,
-      tye_asset: this.data.tye_asset,
-      tye_flow: this.data.tye_flow,
-      dte_trans: this.data.dte_trans,
-      acc_asset_related: this.data.acc_asset_related,
-      nam_asset_related: this.data.nam_asset_related,
-      rmk_asset_related: this.data.rmk_asset_related,
-      ico_asset_related: this.data.ico_asset_related,
-      tye_asset_related: this.data.tye_asset_related,
-      cod_trans_type: this.data.cod_trans_type,    
-      txt_trans_type: this.data.txt_trans_type,
-      txt_remark: this.data.txt_remark,
-      ico_trans: this.data.ico_trans
-    }
-    const {result} = await request({url:"/wxtrans/add_trans",data:transAddParmas,method:"post"});
-
-    // 保存成功后，更新lastTransData，并设置相关flagRefresh为true
+  async delete(){
+    const {result} = await request({url:"/wxtrans/delete_trans",data:{'id': this.data.id},method:"post"});
     if(result){
       wx.showToast({
-        title: '保存成功',
+        title: '删除成功',
         icon: 'success',
         duration: 3000 
       })
-      wx.setStorageSync('lastTransData', {
-        acc_asset: this.data.acc_asset,
-        nam_asset: this.data.nam_asset,
-        rmk_asset: this.data.rmk_asset,
-        ico_asset: this.data.ico_asset,
-        tye_asset: this.data.tye_asset,
-      })
-
       wx.setStorageSync('flagRefreshAssetsList', true)
       wx.setStorageSync('flagRefreshStatisticsData', true)
       wx.setStorageSync('flagRefreshTransData', true)
       wx.setStorageSync('flagRefreshReportData', true)
       wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
-
-      wx.switchTab({
-        url: '/pages/home/home',
+      wx.navigateBack({
+        delta: 1,
       })
     }else{
       wx.showToast({
-        title: '添加失败，请稍后再试！',
+        title: '删除失败，请稍后重试',
         icon: 'none',
         duration: 3000 
       })
     }
+  },
+  async handleDelete(e){
+    wx.showModal({
+      title: '提示',
+      content: '确认删除？',
+      success: res=>{
+        if (res.confirm) {
+          this.delete()
+        } else if (res.cancel) {
+        }
+      }
+    })
+  },
+  async handleSave(e){
+    if(this.data.modifyFlag){ // 修改
+      const modifyParams = {
+        id: this.data.id,
+        acc_asset: this.data.acc_asset,
+        nam_asset: this.data.nam_asset,
+        rmk_asset: this.data.rmk_asset,
+        amt_trans: this.data.amt_trans,
+        tye_asset: this.data.tye_asset,
+        ico_asset: this.data.ico_asset,
+        tye_flow: this.data.tye_flow,
+        dte_trans: this.data.dte_trans,
+        acc_asset_related: this.data.acc_asset_related,
+        nam_asset_related: this.data.nam_asset_related,
+        rmk_asset_related: this.data.rmk_asset_related,
+        ico_asset_related: this.data.ico_asset_related,
+        tye_asset_related: this.data.tye_asset_related,
+        cod_trans_type: this.data.cod_trans_type,    
+        txt_trans_type: this.data.txt_trans_type,
+        txt_remark: this.data.txt_remark,
+        ico_trans: this.data.ico_trans
+      }
+      const {result} = await request({url:"/wxtrans/modify_trans",data:modifyParams,method:"post"});
+      if(result){
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 3000 
+        })
+        wx.setStorageSync('flagRefreshAssetsList', true)
+        wx.setStorageSync('flagRefreshStatisticsData', true)
+        wx.setStorageSync('flagRefreshTransData', true)
+        wx.setStorageSync('flagRefreshReportData', true)
+        wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+        wx.navigateBack({
+          delta: 1,
+        })
+      }else{
+        wx.showToast({
+          title: '修改失败，请稍后再试',
+          icon: 'none',
+          duration: 3000 
+        })
+      }
+    }else{ // 添加
+      if(this.data.amt_trans==0){
+        wx.showToast({
+          title: '请输入金额',
+          icon: 'none',
+          duration: 3000 
+        })
+        return false;
+      }
+      // 转账不需要选择交易类型；支出、收入需要
+      if(this.data.currentTab==2){
+        if(this.data.acc_asset==this.data.acc_asset_related){
+          wx.showToast({
+            title: '请选择不同资产账户',
+            icon: 'none',
+            duration: 3000 
+          })
+          return false;
+        }
+        // 转账的交易类型中还分很多种，默认索引为0的类型
+        const {cod_trans_type, tye_flow, txt_trans_type, ico_trans} = wx.getStorageSync('transferTranstypes')[0]
+        this.setData({
+          cod_trans_type,
+          tye_flow,
+          txt_trans_type,
+          ico_trans,
+        })
+      }else{
+        if(!this.data.cod_trans_type){
+          wx.showToast({
+            title: '请选择'+ this.data.tabs[this.data.currentTab] +'类型',
+            icon: 'none',
+            duration: 3000 
+          })
+          return false;
+        }
+        this.setData({
+          acc_asset_related: "",
+          nam_asset_related: "",
+          rmk_asset_related: "",
+          ico_asset_related: "other",
+          tye_asset_related: "",
+  
+        })
+      }
+  
+      const transAddParmas = {
+        acc_asset: this.data.acc_asset,
+        nam_asset: this.data.nam_asset,
+        rmk_asset: this.data.rmk_asset,
+        amt_trans: this.data.amt_trans,
+        tye_asset: this.data.tye_asset,
+        ico_asset: this.data.ico_asset,
+        tye_flow: this.data.tye_flow,
+        dte_trans: this.data.dte_trans,
+        acc_asset_related: this.data.acc_asset_related,
+        nam_asset_related: this.data.nam_asset_related,
+        rmk_asset_related: this.data.rmk_asset_related,
+        ico_asset_related: this.data.ico_asset_related,
+        tye_asset_related: this.data.tye_asset_related,
+        cod_trans_type: this.data.cod_trans_type,    
+        txt_trans_type: this.data.txt_trans_type,
+        txt_remark: this.data.txt_remark,
+        ico_trans: this.data.ico_trans
+      }
+      const {result} = await request({url:"/wxtrans/add_trans",data:transAddParmas,method:"post"});
+  
+      // 保存成功后，更新lastTransData，并设置相关flagRefresh为true
+      if(result){
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 3000 
+        })
+        wx.setStorageSync('lastTransData', {
+          acc_asset: this.data.acc_asset,
+          nam_asset: this.data.nam_asset,
+          rmk_asset: this.data.rmk_asset,
+          ico_asset: this.data.ico_asset,
+          tye_asset: this.data.tye_asset,
+        })
+  
+        wx.setStorageSync('flagRefreshAssetsList', true)
+        wx.setStorageSync('flagRefreshStatisticsData', true)
+        wx.setStorageSync('flagRefreshTransData', true)
+        wx.setStorageSync('flagRefreshReportData', true)
+        wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+  
+        wx.switchTab({
+          url: '/pages/home/home',
+        })
+      }else{
+        wx.showToast({
+          title: '添加失败，请稍后再试！',
+          icon: 'none',
+          duration: 3000 
+        })
+      }
+    }
+
+    
   },
   // 动态设置交易类型icon栏目的高度
   handleSetSwiperHeight(){
@@ -358,23 +448,26 @@ Page({
     });
 
     // 初始化日期为今天日期
-    const today = new Date()
-    const month = today.getMonth()+1
-    const day = today.getDate()
-    var dateList = [today.getFullYear()]
-    if(month<10){
-      dateList.push("0", month)
-    }else{
-      dateList.push(month)
+    if(!this.data.modifyFlag){
+      const today = new Date()
+      const month = today.getMonth()+1
+      const day = today.getDate()
+      var dateList = [today.getFullYear()]
+      if(month<10){
+        dateList.push("0", month)
+      }else{
+        dateList.push(month)
+      }
+      if(day<10){
+        dateList.push("0", day)
+      }else{
+        dateList.push(day)
+      }
+      this.setData({
+        dte_trans: dateList.join("")
+      })
     }
-    if(day<10){
-      dateList.push("0", day)
-    }else{
-      dateList.push(day)
-    }
-    this.setData({
-      dte_trans: dateList.join("")
-    })
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

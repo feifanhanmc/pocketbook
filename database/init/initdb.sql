@@ -1,3 +1,6 @@
+-- create utf8mb4 database to support emoji-save
+-- create database pocketbook default character set utf8mb4 collate utf8mb4_general_ci;
+
 drop table if exists users
 go
 drop table if exists assets

@@ -74,7 +74,7 @@ Page({
   async handleSave(e){
     if(!this.data.rmk_asset){
       this.setData({
-        rmk_asset: this.data.selectedAssetRmk
+        rmk_asset: this.data.selectedAssetNam
       })
     }
     if(!this.data.amt_asset){
