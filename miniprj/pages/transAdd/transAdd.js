@@ -194,7 +194,7 @@ Page({
       wx.setStorageSync('flagRefreshStatisticsData', true)
       wx.setStorageSync('flagRefreshTransData', true)
       wx.setStorageSync('flagRefreshReportData', true)
-      
+      wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
 
       wx.switchTab({
         url: '/pages/home/home',
