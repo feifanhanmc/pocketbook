@@ -20,7 +20,9 @@ def utils_show_trans(wx_data):
     acc_user = wx_data['token']
     acc_asset = wx_data.get('acc_asset', None)
     df_trans = Transaction(acc_user).show_trans(acc_asset)
-    df_trans['amt_trans'] = df_trans['amt_trans'].apply(abs)    # 为方便前台显示，统一为正值
+    # 为方便前台显示，除资金调整外，统一为正值，用颜色予以区分
+    df_trans.loc[(df_trans['tye_flow']!='adjust'), 'amt_trans'] = df_trans['amt_trans'].apply(abs)
+
     data = []
     for index in range(len(df_trans)):
         data.append(df_trans.iloc[index].to_dict())

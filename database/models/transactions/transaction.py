@@ -15,7 +15,7 @@ dic_trans4assets_adjust = {
     'dte_trans': '',         
     'cod_trans_type': 'W51hSzBL',    
     'txt_trans_type': '资金调整',    
-    'ico_trans': 'other'        
+    'ico_trans': 'adjust'        
 }
 
 
