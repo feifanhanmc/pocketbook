@@ -136,6 +136,7 @@ Page({
     wx.setStorageSync('flagRefreshTransData', true)
     wx.setStorageSync('flagRefreshTranstypesData', true)
     wx.setStorageSync('flagRefreshReportData', true)
+    wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
 
   },
   /**

@@ -42,11 +42,16 @@ Page({
     })
   },
   async showCurrentTransList() {
-    // 如果缓存中的流水信息和这次要请求的信息不一致（包括缓存中没有数据），则请求服务器返回数据；否则从缓存中获取
-    if(wx.getStorageSync('lastAccAsset')!=this.data.acc_asset){
+    // 如果缓存中的流水信息和这次要请求的信息不一致（包括缓存中没有数据），或者有flag标识需要刷新，则请求服务器返回数据；否则从缓存中获取
+    if((wx.getStorageSync('lastAccAsset')!=this.data.acc_asset)){
       const {trans} = await request({url:"/wxtrans/show_trans",data:{"acc_asset":this.data.acc_asset},method:"post"});
       wx.setStorageSync('currentTransList', trans)
       wx.setStorageSync('lastAccAsset', this.data.acc_asset)
+    }else if(wx.getStorageSync('flagRefreshCurrentAssetTransData')){
+      const {trans} = await request({url:"/wxtrans/show_trans",data:{"acc_asset":this.data.acc_asset},method:"post"});
+      wx.setStorageSync('currentTransList', trans)
+      wx.setStorageSync('lastAccAsset', this.data.acc_asset)
+      wx.setStorageSync('flagRefreshCurrentAssetTransData', false)
     }
     this.setData({
       currentTransList: wx.getStorageSync('currentTransList')

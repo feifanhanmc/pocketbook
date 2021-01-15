@@ -44,10 +44,7 @@ Page({
         modifyType: modifyType
       })
     }else if(modifyType=='modify'){
-      console.log(modifyType)
       const selectedAssetInfo = wx.getStorageSync('assetsList')[accAssetIndex]
-      console.log(wx.getStorageSync('assetsList'))
-      console.log(accAssetIndex)
       const {acc_asset, ico_asset, nam_asset, tye_asset, rmk_asset, amt_asset} = selectedAssetInfo
       this.setData({
         selectedAssetAcc: acc_asset, 
@@ -77,7 +74,7 @@ Page({
   async handleSave(e){
     if(!this.data.rmk_asset){
       this.setData({
-        rmk_asset: this.data.selectedAssetNam
+        rmk_asset: this.data.selectedAssetRmk
       })
     }
     if(!this.data.amt_asset){
@@ -116,13 +113,12 @@ Page({
         "rmk_asset": this.data.rmk_asset, 
         "amt_asset": this.data.amt_asset,
         "acc_asset": this.data.selectedAssetAcc}
-      const a = await request({url:"/wxassets/modify_assets",data:modifyParams,method:"post"});
-      console.log(a)
-      const {result} = a;
+      const {result} = await request({url:"/wxassets/modify_assets",data:modifyParams,method:"post"});
       if(result){
         wx.setStorageSync('flagRefreshAssetsList', true);
         wx.setStorageSync('flagRefreshStatisticsData', true);
         wx.setStorageSync('flagRefreshTransData', true)
+        wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
         wx.showToast({
           title: '修改成功！',
           icon: 'success',
