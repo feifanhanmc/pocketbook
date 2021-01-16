@@ -69,7 +69,7 @@ Page({
           icon: 'success',
           duration: 3000
         })
-        wx.setStorageSync('flagRefreshStatisticsData', true)
+        this.showStatistics()
       }else{
         wx.showToast({
           title: '设置失败，请稍后再试',
