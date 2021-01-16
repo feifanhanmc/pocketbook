@@ -15,7 +15,8 @@
     </view>
     <view class="viewAsset2">
       <text class="textGray">{{tye_asset==="debt"?"当前欠款":"当前余额"}}</text>
-      <text class="textBig">{{amt_asset}}</text>
+      <text class="textBig" wx:if="{{tye_asset=='debt'}}" >{{amt_asset_abs}}</text>
+      <text class="textBig" wx:else >{{amt_asset}}</text>
     </view>
   </view>
   <view><text>\n</text></view>
@@ -45,7 +46,7 @@
 
     <block wx:if="{{currentTransList.length>0}}">
       <view class="viewContent">
-        <view bindtap="handleModifyTrans" id="{{index}}" class="navigatorTrans"  wx:for="{{currentTransList}}" wx:key="id" >
+        <view bindtap="handleModifyTrans" bindlongpress='handleLongPress' id="{{index}}" class="navigatorTrans"  wx:for="{{currentTransList}}" wx:key="id" >
           <view class="viewTransItemFirst">
             <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
             <image class="imageTranIcon" mode="widthFix" src="{{tranIconPath + item.ico_trans}}.png"></image>

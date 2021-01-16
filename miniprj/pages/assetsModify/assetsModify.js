@@ -39,6 +39,7 @@ Page({
       wx.setStorageSync('flagRefreshStatisticsData', true)
       wx.setStorageSync('flagRefreshTransData', true)
       wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+      wx.setStorageSync('lastTransData', {})
       wx.switchTab({
         url: '/pages/home/home',
       })

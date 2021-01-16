@@ -145,6 +145,7 @@ Page({
       wx.setStorageSync('flagRefreshTransData', true)
       wx.setStorageSync('flagRefreshReportData', true)
       wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+      
       wx.navigateBack({
         delta: 1,
       })
@@ -170,7 +171,7 @@ Page({
   },
   async handleSave(e){
     if(this.data.modifyFlag){ // 修改
-      const modifyParams = {
+      var modifyParams = {
         id: this.data.id,
         acc_asset: this.data.acc_asset,
         nam_asset: this.data.nam_asset,
@@ -180,16 +181,18 @@ Page({
         ico_asset: this.data.ico_asset,
         tye_flow: this.data.tye_flow,
         dte_trans: this.data.dte_trans,
-        acc_asset_related: this.data.acc_asset_related,
-        nam_asset_related: this.data.nam_asset_related,
-        rmk_asset_related: this.data.rmk_asset_related,
-        ico_asset_related: this.data.ico_asset_related,
-        tye_asset_related: this.data.tye_asset_related,
+ 
         cod_trans_type: this.data.cod_trans_type,    
         txt_trans_type: this.data.txt_trans_type,
         txt_remark: this.data.txt_remark,
         ico_trans: this.data.ico_trans
       }
+      if(this.data.tye_flow=='transfer'){ // 由于xxx_asset_related被初始化了其他参数，所以提交修改时，如果不是transfer类型交易，related相关的数据并非本交易相关数据
+        modifyParams['acc_asset_related'] = this.data.acc_asset_related
+        modifyParams['nam_asset_related'] = this.data.nam_asset_related
+        modifyParams['rmk_asset_related'] = this.data.rmk_asset_related
+        modifyParams['ico_asset_related'] = this.data.ico_asset_related
+        modifyParams['tye_asset_related'] = this.data.tye_asset_related}
       const {result} = await request({url:"/wxtrans/modify_trans",data:modifyParams,method:"post"});
       if(result){
         wx.showToast({
@@ -398,7 +401,7 @@ Page({
     this.loadAssetInfo()
 
     // 初始化LastTransData
-    if(!wx.getStorageSync('lastTransData')){
+    if((!wx.getStorageSync('lastTransData')) || (JSON.stringify(wx.getStorageSync('lastTransData'))=='{}')){
       if(wx.getStorageSync('assetsList').length>0){
         const {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset} = wx.getStorageSync('assetsList')[0]
         wx.setStorageSync('lastTransData', {acc_asset, nam_asset, rmk_asset, ico_asset, tye_asset})
