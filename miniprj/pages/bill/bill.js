@@ -25,10 +25,51 @@ Page({
     tranIconPath: "/data/icons/tran/",
     nodataIconPath: "/data/icons/nodata/",
   },
+  async delete(id){
+    const {result} = await request({url:"/wxtrans/delete_trans",data:{'id': id},method:"post"});
+    if(result){
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success',
+        duration: 3000 
+      })
+      wx.setStorageSync('flagRefreshAssetsList', true)
+      wx.setStorageSync('flagRefreshStatisticsData', true)
+      wx.setStorageSync('flagRefreshTransData', true)
+      wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+      this.showTransList()
+    }else{
+      wx.showToast({
+        title: '删除失败，请稍后重试',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
+  },
+  async handleLongPress(e){
+    const index = parseInt(e.currentTarget.id)
+    const trans = this.data.transList[index]
+    const {tye_flow, id} = trans
+    if(tye_flow=='adjust'){
+      wx.showModal({
+        title: '提示',
+        content: '确认删除？',
+        success: res=>{
+          if (res.confirm) {
+            this.delete(id)
+          } else if (res.cancel) {
+          }
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: "/pages/transModify/transModify?transStr="+JSON.stringify(trans)
+      })
+    }  
+  },
   handleModifyTrans(e){
     const index = parseInt(e.currentTarget.id)
     const trans = this.data.transList[index]
-    console.log(trans)
     const {tye_flow} = trans
     if(tye_flow=='adjust'){
       wx.showToast({

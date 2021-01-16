@@ -16,6 +16,7 @@ Page({
     rmk_asset: "",
     tye_asset: "",
     amt_asset: 0.0,
+    amt_asset_abs: 0.0,
     accAssetIndex: 0,
 
     // StockInfo & FundInfo
@@ -35,6 +36,48 @@ Page({
     assetIconPath: "/data/icons/asset/",
     tranIconPath: "/data/icons/tran/",
     nodataIconPath: "/data/icons/nodata/",
+  },
+  async delete(id){
+    const {result} = await request({url:"/wxtrans/delete_trans",data:{'id': id},method:"post"});
+    if(result){
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success',
+        duration: 3000 
+      })
+      wx.setStorageSync('flagRefreshAssetsList', true)
+      wx.setStorageSync('flagRefreshStatisticsData', true)
+      wx.setStorageSync('flagRefreshTransData', true)
+      wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+      this.showCurrentTransList()
+    }else{
+      wx.showToast({
+        title: '删除失败，请稍后重试',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
+  },
+  async handleLongPress(e){
+    const index = parseInt(e.currentTarget.id)
+    const trans = this.data.currentTransList[index]
+    const {tye_flow, id} = trans
+    if(tye_flow=='adjust'){
+      wx.showModal({
+        title: '提示',
+        content: '确认删除？',
+        success: res=>{
+          if (res.confirm) {
+            this.delete(id)
+          } else if (res.cancel) {
+          }
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: "/pages/transModify/transModify?transStr="+JSON.stringify(trans)
+      })
+    }  
   },
   handleModifyTrans(e){
     const index = parseInt(e.currentTarget.id)
@@ -65,6 +108,11 @@ Page({
       wx.setStorageSync('lastAccAsset', this.data.acc_asset)
     }else if(wx.getStorageSync('flagRefreshCurrentAssetTransData')){
       const {trans} = await request({url:"/wxtrans/show_trans",data:{"acc_asset":this.data.acc_asset},method:"post"});
+      const {assets} = await request({url:"/wxassets/show_assets",data:{},method:"post"});
+      this.setData({
+        amt_asset: assets[0].amt_asset,
+        amt_asset_abs: Math.abs(assets[0].amt_asset),
+      })
       wx.setStorageSync('currentTransList', trans)
       wx.setStorageSync('lastAccAsset', this.data.acc_asset)
       wx.setStorageSync('flagRefreshCurrentAssetTransData', false)
@@ -104,6 +152,7 @@ Page({
       rmk_asset,
       tye_asset,
       amt_asset,
+      amt_asset_abs: Math.abs(amt_asset),
       accAssetIndex
     })
 
