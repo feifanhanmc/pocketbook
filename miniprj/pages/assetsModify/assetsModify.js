@@ -27,6 +27,41 @@ Page({
     // OtherData
     assetIconPath: "/data/icons/asset/",
   },
+  async delete(){
+    const {result} = await request({url:"/wxassets/delete_assets",data:{'acc_asset': this.data.selectedAssetAcc},method:"post"});
+    if(result){
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success',
+        duration: 3000 
+      })
+      wx.setStorageSync('flagRefreshAssetsList', true)
+      wx.setStorageSync('flagRefreshStatisticsData', true)
+      wx.setStorageSync('flagRefreshTransData', true)
+      wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
+      wx.switchTab({
+        url: '/pages/home/home',
+      })
+    }else{
+      wx.showToast({
+        title: '删除失败，请稍后重试',
+        icon: 'none',
+        duration: 3000 
+      })
+    }
+  },
+  async handleDelete(e){
+    wx.showModal({
+      title: '提示',
+      content: '确认删除？',
+      success: res=>{
+        if (res.confirm) {
+          this.delete()
+        } else if (res.cancel) {
+        }
+      }
+    })
+  },
   loadAssetInfo(){
     let pages = getCurrentPages();
     let currentPage = pages[pages.length - 1];
