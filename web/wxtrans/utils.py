@@ -145,8 +145,9 @@ def utils_delete_trans(wx_data, is_transaction=False):
     acc_user = wx_data['token']
     id = wx_data['id']
 
-    sql_delete_trans = Transaction(acc_user).delete_trans(id, is_transaction=True)
-    df_trans = Transaction(acc_user).show_trans(id=id)
+    t = Transaction(acc_user)
+    sql_delete_trans = t.delete_trans(id, is_transaction=True)
+    df_trans = t.show_trans(id=id)
     if not df_trans.empty:
         df_trans = df_trans.iloc[:1]
         tye_flow = df_trans['tye_flow'][0]

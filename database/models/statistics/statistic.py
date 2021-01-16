@@ -71,10 +71,16 @@ class Statistic:
         sql_set = " amt_asset_total = amt_asset_total "
         if tye_update == 'add':
             if tye_amount == 'income':     # 流入
-                if cod_trans_type in ('yqkDZNq7', 'xSTyQpeH'):  # 退款、报销，不计入收入，但支出、预算剩余应减少
-                    sql_set = " amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s, amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget + amt_expend_month " % tuple([amount]*3)
-                else:
-                    sql_set = " amt_income_month = amt_income_month + %s, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
+                if tye_asset == 'asset':
+                    if cod_trans_type in ('yqkDZNq7', 'xSTyQpeH'):  # 退款、报销，不计入收入，但支出、预算剩余应减少
+                        sql_set = " amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s, amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget + amt_expend_month " % tuple([amount]*3)
+                    else:
+                        sql_set = " amt_income_month = amt_income_month + %s, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
+                elif tye_asset == 'debt':
+                    if cod_trans_type in ('yqkDZNq7', 'xSTyQpeH'):  # 退款、报销，不计入收入，但支出、预算剩余应减少
+                        sql_set = " amt_debt_total = amt_debt_total + %s, amt_asset_net = amt_asset_net + %s, amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget + amt_expend_month " % tuple([amount]*3)
+                    else:
+                        sql_set = " amt_income_month = amt_income_month + %s, amt_debt_total = amt_debt_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
             elif tye_amount == 'expend':   # 流出
                 if tye_asset == 'asset':
                     sql_set = " amt_expend_month = amt_expend_month + %s, amt_budget_surplus = amt_budget + amt_expend_month, amt_asset_total = amt_asset_total + %s, amt_asset_net = amt_asset_net + %s " % tuple([amount]*3)
@@ -118,7 +124,12 @@ class Statistic:
                 else:   # 不需要任何变动
                     pass  
         elif tye_update == 'delete_asset':
-            pass
+            if tye_asset == 'asset':    
+                sql_set = " amt_asset_total = amt_asset_total - %s, amt_asset_net = amt_asset_net - %s " % tuple([amount]*2)
+            elif tye_asset == 'debt':
+                sql_set = " amt_debt_total = amt_debt_total - %s, amt_asset_net = amt_asset_net - %s " % tuple([amount] * 2)
+            else:
+                pass
         else:
             pass
 

@@ -39,7 +39,8 @@ class Asset:
         return pd.DataFrame()
 
     def add_assets(self, dict_asset, is_transaction=False):
-        dict_asset['acc_asset'] = gen_short_uuid()
+        if not dict_asset.has_key('acc_asset'):
+            dict_asset['acc_asset'] = gen_short_uuid()
         data, columns = [], []
         for key, value in dict_asset.items():
             columns.append(key)
@@ -117,11 +118,16 @@ class Asset:
         else:
             return sql_update_assets, sql_update_assets_related
 
-    def delete_assets(self, dict_asset):
-        sql_delete = "update assets set boo_active=0 where acc_user='%s' and acc_asset='%s'" % \
-                     (self.acc_user, dict_asset['acc_asset'])
-        self.db.execute(sql_delete)
-        return True
+    # 由于删除账户会有资产变动，因此一般情况下禁止直接删除账户，而不做后续处理
+    def delete_assets(self, acc_asset, is_transaction=True):
+        sql_delete = "delete from %s where acc_user='%s' and acc_asset='%s' " % (self.table, self.acc_user, acc_asset)
+        if not is_transaction:
+            flag, result = self.db.execute(sql_delete)
+            if not flag:
+                print(result)
+            return flag
+        else:
+            return sql_delete
 
     # 适用于导入交易记录时自动创建交易类型
     def create_from_transactions(self, df_transactions):
