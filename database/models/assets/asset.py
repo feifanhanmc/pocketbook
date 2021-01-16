@@ -73,7 +73,7 @@ class Asset:
     # 用于交易等相关数据库事务的更新
     def update_assets(self, tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, tye_update='add', is_transaction=False):
         """
-        :param tye_flow: ['income', 'expend', 'transfer']
+        :param tye_flow: ['income', 'expend', 'transfer', 'adjust']
         :param tye_update: ['add', 'delete_trans', 'delete_asset']
         """
         sql_update_assets, sql_update_assets_related = "", ""
@@ -90,7 +90,7 @@ class Asset:
             if tye_flow == 'transfer':
                 sql_update_assets = sql_template % (self.table, '+', amount, self.acc_user, acc_asset)
                 sql_update_assets_related = sql_template % (self.table, '-', amount, self.acc_user, acc_asset_related)
-            elif tye_flow in ('income', 'expend'):
+            elif tye_flow in ('income', 'expend', 'adjust'):
                 sql_update_assets = sql_template % (self.table, '-', amount, self.acc_user, acc_asset)
             else:
                 pass

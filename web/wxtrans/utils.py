@@ -148,6 +148,7 @@ def utils_delete_trans(wx_data, is_transaction=False):
     t = Transaction(acc_user)
     sql_delete_trans = t.delete_trans(id, is_transaction=True)
     df_trans = t.show_trans(id=id)
+
     if not df_trans.empty:
         df_trans = df_trans.iloc[:1]
         tye_flow = df_trans['tye_flow'][0]
@@ -159,7 +160,7 @@ def utils_delete_trans(wx_data, is_transaction=False):
         cod_trans_type = df_trans['cod_trans_type'][0]
 
         sql_update_assets, sql_update_assets_related = Asset(acc_user).update_assets(tye_flow, amount, acc_asset, tye_asset, acc_asset_related, tye_asset_related, tye_update='delete_trans', is_transaction=True)
-        sql_update_statistics = Statistic(acc_user).update_statistics(tye_flow, amount, cod_trans_type=cod_trans_type, tye_asset=tye_asset, tye_asset_related=tye_asset_related, is_transaction=True)
+        sql_update_statistics = Statistic(acc_user).update_statistics(tye_flow, amount, cod_trans_type=cod_trans_type, tye_asset=tye_asset, tye_asset_related=tye_asset_related, tye_update='delete_trans', is_transaction=True)
 
     dfinfo_list = []
     sql_list = [sql_delete_trans, sql_update_assets, sql_update_statistics]
