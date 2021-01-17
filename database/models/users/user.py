@@ -32,18 +32,52 @@ class User:
         if not self.db:
             self.db = DataBase()
 
-    def create(self, userinfo):
+    def show_userinfo(self):
+        sql_show = "select * from %s where acc_user='%s' " % (self.table, self.acc_user)
+        flag, result = self.db.read(sql_show)
+        if not flag:
+            print(result)
+            return pd.DataFrame()
+        else:
+            return result
+
+    def save_userinfo(self, userinfo, is_transaction=False):
+        if not self.acc_user:
+            self.acc_user = gen_short_uuid()
+        self.pwd_user_md5 = get_md5(self.acc_user)
+        
+        sql_delete = "delete from %s where acc_user='%s' " % (self.table, self.acc_user)
+
+        columns = ['acc_user', 'pwd_user_md5', 'vlu_openid']
+        data = [self.acc_user, self.pwd_user_md5, userinfo['vlu_openid']]
+        for key, column in dict_mapping.items():
+            columns.append(column)
+            data.append(userinfo.get(key, ''))
+        df_userinfo = pd.DataFrame(data=[data], columns=columns)
+
+        if not is_transaction:
+            flag, result = self.db.execute(sql_delete)
+            if not flag:
+                print(result)
+                return False
+            else:
+                flag, result = self.db.write(df_userinfo, self.table)
+                if not flag:
+                    print(result)
+                return False
+            return True
+        else:
+            return sql_delete, df_userinfo, self.table, False, 'append'
+
+    def create(self):
         if not self.acc_user:
             self.acc_user = gen_short_uuid()
         self.pwd_user_md5 = get_md5(self.acc_user)
         
         columns = ['acc_user', 'pwd_user_md5', 'vlu_openid']
         data = [self.acc_user, self.pwd_user_md5, self.vlu_openid]
-        for key, column in dict_mapping.items():
-            columns.append(column)
-            data.append(userinfo.get(key, ''))
-        df_userinfo = pd.DataFrame(data=[data], columns=columns)
-        flag, result = self.db.write(df_userinfo, self.table)
+        df_user = pd.DataFrame(data=[data], columns=columns)
+        flag, result = self.db.write(df_user, self.table)
 
         if flag:
             return self.acc_user
@@ -51,7 +85,7 @@ class User:
             print(result)
             return False
 
-    def user_check(self, openid, userinfo):
+    def user_check(self, openid):
         self.vlu_openid = openid
 
         sql_check = "select acc_user from %s where vlu_openid='%s' " % (self.table, self.vlu_openid)
@@ -61,7 +95,7 @@ class User:
             self.acc_user = result['acc_user'][0]
             flag_new = False
         else:
-            self.acc_user = self.create(userinfo)
+            self.acc_user = self.create()
             flag_new = True
         return self.acc_user, flag_new
 
