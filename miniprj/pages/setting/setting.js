@@ -19,45 +19,68 @@ Page({
     imageExport: "export",
     imageShare: "share",
     imageBudget: "budget",
+    imageAuth: "auth",
 
     // OtherData
     setIconPath: "/data/icons/set/",
   },
+  handleSaveUserinfo(e){
+    wx.navigateTo({
+      url: '/pages/auth/auth',
+    })
+  },
   async handleExport(e){
-    const {url} = await request({url:"/wxtrans/export_trans",data:{},method:"post"});
-    if(url){
-      // 复制到用户剪切板
-      wx.setClipboardData({
-        data: url,
-        success (res) {
-          wx.getClipboardData({
-            success (res) {
-              console.log(res.data) // data
-            }
-          })
-          
-          wx.showToast({
-            title: '链接已复制',
-            icon: 'success',
-            duration: 3000
-          })
-        }
+    if(!wx.getStorageSync('userInfo')){
+      wx.showToast({
+        title: '请先完善信息',
+        icon: 'none',
+        duration: 3000
       })
     }else{
-      wx.showToast({
-        title: '导出失败，请稍后再试！',
-        icon: 'none',
-        duration: 3000 
-      })
+      const {url} = await request({url:"/wxtrans/export_trans",data:{},method:"post"});
+      if(url){
+        // 复制到用户剪切板
+        wx.setClipboardData({
+          data: url,
+          success (res) {
+            wx.getClipboardData({
+              success (res) {
+                console.log(res.data) // data
+              }
+            })
+            wx.showToast({
+              title: '链接已复制',
+              icon: 'success',
+              duration: 3000
+            })
+          }
+        })
+      }else{
+        wx.showToast({
+          title: '导出失败，请稍后再试！',
+          icon: 'none',
+          duration: 3000 
+        })
+      }
     }
+  },
+  async loadUserinfo(){
+    if((!wx.getStorageSync('userInfo')) && (w.getStorageSync('flagRefreshUserinfo'))){
+      const {userInfo} = await request({url:"/wxuser/show_userinfo",data:{},method:"post"});
+      if(JSON.stringify(userInfo)!='{}'){
+        wx.setStorageSync('userInfo', userInfo)
+      }
+    }
+    const userInfo = wx.getStorageSync('userInfo')
+    const {nickName, avatarUrl} = userInfo
+    this.setData({userInfo, nickName, avatarUrl})
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 初始化用户数据
-    const {nickName, avatarUrl} = wx.getStorageSync('userInfo')
-    this.setData({nickName, avatarUrl})
+
+    
   },
 
   /**
@@ -71,7 +94,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    // 初始化用户数据
+    this.loadUserinfo()
   },
 
   /**

@@ -118,16 +118,21 @@ Page({
       url: '/pages/transModify/transModify',
     })
   },
+  async wxlogin(){
+    const {code} = await login();
+    const {token} = await request({url:"/wxuser/login_init",data:{'code': code},method:"post"});
+    if(token){
+      // 把token(即acc_user)存入缓存中
+      wx.setStorageSync("token", token);  
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 获取缓存中的token，若没有用户信息则说明是新用户，跳转至认证界面
-    const token = wx.getStorageSync('token')
-    if (!token){
-      wx.redirectTo({
-        url: '/pages/auth/auth'
-      })
+    // 请求登陆，保存或返回token，完成token-openid的绑定
+    if(!wx.getStorageSync('token')){
+      this.wxlogin()
     }
 
     // 参数初始化
@@ -137,7 +142,7 @@ Page({
     wx.setStorageSync('flagRefreshTranstypesData', true)
     wx.setStorageSync('flagRefreshReportData', true)
     wx.setStorageSync('flagRefreshCurrentAssetTransData', true)
-
+    wx.setStorageSync('flagRefreshUserinfo', false)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

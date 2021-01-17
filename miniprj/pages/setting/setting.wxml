@@ -1,8 +1,14 @@
 <!--pages/setting/setting.wxml-->
 <view>
   <view class="userinfo">
-    <image class="userinfo-avatar" src="{{avatarUrl}}" mode="cover"></image>
-    <text class="userinfo-nickname">{{nickName}}</text>
+    <view wx:if="{{userInfo}}" class="userinfo2">
+      <image class="userinfo-avatar" src="{{avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{nickName}}</text>    
+    </view>
+    <view wx:else bindtap="handleSaveUserinfo" class="userinfo2">
+      <image class="userinfo-avatar-default" src="{{setIconPath+imageAuth}}.png" mode="cover"></image>
+      <text class="userinfo-nickname">点击完善信息</text>    
+    </view>
   </view>
   <view class="viewSet">
     <view class="viewSetItem">

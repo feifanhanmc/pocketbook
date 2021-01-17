@@ -28,25 +28,18 @@ Page({
         })
         // 1 获取用户信息
         const { encryptedData, rawData, iv, signature } = e.detail;
-        // 2 获取小程序登录成功后的code
-        const {code} = await login();
-        // 3 发送请求 获取用户的token
-        const loginParams={ encryptedData, rawData, iv, signature ,code};
-        const {token} = await request({url:"/wxuser/login_init",data:loginParams,method:"post"});
-        if(token){
-          // 4 把token(即acc_user)存入缓存中
-          wx.setStorageSync("token", token);  
-          // 5 认证完成后，返回home页面
-          console.log('Auth Success!')
-          // RefreshFlag
-          wx.setStorageSync('flagRefreshAssetsList', true);
-          wx.setStorageSync('flagRefreshStatisticsData', true);
-          wx.switchTab({
-            url: '/pages/home/home',
+        // 2 发送用户数据给后台
+        const loginParams={ encryptedData, rawData, iv, signature};
+        const {result} = await request({url:"/wxuser/save_userinfo",data:loginParams,method:"post"});
+        if(result){
+          // 3 RefreshFlag
+          wx.setStorageSync('flagRefreshUserinfo', true)
+          wx.navigateBack({
+            delta: 1,
           })
         }else{
           wx.showToast({
-            title: '添加失败，请稍后再试！',
+            title: '请稍后再试！',
             icon: 'none',
             duration: 3000 
           })
@@ -61,6 +54,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
+
   onLoad: function (options) {
     const userInfo = wx.getStorageSync('userInfo') || {}
     if (JSON.stringify(userInfo) !== "{}"){
