@@ -32,5 +32,6 @@ def home():
     return redirect('/')
 
 
+from run import app as app  
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9991, debug=True)
+    app.run(host='0.0.0.0', port=9991, debug=False)
