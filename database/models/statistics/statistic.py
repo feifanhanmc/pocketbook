@@ -33,14 +33,15 @@ class Statistic:
         dte_month_now = time.strftime("%Y%m", time.localtime())
         sql_update = """
             update %s 
-            set  
-                dte_month = case when dte_month='%s' then dte_month else '%s' end,
+            set  	
                 amt_income_month = case when dte_month='%s' then amt_income_month else 0 end,
-                amt_expend_month = case when dte_month='%s' then amt_expend_month else 0 end
+                amt_expend_month = case when dte_month='%s' then amt_expend_month else 0 end,
+		dte_month = case when dte_month='%s' then dte_month else '%s' end
             where acc_user='%s' 
             """ % (self.table, dte_month_now, dte_month_now, dte_month_now, dte_month_now, self.acc_user)
         flag, result = self.db.execute(sql_update)
-        if not flag:
+        # print(sql_update, flag, result)
+	if not flag:
             print(result)
         return flag
 
