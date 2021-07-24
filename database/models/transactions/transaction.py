@@ -47,14 +47,16 @@ class Transaction:
         if not db:
             self.db = DataBase()
 
-    def show_trans(self, acc_asset=None, id=None):
-        sql_asset, sql_id = " ", " "
+    def show_trans(self, acc_asset=None, id=None, limit_trans=50):
+        sql_asset, sql_id, sql_limit = " ", " ", ""
         if acc_asset:
             sql_asset = " and (acc_asset='%s' or acc_asset_related='%s') " % (acc_asset, acc_asset)
         if id:
             sql_id = " and id=%s " % id
-        sql_show = "select * from transactions where acc_user='%s' %s %s order by dte_trans desc, id desc" % \
-                   (self.acc_user, sql_asset, sql_id)
+	if limit_trans:
+	    sql_limit = " limit %s " % limit_trans 
+        sql_show = "select * from transactions where acc_user='%s' %s %s order by dte_trans desc, id desc %s" % \
+                   (self.acc_user, sql_asset, sql_id, sql_limit)
         flag, result = self.db.read(sql_show)
         if flag:
             result['index'] = range(len(result))
